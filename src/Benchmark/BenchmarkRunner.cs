@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using U3.Benchmark.Pool;
+using U3.Benchmark.Strings;
 using UnityEngine;
 
 namespace U3.Benchmark
@@ -95,11 +95,10 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_GameObjectArray benchOne = new();
-            Bench_PoolStructArray benchTwo = new();
-            Bench_PoolClassArray benchThree = new();
+            Bench_StringAddition benchOne = new();
+            Bench_StringBuilder benchTwo = new();
 
-            benchmarkSerie = new Benchmark[] { benchThree, benchTwo, benchOne, benchTwo, benchThree, benchOne };
+            benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne };
 
             foreach (Benchmark benchmark in benchmarkSerie)
             {

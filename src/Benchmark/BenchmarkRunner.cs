@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using U3.Benchmark.Data;
 using U3.Benchmark.Strings;
 using UnityEngine;
 
@@ -95,8 +96,8 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_StringAddition benchOne = new();
-            Bench_StringBuilder benchTwo = new();
+            Bench_AccessArray benchOne = new();
+            Bench_AccessVector benchTwo = new();
 
             benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne };
 

@@ -6,8 +6,10 @@ namespace U3.Input
 {
     public static class InputManager
     {
-        public static PlayerInputActions PlayerInputActions { get; private set; }
+        public static PlayerInputActions PlayerInputActions { get { return playerInputActions; } private set { } }
         public static event Action<InputActionMap> ActionMapChange;
+
+        private static readonly PlayerInputActions playerInputActions = new();
 
         public static void ToggleActionMap(InputActionMap actionMapToSet)
         {
@@ -17,15 +19,14 @@ namespace U3.Input
                 return;
             }
 
-            PlayerInputActions.Disable();
+            playerInputActions.Disable();
             ActionMapChange?.Invoke(actionMapToSet);
             actionMapToSet.Enable();
         }
 
         public static void Init()
         {
-            PlayerInputActions = new();
-            ToggleActionMap(PlayerInputActions.Humanoid);
+            ToggleActionMap(playerInputActions.Humanoid);
         }
     }
 }

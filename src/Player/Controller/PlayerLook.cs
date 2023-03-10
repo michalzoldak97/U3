@@ -16,6 +16,28 @@ namespace U3.Player.Controller
         private InputAction lookX;
         private InputAction lookY;
 
+        private void SetInit()
+        {
+            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.controller;
+            clampDeg = controllerSettings.lookClamp;
+            sensitivityXY = controllerSettings.lookSensitivity;
+            up = Vector3.up;
+            left = Vector3.left;
+            m_Transform = transform;
+            lookX = InputManager.PlayerInputActions.Humanoid.MouseX;
+            lookY = InputManager.PlayerInputActions.Humanoid.MouseY;
+        }
+        private void OnEnable()
+        {
+            SetInit();
+            lookX.Enable();
+            lookY.Enable();
+        }
+        private void OnDisable()
+        {
+            lookX.Disable();
+            lookY.Disable();
+        }
         private void Look()
         {
             float mouseX = lookX.ReadValue<float>();
@@ -31,31 +53,6 @@ namespace U3.Player.Controller
                 fpsCamera.localEulerAngles = left * xRot;
             }
         }
-        private void SetInit()
-        {
-            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.controller;
-            clampDeg = controllerSettings.lookClamp;
-            sensitivityXY = controllerSettings.lookSensitivity;
-            up = Vector3.up;
-            left = Vector3.left;
-            m_Transform = transform;
-            lookX = InputManager.PlayerInputActions.Humanoid.MouseX;
-            lookY = InputManager.PlayerInputActions.Humanoid.MouseY;
-        }
-
-        private void Start()
-        {
-            SetInit();
-            lookX.Enable();
-            lookY.Enable();
-        }
-
-        private void OnDisable()
-        {
-            lookX.Disable();
-            lookY.Disable();
-        }
-
         private void Update()
         {
             Look();

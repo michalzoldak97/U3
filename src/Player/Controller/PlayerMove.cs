@@ -20,10 +20,10 @@ namespace U3.Player.Controller
 
         private void SetInit()
         {
-            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.controller;
-            gravityMultiplayer = controllerSettings.gravityMultiplayer;
-            inertiaCoeff = controllerSettings.inertiaCoefficient;
-            speedVec = new(controllerSettings.walkSpeed, controllerSettings.runSpeed, controllerSettings.jumpSpeed);
+            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.Controller;
+            gravityMultiplayer = controllerSettings.GravityMultiplayer;
+            inertiaCoeff = controllerSettings.InertiaCoefficient;
+            speedVec = new(controllerSettings.WalkSpeed, controllerSettings.RunSpeed, controllerSettings.JumpSpeed);
 
             m_Transform = transform;
             m_CharacterController = GetComponent<CharacterController>();

@@ -18,9 +18,9 @@ namespace U3.Player.Controller
 
         private void SetInit()
         {
-            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.controller;
-            clampDeg = controllerSettings.lookClamp;
-            sensitivityXY = controllerSettings.lookSensitivity;
+            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.Controller;
+            clampDeg = controllerSettings.LookClamp;
+            sensitivityXY = controllerSettings.LookSensitivity;
             up = Vector3.up;
             left = Vector3.left;
             m_Transform = transform;

@@ -97,8 +97,8 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_MoveValue benchOne = new();
-            Bench_MoveInstance benchTwo = new();
+            Bench_GenerateSequenceEnum benchOne = new();
+            Bench_GenerateSequenceLoop benchTwo = new();
 
             benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne };
 

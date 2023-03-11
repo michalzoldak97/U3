@@ -3,24 +3,31 @@ using UnityEngine;
 namespace U3.Player
 {
     [System.Serializable]
+    public class SoundSettings
+    {
+        public AudioClip JumpSound;
+        public AudioClip LandSound;
+        public AudioClip[] StepSounds;
+    }
+    [System.Serializable]
     public struct ControllerSettings
     {
-        public float walkSpeed;
-        public float runSpeed;
-        public float jumpSpeed;
-        public float stickToGroundForce;
-        public float gravityMultiplayer;
-        public float inertiaCoefficient;
-        public float lookClamp;
-        public Vector2 lookSensitivity;
-        public Vector2 stepSpeed;
-        public Vector2 headBobSpeed;
-        public Vector2 headBobMagnitude;
-        public Vector2 headBobMultiplayer;
+        public float WalkSpeed;
+        public float RunSpeed;
+        public float JumpSpeed;
+        public float GravityMultiplayer;
+        public float InertiaCoefficient;
+        public float LookClamp;
+        public Vector2 LookSensitivity;
+        public Vector2 StepSpeed;
+        public Vector2 HeadBobSpeed;
+        public Vector2 HeadBobMagnitude;
+        public Vector2 HeadBobMultiplayer;
     }
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerSettings", order = 0)]
     public class PlayerSettings : ScriptableObject
     {
-        public ControllerSettings controller;
+        public ControllerSettings Controller;
+        public SoundSettings Sound;
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using U3.Input;
 using U3.Player.Controller;
 using UnityEngine;

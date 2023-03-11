@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using U3.Input;
 using U3.Player.Controller;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace U3.Player
 {
@@ -29,12 +31,27 @@ namespace U3.Player
         {
             SetInit();
 
+            InputManager.PlayerInputActions.Humanoid.Jump.performed += PlayJumpSound;
+            moveManager.EventLand += PlayLandSound;
             moveManager.EventStep += PlayFootstepSound;
         }
         private void OnDisable()
         {
+            InputManager.PlayerInputActions.Humanoid.Jump.performed -= PlayJumpSound;
+            moveManager.EventLand -= PlayLandSound;
             moveManager.EventStep -= PlayFootstepSound;
         }
+
+        private void PlayJumpSound(InputAction.CallbackContext obj)
+        {
+            m_audioSource.PlayOneShot(playerMaster.PlayerSettings.Sound.JumpSound);
+        }
+
+        private void PlayLandSound(int dummy)
+        {
+            m_audioSource.PlayOneShot(playerMaster.PlayerSettings.Sound.LandSound);
+        }
+
         /// <summary>
         /// Returns audio clip index
         /// Different than previously choosen one

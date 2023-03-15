@@ -3,6 +3,14 @@ using UnityEngine;
 namespace U3.Player
 {
     [System.Serializable]
+    public struct InventorySettings
+    {
+        public int LabelFontSize;
+        public float ItemCheckRate;
+        public Vector2 LabelDimensions;
+        public Color LabelColor;
+    }
+    [System.Serializable]
     public class SoundSettings
     {
         public AudioClip JumpSound;
@@ -29,5 +37,6 @@ namespace U3.Player
     {
         public ControllerSettings Controller;
         public SoundSettings Sound;
+        public InventorySettings Inventory;
     }
 }

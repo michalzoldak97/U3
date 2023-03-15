@@ -1,0 +1,19 @@
+using UnityEngine;
+
+namespace U3.Item
+{
+    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ItemSettings", order = 1)]
+    public class ItemSettings : ScriptableObject
+    {
+        public bool KeepObjActive;
+        public bool KeepColliderActive;
+        public int ThrowForce;
+        public ItemType ItemType;
+        public string ToItemName;
+        public string ToLayerName;
+        public Vector3 OnParentPosition;
+        public Vector3 OnParentRotation;
+        public Sprite ItemIcon;
+        public AudioClip[] CollisionSounds;
+    }
+}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace U3.Player.Inventory
 {
@@ -35,6 +36,40 @@ namespace U3.Player.Inventory
             // mask to exclude player layer from check for item visibility
             LayerMask playerLayer = 1 << LayerMask.NameToLayer("Player");
             ignorePlayerLayerMask = ~playerLayer;
+        }
+
+        private void OnEnable()
+        {
+            SetInit();
+
+            InputManager.playerInputActions.ItemInteract.performed += CallItemInteraction;
+            InputManager.playerInputActions.ItemInteract.Enable();
+        }
+
+        private void OnDisable()
+        {
+            InputManager.playerInputActions.ItemInteract.performed -= CallItemInteraction;
+            InputManager.playerInputActions.ItemInteract.Disable();
+        }
+
+        private void CallItemInteraction(InputAction.CallbackContext obj) // TODO check master cashing
+        {
+            if (!isItemInRange)
+                return; 
+            
+            if (itemInRange.GetComponent<ItemMaster>() == null)
+            {
+                GameLogger.Log(LogType.Warning, "calling item interaction without item master");
+                return;
+            }
+
+            itemInRange.GetComponent<ItemMaster>().CallEventInteractionCalled(transform);
+        }
+
+        private void OnGUI()
+        {
+            if (isItemInRange)
+                GUI.Label(labelRect. itemInRange.name, labelStyle);
         }
     }
 }

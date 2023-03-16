@@ -1,5 +1,9 @@
+using U3.Input;
+using U3.Item;
+using U3.Log;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using LogType = U3.Log.LogType;
 
 namespace U3.Player.Inventory
 {
@@ -13,8 +17,9 @@ namespace U3.Player.Inventory
         private Vector2 labelDimensions;
         private LayerMask itemLayer;
         private Transform itemInRange;
+        private RaycastHit[] foundItemsBuffer;
         private Rect labelRect;
-        private GUIStyle labelStyle = new();
+        private readonly GUIStyle labelStyle = new();
 
         private void SetInit()
         {
@@ -36,20 +41,22 @@ namespace U3.Player.Inventory
             // mask to exclude player layer from check for item visibility
             LayerMask playerLayer = 1 << LayerMask.NameToLayer("Player");
             ignorePlayerLayerMask = ~playerLayer;
+
+            foundItemsBuffer = new RaycastHit[1];
         }
 
         private void OnEnable()
         {
             SetInit();
 
-            InputManager.playerInputActions.ItemInteract.performed += CallItemInteraction;
-            InputManager.playerInputActions.ItemInteract.Enable();
+            InputManager.PlayerInputActions.Humanoid.ItemInteract.performed += CallItemInteraction;
+            InputManager.PlayerInputActions.Humanoid.ItemInteract.Enable();
         }
 
         private void OnDisable()
         {
-            InputManager.playerInputActions.ItemInteract.performed -= CallItemInteraction;
-            InputManager.playerInputActions.ItemInteract.Disable();
+            InputManager.PlayerInputActions.Humanoid.ItemInteract.performed -= CallItemInteraction;
+            InputManager.PlayerInputActions.Humanoid.ItemInteract.Disable();
         }
 
         private void CallItemInteraction(InputAction.CallbackContext obj) // TODO check master cashing
@@ -66,10 +73,61 @@ namespace U3.Player.Inventory
             itemInRange.GetComponent<ItemMaster>().CallEventInteractionCalled(transform);
         }
 
+        private bool IsItemVisible()
+        {
+            if (Physics.Linecast(fpsCamera.position, foundItemsBuffer[0].transform.position, out RaycastHit hit, ignorePlayerLayerMask))
+            {
+                if (hit.transform == foundItemsBuffer[0].transform)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void DetectItem()
+        {
+            int numItemsInRange = Physics.SphereCastNonAlloc(fpsCamera.position, .5f, fpsCamera.forward, foundItemsBuffer, 3f, itemLayer);
+
+            if (numItemsInRange < 1)
+            {
+                isItemInRange = false;
+                itemInRange = null;
+                return;
+            }
+
+            Transform itemFound = foundItemsBuffer[0].transform;
+
+            if (itemFound == itemInRange ||
+                !IsItemVisible())
+                return;
+
+            isItemInRange = true;
+            itemInRange = itemFound;
+        }
+
+        private void ManageItemSearch()
+        {
+            if (!isItemInRange &&
+                Time.time > nextCheck)
+            {
+                DetectItem();
+                nextCheck = Time.time + checkRate;
+            }
+            else if (isItemInRange)
+            {
+                DetectItem();
+            }
+        }
+
+        private void Update()
+        {
+            ManageItemSearch();
+        }
+
         private void OnGUI()
         {
             if (isItemInRange)
-                GUI.Label(labelRect. itemInRange.name, labelStyle);
+                GUI.Label(labelRect, itemInRange.name, labelStyle);
         }
     }
 }

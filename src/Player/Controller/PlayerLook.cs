@@ -6,24 +6,25 @@ namespace U3.Player.Controller
 {
     public class PlayerLook : MonoBehaviour
     {
-        [SerializeField] private Transform fpsCamera;
-
         private float clampDeg, xRot;
         private Vector2 sensitivityXY;
         private Vector3 up;
         private Vector3 left;
-        private Transform m_Transform;
+        private Transform m_Transform, fpsCamera;
         private InputAction lookX;
         private InputAction lookY;
 
         private void SetInit()
         {
-            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.Controller;
+            PlayerMaster playerMaster = GetComponent<PlayerMaster>();
+
+            ControllerSettings controllerSettings = playerMaster.PlayerSettings.Controller;
             clampDeg = controllerSettings.LookClamp;
             sensitivityXY = controllerSettings.LookSensitivity;
             up = Vector3.up;
             left = Vector3.left;
             m_Transform = transform;
+            fpsCamera = playerMaster.FPSCamera;
             lookX = InputManager.PlayerInputActions.Humanoid.MouseX;
             lookY = InputManager.PlayerInputActions.Humanoid.MouseY;
         }

@@ -4,21 +4,23 @@ namespace U3.Player.Controller
 {
     public class PlayerHeadBob : MonoBehaviour
     {
-        [SerializeField] private Transform fpsCamera;
-
         private float bobTimer;
         private Vector2 cameraXYPos;
         private Vector2 headBobSpeed;
         private Vector2 headBobMagnitude;
         private Vector2 headBobMultiplayer;
         private Vector3 cameraPosToSet = Vector3.zero;
+        private Transform fpsCamera;
         private PlayerMoveManager moveManager;
 
         private void SetInit()
         {
+            PlayerMaster playerMaster = GetComponent<PlayerMaster>();
+
+            fpsCamera = playerMaster.FPSCamera;
             cameraXYPos = new Vector2(fpsCamera.localPosition.x, fpsCamera.localPosition.y);
 
-            ControllerSettings controllerSettings = GetComponent<PlayerMaster>().PlayerSettings.Controller;
+            ControllerSettings controllerSettings = playerMaster.PlayerSettings.Controller;
             headBobSpeed = controllerSettings.HeadBobSpeed;
             headBobMagnitude = controllerSettings.HeadBobMagnitude;
             headBobMultiplayer = controllerSettings.HeadBobMultiplayer;

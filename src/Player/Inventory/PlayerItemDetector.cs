@@ -9,21 +9,23 @@ namespace U3.Player.Inventory
 {
     public class PlayerItemDetector : MonoBehaviour
     {
-        [SerializeField] private Transform fpsCamera;
-
         private bool isItemInRange;
         private int ignorePlayerLayerMask;
         private float nextCheck, checkRate;
         private Vector2 labelDimensions;
         private LayerMask itemLayer;
-        private Transform itemInRange;
+        private Transform itemInRange, fpsCamera;
         private RaycastHit[] foundItemsBuffer;
         private Rect labelRect;
         private readonly GUIStyle labelStyle = new();
 
         private void SetInit()
         {
-            InventorySettings inventorySettings = GetComponent<PlayerMaster>().PlayerSettings.Inventory;
+            PlayerMaster playerMaster = GetComponent<PlayerMaster>();
+
+            fpsCamera = playerMaster.FPSCamera;
+
+            InventorySettings inventorySettings = playerMaster.PlayerSettings.Inventory;
             checkRate = inventorySettings.ItemCheckRate;
             labelDimensions = inventorySettings.LabelDimensions;
             labelRect = new Rect

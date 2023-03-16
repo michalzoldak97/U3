@@ -1,6 +1,7 @@
+using U3.Item;
 using UnityEngine;
 
-namespace U3.Item
+namespace U3.Inventory
 {
     public class InventoryItem
     {

@@ -31,6 +31,28 @@ namespace U3.Player.Inventory
         }
 
         /// <summary>
+        /// Sets objec physics so it can be stored on parent
+        /// </summary>
+        /// <param name="toState"></param>
+        /// <param name="item"></param>
+        private void ToggleItemPhysics(bool toState, InventoryItem item)
+        {
+            foreach (Rigidbody rb in item.RBs)
+            {
+                rb.isKinematic = !toState;
+                rb.useGravity = toState;
+            }
+
+            if (item.ItemMaster.ItemSettings.KeepColliderActive)
+                return;
+
+            foreach (Collider col in item.Colliders)
+            {
+                col.isTrigger = !toState;
+            }
+        }
+
+        /// <summary>
         /// Sets inventory item to selected or deselected state on the inventory
         /// If the current item is the deselected one it's set to null
         /// </summary>
@@ -66,10 +88,7 @@ namespace U3.Player.Inventory
         {
             InventoryItem item = inventoryMaster.Items[itemTransform];
 
-            if (!item.ItemMaster.ItemSettings.KeepColliderActive)
-                item.Collider.enabled = false;
-
-            item.RB.isKinematic = true;
+            ToggleItemPhysics(false, item);
 
             if (currentItem == null)
                 ToggleItem(true, itemTransform);
@@ -77,6 +96,38 @@ namespace U3.Player.Inventory
                 ToggleItem(false, itemTransform);
 
             itemTransform.SetParent(fpsCamera);
+        }
+
+        private void FetchColliders(InventoryItem item)
+        {
+            List<Collider> colliders = new();
+            foreach (Collider col in item.Object.GetComponents<Collider>())
+            {
+                colliders.Add(col);
+            }
+
+            foreach (Collider col in item.Object.GetComponentsInChildren<Collider>())
+            {
+                colliders.Add(col);
+            }
+
+            item.Colliders = colliders.ToArray();
+        }
+
+        private void FetchRigidbodies(InventoryItem item)
+        {
+            List<Rigidbody> rigidbodies = new();
+            foreach (Rigidbody rb in item.Object.GetComponents<Rigidbody>())
+            {
+                rigidbodies.Add(rb);
+            }
+
+            foreach (Rigidbody rb in item.Object.GetComponentsInChildren<Rigidbody>())
+            {
+                rigidbodies.Add(rb);
+            }
+
+            item.RBs = rigidbodies.ToArray();
         }
 
         /// <summary>
@@ -94,7 +145,8 @@ namespace U3.Player.Inventory
 
             InventoryItem newItem = new()
             {
-                ItemMaster = item.GetComponent<ItemMaster>()
+                ItemMaster = item.GetComponent<ItemMaster>(),
+                Object = item.gameObject
             };
 
             if (newItem.ItemMaster == null)
@@ -104,9 +156,9 @@ namespace U3.Player.Inventory
             }
 
             newItem.Type = newItem.ItemMaster.ItemSettings.ItemType;
-            newItem.Collider = item.GetComponent<Collider>();
-            newItem.RB = item.GetComponent<Rigidbody>();
-            newItem.Object = item.gameObject;
+
+            FetchRigidbodies(item);
+            FetchColliders(item);
 
             inventoryMaster.Items.Add(item, newItem);
             SetItemState(item);

@@ -7,8 +7,8 @@ namespace U3.Inventory
     {
         public bool IsSelected { get; set; }
         public ItemType Type { get; set; }
-        public Collider Collider { get; set; }
-        public Rigidbody RB { get; set; }
+        public Collider[] Colliders { get; set; }
+        public Rigidbody[] RBs { get; set; }
         public GameObject Object { get; set; }
         public ItemMaster ItemMaster { get; set; }
     }

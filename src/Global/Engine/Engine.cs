@@ -4,9 +4,9 @@ namespace U3.Engine
 {
     public static class Engine
     {
-        public static void FetchAllComponents(GameObject obj, ComponentType t)
+        /*public static void FetchAllComponents(GameObject obj, ComponentType t) TODO: generic fetch
         {
 
-        }
+        }*/
     }
 }

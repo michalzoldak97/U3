@@ -1,17 +1,18 @@
+using System.Collections.Generic;
 using U3.Item;
 using U3.Log;
 using UnityEngine;
 
-namespace U3.Player.Inventory
+namespace U3.Inventory
 {
-    public class PlayerInventoryManager : MonoBehaviour
+    public class InventoryManager : MonoBehaviour
     {
         protected Transform itemContainer;
 
         private InventoryItem currentItem;
         private InventoryMaster inventoryMaster;
 
-        protected abstract void SetInit()
+        protected virtual void SetInit()
         {
             inventoryMaster = GetComponent<InventoryMaster>();
         }
@@ -163,11 +164,11 @@ namespace U3.Player.Inventory
 
             newItem.Type = newItem.ItemMaster.ItemSettings.ItemType;
 
-            FetchRigidbodies(item);
-            FetchColliders(item);
+            FetchRigidbodies(newItem);
+            FetchColliders(newItem);
 
             inventoryMaster.Items.Add(item, newItem);
-            SetItemState(item);
+            SetItemState(true, item);
 
             inventoryMaster.CallEventItemAdded();
         }

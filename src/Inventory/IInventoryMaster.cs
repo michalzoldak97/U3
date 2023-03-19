@@ -12,5 +12,10 @@ namespace U3.Inventory
 
         public void CallEventItemAdded();
         public void CallEventItemRemoved();
+
+        public void CallEventSelectItem(Transform item);
+        public void CallEventDeselectItem(Transform item);
+        public void CallEventItemSelected(Transform item);
+        public void CallEventItemDeselected(Transform item);
     }
 }

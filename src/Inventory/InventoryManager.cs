@@ -22,11 +22,78 @@ namespace U3.Inventory
             SetInit();
 
             inventoryMaster.EventAddItem += AddItem;
+            inventoryMaster.EventRemoveItem += RemoveItem;
+            inventoryMaster.EventSelectItem += SelectItem;
+            inventoryMaster.EventDeselectItem += DeselectItem;
         }
 
         private void OnDisable()
         {
             inventoryMaster.EventAddItem -= AddItem;
+            inventoryMaster.EventRemoveItem -= RemoveItem;
+            inventoryMaster.EventSelectItem -= SelectItem;
+            inventoryMaster.EventDeselectItem -= DeselectItem;
+        }
+
+        private void DeselectItem(InventoryItem item)
+        {
+            item.IsSelected = false;
+
+            if (currentItem == item)
+                currentItem = null;
+
+            item.ItemMaster.CallEventDeselected();
+
+            item.Object.SetActive(false);
+
+            inventoryMaster.CallEventItemDeselected(item.Object.transform);
+        }
+
+        private void SelectItem(InventoryItem item)
+        {
+            item.Object.SetActive(true);
+            item.IsSelected = true;
+
+            currentItem = item;
+
+            item.ItemMaster.CallEventSelected();
+            inventoryMaster.CallEventItemSelected(item.Object.transform);
+        }
+
+        /// <summary>
+        /// Sets inventory item to selected or deselected state on the inventory
+        /// If the current item is the deselected one it's set to null
+        /// </summary>
+        /// <param name="toState"></param>
+        /// <param name="itemTransform"></param>
+        private void ToggleItem(bool toState, Transform itemTransform)
+        {
+            InventoryItem item = inventoryMaster.Items[itemTransform];
+
+            if (toState)
+            {
+                SelectItem(item);
+                return;
+            }
+
+            if (item.IsSelected)
+            {
+                DeselectItem(item);
+                return;
+            }
+
+            item.Object.SetActive(false);
+            item.IsSelected = false;
+        }
+
+        private void SelectItem(Transform item)
+        {
+            ToggleItem(true, item);
+        }
+
+        private void DeselectItem(Transform item)
+        {
+            ToggleItem(false, item);
         }
 
         /// <summary>
@@ -52,50 +119,24 @@ namespace U3.Inventory
         }
 
         /// <summary>
-        /// Sets inventory item to selected or deselected state on the inventory
-        /// If the current item is the deselected one it's set to null
-        /// </summary>
-        /// <param name="toState"></param>
-        /// <param name="itemTransform"></param>
-        private void ToggleItem(bool toState, Transform itemTransform)
-        {
-            InventoryItem item = inventoryMaster.Items[itemTransform];
-
-            item.Object.SetActive(toState);
-            item.IsSelected = toState;
-
-            if (toState)
-            {
-                item.ItemMaster.CallEventSelected();
-                currentItem = item;
-            }
-            else
-            {
-                item.ItemMaster.CallEventDeselected();
-                if (currentItem == item)
-                    currentItem = null;
-            }
-        }
-
-        /// <summary>
         /// Handles item collider and rigidbody when placing on player
         /// If theres no item selected the picked up item will be selected
         /// Then the item is placed on the parent transform
         /// </summary>
-        /// <param name="toState"></param>
+        /// <param name="activateForInventory"></param>
         /// <param name="itemTransform"></param>
-        private void SetItemState(bool toState, Transform itemTransform)
+        private void SetItemState(bool activateForInventory, Transform itemTransform)
         {
             InventoryItem item = inventoryMaster.Items[itemTransform];
 
-            ToggleItemPhysics(!toState, item);
+            ToggleItemPhysics(!activateForInventory, item);
 
-            if (toState)
+            if (activateForInventory)
                 itemTransform.SetParent(itemContainer);
             else
                 itemTransform.SetParent(null);
 
-            if (!toState)
+            if (!activateForInventory)
                 return;
 
             if (currentItem == null)
@@ -103,6 +144,25 @@ namespace U3.Inventory
             else if (!item.ItemMaster.ItemSettings.KeepObjActive)
                 ToggleItem(false, itemTransform);
 
+        }
+
+        /// <summary>
+        /// Activates the item so it can be removed
+        /// Enables item physics, sets parent to null and calls throw request on item
+        /// </summary>
+        /// <param name="itemTransform"></param>
+        private void RemoveItem(Transform itemTransform)
+        {
+            InventoryItem item = inventoryMaster.Items[itemTransform];
+
+            item.Object.SetActive(true);
+            SetItemState(false, itemTransform);
+
+            item.ItemMaster.CallEventThrow(transform);
+
+            inventoryMaster.Items.Remove(itemTransform);
+
+            inventoryMaster.CallEventItemRemoved();
         }
 
         private void FetchColliders(InventoryItem item)

@@ -3,12 +3,19 @@ using UnityEngine;
 namespace U3.Player
 {
     [System.Serializable]
-    public struct InventorySettings
+    public class InventorySlotSetting
+    {
+        public string SlotName;
+        public int ContainerNum;
+    }
+    [System.Serializable]
+    public class InventorySettings
     {
         public int LabelFontSize;
         public float ItemCheckRate;
         public Vector2 LabelDimensions;
         public Color LabelColor;
+        public InventorySlotSetting[] InventorySlots;
     }
     [System.Serializable]
     public class SoundSettings

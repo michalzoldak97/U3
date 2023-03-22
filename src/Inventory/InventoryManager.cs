@@ -9,8 +9,8 @@ namespace U3.Inventory
     {
         protected Transform itemContainer;
 
-        private InventoryItem currentItem;
-        private InventoryMaster inventoryMaster;
+        protected InventoryItem currentItem;
+        protected InventoryMaster inventoryMaster;
 
         protected virtual void SetInit()
         {
@@ -143,7 +143,6 @@ namespace U3.Inventory
                 ToggleItem(true, itemTransform);
             else if (!item.ItemMaster.ItemSettings.KeepObjActive)
                 ToggleItem(false, itemTransform);
-
         }
 
         /// <summary>

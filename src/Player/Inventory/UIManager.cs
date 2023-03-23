@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using U3.Inventory;
+using U3.Player.Inventory.UI;
 using UnityEngine;
 
 namespace U3.Player.Inventory
@@ -8,7 +11,7 @@ namespace U3.Player.Inventory
 
         [SerializeField] private Transform slotsParent, itemsParent; // ui object containers
 
-        [SerializeField] private GameObject slotLabelPrefab, containerPrefab, itemPrefab; // ui elements prefabs
+        [SerializeField] private GameObject slotLabelPrefab, containerPrefab; // ui elements prefabs
 
         private PlayerInventoryMaster inventoryMaster;
 
@@ -25,6 +28,20 @@ namespace U3.Player.Inventory
             
         }
 
+        private void LoadItemsUI()
+        {
+            foreach (KeyValuePair<Transform, InventoryItem> item in inventoryMaster.Items)
+            {
+                if (item.Value.IsAssignedToSlot)
+                    continue;
+
+                GameObject itemButton = Instantiate(item.Value.ItemMaster.ItemSettings.UIPrefab, itemsParent);
+
+                UI.Item itemUIObj = itemButton.GetComponent<UI.Item>();
+                itemUIObj.SetItemName(item.Value.ItemMaster.ItemSettings.ToItemName);
+                itemUIObj.SetItemIcon(item.Value.ItemMaster.ItemSettings.ItemIcon);
+            }
+        }
         private void LoadSlotsUI()
         {
             foreach (Slot slot in inventoryMaster.Slots)
@@ -40,6 +57,7 @@ namespace U3.Player.Inventory
         }
         private void LoadUI()
         {
+            LoadItemsUI();
             LoadSlotsUI();
         }
 

@@ -14,6 +14,7 @@ namespace U3.Item
         public Vector3 OnParentPosition;
         public Vector3 OnParentRotation;
         public Sprite ItemIcon;
+        public GameObject UIPrefab;
         public AudioClip[] CollisionSounds;
     }
 }

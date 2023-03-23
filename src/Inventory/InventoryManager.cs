@@ -12,16 +12,16 @@ namespace U3.Inventory
         protected InventoryItem currentItem;
         protected InventoryMaster inventoryMaster;
 
-        protected virtual void SetInit()
+        protected virtual void SetInit() {}
+        private void Awake()
         {
             inventoryMaster = GetComponent<InventoryMaster>();
+            inventoryMaster.Items = new();
+            inventoryMaster.EventAddItem += AddItem;
         }
-
         private void OnEnable()
         {
             SetInit();
-
-            inventoryMaster.EventAddItem += AddItem;
             inventoryMaster.EventRemoveItem += RemoveItem;
             inventoryMaster.EventSelectItem += SelectItem;
             inventoryMaster.EventDeselectItem += DeselectItem;

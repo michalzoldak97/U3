@@ -1,4 +1,6 @@
 using U3.Inventory;
+using U3.Item;
+using UnityEngine;
 
 namespace U3.Player.Inventory
 {
@@ -6,10 +8,21 @@ namespace U3.Player.Inventory
     {
 
         private PlayerInventoryMaster playerInventoryMaster;
-
-        private void LoadInventorySlots(PlayerMaster playerMaster)
+        // TODO: handle when picking up item when none is selected, it should be moved to 1st free slot or deactivated
+        // hande adding and removing from slot
+        private void LoadItems()
         {
-            InventorySlotSetting[] slots = playerMaster.PlayerSettings.Inventory.InventorySlots;
+            foreach (Transform iT in itemContainer)
+            {
+                if (iT.TryGetComponent<ItemMaster>(out _))
+                {
+                    inventoryMaster.CallEventAddItem(iT);
+                }
+            }
+        }
+        private void LoadInventorySlots()
+        {
+            InventorySlotSetting[] slots = GetComponent<PlayerMaster>().PlayerSettings.Inventory.InventorySlots;
 
             playerInventoryMaster.Slots = new Slot[slots.Length];
 
@@ -23,10 +36,10 @@ namespace U3.Player.Inventory
             inventoryMaster = GetComponent<PlayerInventoryMaster>();
             playerInventoryMaster = (PlayerInventoryMaster)inventoryMaster;
 
-            PlayerMaster playerMaster = GetComponent<PlayerMaster>();
-            itemContainer = playerMaster.FPSCamera;
+            itemContainer = GetComponent<PlayerMaster>().FPSCamera;
 
-            LoadInventorySlots(playerMaster);
+            LoadInventorySlots();
+            LoadItems();
         }
     }
 }

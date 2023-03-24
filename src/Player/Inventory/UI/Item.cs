@@ -9,6 +9,7 @@ namespace U3.Player.Inventory.UI
         [SerializeField] private TMP_Text itemName;
         [SerializeField] private Image itemIcon;
 
+        public Transform InventoryItem { get; set; }
         public void SetItemName (string name)
         {
             itemName.text = name;

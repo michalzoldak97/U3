@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using U3.Inventory;
-using U3.Player.Inventory.UI;
 using UnityEngine;
 
 namespace U3.Player.Inventory
@@ -40,6 +39,7 @@ namespace U3.Player.Inventory
                 UI.Item itemUIObj = itemButton.GetComponent<UI.Item>();
                 itemUIObj.SetItemName(item.Value.ItemMaster.ItemSettings.ToItemName);
                 itemUIObj.SetItemIcon(item.Value.ItemMaster.ItemSettings.ItemIcon);
+                itemUIObj.InventoryItem = item.Key;
             }
         }
         private void LoadSlotsUI()

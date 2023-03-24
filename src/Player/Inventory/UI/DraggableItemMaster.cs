@@ -13,7 +13,7 @@ namespace U3.Player.Inventory.UI
 
         public delegate void DraggableInteractionEventHandler(Transform t);
 
-        public event DraggableInteractionEventHandler EventOriginChanged;
+        public event DraggableInteractionEventHandler EventSlotOriginChanged;
 
         public void CallEventDragBegin(PointerEventData eventData)
         {
@@ -28,9 +28,9 @@ namespace U3.Player.Inventory.UI
             EventDragEnd?.Invoke(eventData);
         }
 
-        public void CallEventOriginChanged(Transform t)
+        public void CallEventSlotOriginChanged(Transform t)
         {
-            EventOriginChanged?.Invoke(t);
+            EventSlotOriginChanged?.Invoke(t);
         }
     }
 }

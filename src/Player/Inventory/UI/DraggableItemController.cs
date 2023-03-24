@@ -23,11 +23,11 @@ namespace U3.Player.Inventory.UI
         }
         private void OnEnable()
         {
-            draggableMaster.EventOriginChanged += SetSlotParent;
+            draggableMaster.EventSlotOriginChanged += SetSlotParent;
         }
         private void OnDisable()
         {
-            draggableMaster.EventOriginChanged -= SetSlotParent;
+            draggableMaster.EventSlotOriginChanged -= SetSlotParent;
             RestoreParent();
         }
         public void OnBeginDrag(PointerEventData eventData)
@@ -66,13 +66,13 @@ namespace U3.Player.Inventory.UI
 
             foreach (RaycastResult res in results)
             {
-                if (res.gameObject.TryGetComponent(out DraggableContainer container))
+                if (res.gameObject.TryGetComponent(out IDropContainer container))
                 {
-                    if (container.ItemUI != null)
+                    if (!container.IsDropAvailable())
                         continue;
 
                     FreePreviousContainer();
-                    container.SetItemUI(rTransform);
+                    container.OnDropAttempt(rTransform);
                     break;
                 }
             }

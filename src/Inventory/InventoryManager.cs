@@ -19,7 +19,7 @@ namespace U3.Inventory
             inventoryMaster.Items = new();
             inventoryMaster.EventAddItem += AddItem;
         }
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             SetInit();
             inventoryMaster.EventRemoveItem += RemoveItem;
@@ -27,7 +27,7 @@ namespace U3.Inventory
             inventoryMaster.EventDeselectItem += DeselectItem;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             inventoryMaster.EventAddItem -= AddItem;
             inventoryMaster.EventRemoveItem -= RemoveItem;
@@ -139,9 +139,7 @@ namespace U3.Inventory
             if (!activateForInventory)
                 return;
 
-            if (currentItem == null)
-                ToggleItem(true, itemTransform);
-            else if (!item.ItemMaster.ItemSettings.KeepObjActive)
+            if (!item.ItemMaster.ItemSettings.KeepObjActive)
                 ToggleItem(false, itemTransform);
         }
 

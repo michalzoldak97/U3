@@ -10,6 +10,7 @@ namespace U3.Player.Inventory.UI
         [SerializeField] private Image itemIcon;
 
         public Transform InventoryItem { get; set; }
+
         public void SetItemName (string name)
         {
             itemName.text = name;
@@ -18,6 +19,14 @@ namespace U3.Player.Inventory.UI
         public void SetItemIcon(Sprite icon)
         {
             itemIcon.sprite = icon;
+        }
+
+        public void SetUIParent(Transform toSet)
+        {
+            if (gameObject.TryGetComponent(out DraggableItemMaster iMaster))
+            {
+                iMaster.CallEventSlotOriginChanged(toSet);
+            }
         }
     }
 }

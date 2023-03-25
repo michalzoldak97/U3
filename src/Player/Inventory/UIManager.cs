@@ -21,10 +21,18 @@ namespace U3.Player.Inventory
         private void OnEnable()
         {
             SetInit();
+
+            inventoryMaster.EventItemAdded += ReloadUI;
+            inventoryMaster.EventItemRemoved += ReloadUI;
+            inventoryMaster.EventItemAddedToContainer += ReloadUI;
+            inventoryMaster.EventItemRemovedFromContainer += ReloadUI;
         }
         private void OnDisable()
         {
-            
+            inventoryMaster.EventItemAdded -= ReloadUI;
+            inventoryMaster.EventItemRemoved -= ReloadUI;
+            inventoryMaster.EventItemAddedToContainer -= ReloadUI;
+            inventoryMaster.EventItemRemovedFromContainer -= ReloadUI;
         }
 
         private void LoadItemsUI()
@@ -42,16 +50,51 @@ namespace U3.Player.Inventory
                 itemUIObj.InventoryItem = item.Key;
             }
         }
+        /// <summary>
+        /// Reloads slot ui from ground up
+        /// Instantiantes item button on the container if item is assigned
+        /// </summary>
         private void LoadSlotsUI()
         {
-            foreach (Slot slot in inventoryMaster.Slots)
+            for (int i = 0; i < inventoryMaster.Slots.Length; i++)
             {
                 GameObject slotLabel = Instantiate(slotLabelPrefab, slotsParent);
-                slotLabel.GetComponent<UI.Slot>().SetSlotName(slot.Name);
+                slotLabel.GetComponent<UI.Slot>().SetSlotName(inventoryMaster.Slots[i].Name);
 
-                for (int i = 0; i < slot.Containers.Length; i++)
+                for (int j = 0; j < inventoryMaster.Slots[i].Containers.Length; j++)
                 {
-                    Instantiate(containerPrefab, slotsParent);
+                    GameObject cObj = Instantiate(containerPrefab, slotsParent);
+
+                    UI.Container container = cObj.GetComponent<UI.Container>();
+                    container.ContainerIDX[0] = i; container.ContainerIDX[1] = j;
+                    container.InventoryMaster = inventoryMaster;
+
+                    Transform assignedItem = inventoryMaster.Slots[i].Containers[j].Item; // if container has assigned item
+
+                    if (assignedItem == null)
+                        continue;
+
+                    InventoryItem item = inventoryMaster.Items[assignedItem];
+                    if (item == null)
+                        continue;
+
+                    GameObject itemButton = Instantiate(item.ItemMaster.ItemSettings.UIPrefab, container.transform);
+
+                    if (cObj.TryGetComponent(out UI.DraggableContainer draggableContainer))
+                    {
+                        draggableContainer.ItemUI = itemButton.GetComponent<RectTransform>();
+                    }
+                    else
+                    {
+                        Log.GameLogger.Log(Log.LogType.Error, "trying to spawn item object on the container without draggable component");
+                        continue;
+                    }
+
+                    UI.Item itemUIObj = itemButton.GetComponent<UI.Item>();
+                    itemUIObj.SetItemName(item.ItemMaster.ItemSettings.ToItemName);
+                    itemUIObj.SetItemIcon(item.ItemMaster.ItemSettings.ItemIcon);
+                    itemUIObj.SetUIParent(cObj.transform);
+                    itemUIObj.InventoryItem = assignedItem;
                 }
             }
         }
@@ -60,7 +103,20 @@ namespace U3.Player.Inventory
             LoadItemsUI();
             LoadSlotsUI();
         }
+        private void ReloadUI()
+        {
+            foreach (Transform t in slotsParent)
+            {
+                Destroy(t.gameObject);
+            }
 
+            foreach (Transform t in itemsParent)
+            {
+                Destroy(t.gameObject);
+            }
+
+            LoadUI();
+        }
         private void Start()
         {
             LoadUI();

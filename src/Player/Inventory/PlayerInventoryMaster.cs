@@ -19,6 +19,7 @@ namespace U3.Player.Inventory
         public delegate void PlayerInventoryContainerCallbackEventHandler();
         public event PlayerInventoryContainerCallbackEventHandler EventItemAddedToContainer;
         public event PlayerInventoryContainerCallbackEventHandler EventItemRemovedFromContainer;
+        public event PlayerInventoryContainerCallbackEventHandler EventInventoryUIReloadRequest;
 
         public void CallEventChangeActiveSlot(int slotIDX)
         {
@@ -40,6 +41,10 @@ namespace U3.Player.Inventory
         public void CallEventItemRemovedFromContainer()
         {
             EventItemRemovedFromContainer?.Invoke();
+        }
+        public void CallEventInventoryUIReloadRequest()
+        {
+            EventInventoryUIReloadRequest?.Invoke();
         }
     }
 }

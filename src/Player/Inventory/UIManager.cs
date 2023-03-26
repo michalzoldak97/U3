@@ -26,6 +26,7 @@ namespace U3.Player.Inventory
             inventoryMaster.EventItemRemoved += ReloadUI;
             inventoryMaster.EventItemAddedToContainer += ReloadUI;
             inventoryMaster.EventItemRemovedFromContainer += ReloadUI;
+            inventoryMaster.EventInventoryUIReloadRequest += ReloadUI;
         }
         private void OnDisable()
         {
@@ -33,6 +34,7 @@ namespace U3.Player.Inventory
             inventoryMaster.EventItemRemoved -= ReloadUI;
             inventoryMaster.EventItemAddedToContainer -= ReloadUI;
             inventoryMaster.EventItemRemovedFromContainer -= ReloadUI;
+            inventoryMaster.EventInventoryUIReloadRequest -= ReloadUI;
         }
 
         private void LoadItemsUI()

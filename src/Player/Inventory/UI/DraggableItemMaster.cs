@@ -1,9 +1,10 @@
+using U3.Player.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace U3.Player.Inventory.UI
 {
-    public class DraggableItemMaster : MonoBehaviour
+    public class DraggableItemMaster : MonoBehaviour, IPlayerUIScreenStateDependent
     {
         public delegate void DraggableEventHandler(PointerEventData eventData);
 
@@ -14,6 +15,10 @@ namespace U3.Player.Inventory.UI
         public delegate void DraggableInteractionEventHandler(Transform t);
 
         public event DraggableInteractionEventHandler EventSlotOriginChanged;
+
+        public delegate void DraggableScreenParentEventHandler();
+
+        public event DraggableScreenParentEventHandler EventUIScreenDisabled;
 
         public void CallEventDragBegin(PointerEventData eventData)
         {
@@ -31,6 +36,11 @@ namespace U3.Player.Inventory.UI
         public void CallEventSlotOriginChanged(Transform t)
         {
             EventSlotOriginChanged?.Invoke(t);
+        }
+
+        public void CallEventUIScreenDisabled()
+        {
+            EventUIScreenDisabled?.Invoke();
         }
     }
 }

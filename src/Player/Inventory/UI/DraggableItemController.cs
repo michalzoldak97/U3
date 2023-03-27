@@ -24,11 +24,12 @@ namespace U3.Player.Inventory.UI
         private void OnEnable()
         {
             draggableMaster.EventSlotOriginChanged += SetSlotParent;
+            draggableMaster.EventUIScreenDisabled += RestoreParent;
         }
         private void OnDisable()
         {
             draggableMaster.EventSlotOriginChanged -= SetSlotParent;
-            RestoreParent();
+            draggableMaster.EventUIScreenDisabled -= RestoreParent;
         }
         public void OnBeginDrag(PointerEventData eventData)
         {

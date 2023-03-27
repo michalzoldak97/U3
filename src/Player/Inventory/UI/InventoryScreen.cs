@@ -17,7 +17,10 @@ namespace U3.Player.Inventory.UI
         }
         public void Disable()
         {
-            
+            foreach (IPlayerUIScreenStateDependent pd in GetComponentsInChildren<IPlayerUIScreenStateDependent>())
+            {
+                pd.CallEventUIScreenDisabled();
+            }
         }
 
         public void Enable()

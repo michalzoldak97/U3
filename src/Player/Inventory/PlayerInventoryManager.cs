@@ -62,8 +62,9 @@ namespace U3.Player.Inventory
         {
             Transform item = playerInventoryMaster.Slots[activeSlotIDX[0]].Containers[activeSlotIDX[1]].Item;
 
-            if (item == null ||
-                item == currentItem.Object.transform)
+            if (item == null || // if doesn't exists
+                (currentItem != null &&
+                item == currentItem.Object.transform)) // or is already selected
                 return;
 
             if (currentItem != null)
@@ -110,11 +111,18 @@ namespace U3.Player.Inventory
             playerInventoryMaster.Items[item].IsAssignedToSlot = true;
             playerInventoryMaster.CallEventItemAddedToContainer();
 
+            if (containerIDX[0] == activeSlotIDX[0] &&
+                containerIDX[1] == activeSlotIDX[1])
+                SelectSlotItem();
         }
 
         private void RemoveItemFromContainer(int[] containerIDX, Transform item)
         {
             AddItemToContainer(containerIDX, null);
+
+            if (containerIDX[0] == activeSlotIDX[0] &&
+                containerIDX[1] == activeSlotIDX[1])
+                inventoryMaster.CallEventDeselectItem(currentItem.Object.transform);
 
             playerInventoryMaster.Items[item].IsAssignedToSlot = false;
             playerInventoryMaster.CallEventItemRemovedFromContainer();

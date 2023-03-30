@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using U3.Item;
 using U3.Log;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 namespace U3.Inventory
@@ -132,9 +133,15 @@ namespace U3.Inventory
             ToggleItemPhysics(!activateForInventory, item);
 
             if (activateForInventory)
+            {
                 itemTransform.SetParent(itemContainer);
+                item.ItemMaster.CallEventAddedToInventory(); // inform item it has been added
+            }
             else
+            {
                 itemTransform.SetParent(null);
+                item.ItemMaster.CallEventRemovedFromInventory(); // inform item it has been removed
+            }
 
             if (!activateForInventory)
                 return;
@@ -156,7 +163,6 @@ namespace U3.Inventory
             SetItemState(false, itemTransform);
 
             item.ItemMaster.CallEventThrow(transform);
-
             inventoryMaster.Items.Remove(itemTransform);
 
             inventoryMaster.CallEventItemRemoved();
@@ -224,8 +230,9 @@ namespace U3.Inventory
             FetchRigidbodies(newItem);
             FetchColliders(newItem);
 
-            inventoryMaster.Items.Add(item, newItem);
-            SetItemState(true, item);
+            inventoryMaster.Items.Add(item, newItem); // add to all inventory items
+
+            SetItemState(true, item); // disable item on parent
 
             inventoryMaster.CallEventItemAdded();
         }

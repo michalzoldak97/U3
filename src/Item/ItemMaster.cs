@@ -16,6 +16,8 @@ namespace U3.Item
         public delegate void ItemInventoryEventHandler();
         public event ItemInventoryEventHandler EventSelected;
         public event ItemInventoryEventHandler EventDeselected;
+        public event ItemInventoryEventHandler EventAddedToInventory;
+        public event ItemInventoryEventHandler EventRemovedFromInventory;
 
         public delegate void ItemInputEventHandler(int idx);
         public event ItemInputEventHandler EventInputCalled;
@@ -48,6 +50,16 @@ namespace U3.Item
         public void CallEventInputCalled(int idx)
         {
             EventInputCalled?.Invoke(idx);
+        }
+
+        public void CallEventAddedToInventory()
+        {
+            EventAddedToInventory?.Invoke();
+        }
+
+        public void CallEventRemovedFromInventory()
+        {
+            EventRemovedFromInventory?.Invoke();
         }
     }
 }

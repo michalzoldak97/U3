@@ -12,6 +12,7 @@ namespace U3.Player.Inventory
         private bool isItemInRange;
         private int ignorePlayerLayerMask;
         private float nextCheck, checkRate;
+        private string itemGUIText;
         private Vector2 labelDimensions;
         private LayerMask itemLayer;
         private Transform itemInRange, fpsCamera;
@@ -105,6 +106,17 @@ namespace U3.Player.Inventory
 
             isItemInRange = true;
             itemInRange = itemFound;
+
+            if (itemFound.TryGetComponent(out ItemMaster itemMaster))
+            {
+                itemGUIText = itemMaster.ItemSettings.GUITextToDisplay != "" ?
+                    itemMaster.ItemSettings.GUITextToDisplay :
+                    itemGUIText = itemFound.name;
+            }
+            else
+            {
+                itemGUIText = itemFound.name;
+            }
         }
 
         private void ManageItemSearch()
@@ -129,7 +141,7 @@ namespace U3.Player.Inventory
         private void OnGUI()
         {
             if (isItemInRange)
-                GUI.Label(labelRect, itemInRange.name, labelStyle);
+                GUI.Label(labelRect, itemGUIText, labelStyle);
         }
     }
 }

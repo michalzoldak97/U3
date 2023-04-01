@@ -52,8 +52,10 @@ namespace U3.Player.Controller
 
             InputManager.PlayerInputActions.Humanoid.Jump.performed -= HandleJump;
             InputManager.PlayerInputActions.Humanoid.Jump.Disable();
+
             InputManager.PlayerInputActions.Humanoid.RunStart.performed -= StartRun;
             InputManager.PlayerInputActions.Humanoid.RunStart.Disable();
+
             InputManager.PlayerInputActions.Humanoid.RunFinish.performed -= StopRun;
             InputManager.PlayerInputActions.Humanoid.RunFinish.Disable();
         }

@@ -9,10 +9,14 @@ namespace U3.Player.UI
     {
         private readonly Dictionary<UIScreenType, IUIScreen> screens = new();
 
+        PlayerMaster playerMaster;
+
         // TODO: handle cursor and PlayerLook
 
         private void OnEnable()
         {
+            playerMaster = GetComponent<PlayerMaster>();
+
             InputManager.PlayerInputActions.Humanoid.ToggleInventory.performed += ToggleInventory;
             InputManager.PlayerInputActions.Humanoid.ToggleInventory.Enable();
         }
@@ -21,6 +25,12 @@ namespace U3.Player.UI
             InputManager.PlayerInputActions.Humanoid.ToggleInventory.performed -= ToggleInventory;
             InputManager.PlayerInputActions.Humanoid.ToggleInventory.Disable();
         }
+        /// <summary>
+        /// Call Disable method on all screens
+        /// Deactivate screen objects
+        /// Activate selected screen and call Enable on it
+        /// </summary>
+        /// <param name="screenType"></param>
         private void EnableScreen(UIScreenType screenType)
         {
             foreach (KeyValuePair<UIScreenType, IUIScreen> screen in screens)
@@ -38,8 +48,13 @@ namespace U3.Player.UI
             {
                 screens[UIScreenType.Inventory].Disable();
                 screens[UIScreenType.Inventory].ScreenObj.SetActive(false);
+
+                playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Look);
+
                 return;
             }
+
+            playerMaster.CallEventTogglePlayerControl(false, Controller.PlayerControlType.Look);
 
             EnableScreen(UIScreenType.Inventory);
         }

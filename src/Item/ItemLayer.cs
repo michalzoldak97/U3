@@ -8,15 +8,9 @@ namespace U3.Item
 
         private ItemMaster itemMaster;
 
-        private void SetInit()
-        {
-            originalLayer = gameObject.layer;
-            itemMaster = GetComponent<ItemMaster>();
-        }
-
         private void OnEnable()
         {
-            SetInit();
+            itemMaster = GetComponent<ItemMaster>();
 
             itemMaster.EventAddedToInventory += ChangeLayerOnAdd;
             itemMaster.EventRemovedFromInventory += ChangeLayerOnRemove;
@@ -45,6 +39,11 @@ namespace U3.Item
         private void ChangeLayerOnRemove()
         {
             ChangeLayer(originalLayer);
+        }
+
+        private void Start()
+        {
+            originalLayer = gameObject.layer;
         }
     }
 }

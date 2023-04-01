@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using U3.Item;
 using U3.Log;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 namespace U3.Inventory
@@ -162,7 +161,7 @@ namespace U3.Inventory
             item.Object.SetActive(true);
             SetItemState(false, itemTransform);
 
-            item.ItemMaster.CallEventThrow(transform);
+            item.ItemMaster.CallEventThrow(itemContainer);
             inventoryMaster.Items.Remove(itemTransform);
 
             inventoryMaster.CallEventItemRemoved();

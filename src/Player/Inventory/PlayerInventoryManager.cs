@@ -1,6 +1,8 @@
+using U3.Input;
 using U3.Inventory;
 using U3.Item;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace U3.Player.Inventory
 {
@@ -8,7 +10,6 @@ namespace U3.Player.Inventory
     {
         private int[] activeSlotIDX = new int[2];
         private PlayerInventoryMaster playerInventoryMaster;
-        // TODO: handle when picking up item when none is selected, it should be moved to 1st free slot or deactivated
         // hande adding and removing from slot
         private void LoadItems()
         {
@@ -48,6 +49,9 @@ namespace U3.Player.Inventory
             playerInventoryMaster.EventChangeActiveSlot += ChangeActiveSlot;
             playerInventoryMaster.EventAddItemToContainer += AddItemToContainer;
             playerInventoryMaster.EventRemoveItemFromContainer += RemoveItemFromContainer;
+
+            InputManager.PlayerInputActions.Humanoid.ItemThrow.performed += RemoveItem;
+            InputManager.PlayerInputActions.Humanoid.ItemThrow.Enable();
         }
 
         protected override void OnDisable()
@@ -56,6 +60,9 @@ namespace U3.Player.Inventory
             playerInventoryMaster.EventChangeActiveSlot -= ChangeActiveSlot;
             playerInventoryMaster.EventAddItemToContainer -= AddItemToContainer;
             playerInventoryMaster.EventRemoveItemFromContainer -= RemoveItemFromContainer;
+
+            InputManager.PlayerInputActions.Humanoid.ItemThrow.performed -= RemoveItem;
+            InputManager.PlayerInputActions.Humanoid.ItemThrow.Disable();
         }
 
         private void SelectSlotItem()
@@ -63,8 +70,8 @@ namespace U3.Player.Inventory
             Transform item = playerInventoryMaster.Slots[activeSlotIDX[0]].Containers[activeSlotIDX[1]].Item;
 
             if (item == null || // if doesn't exists
-                (currentItem != null &&
-                item == currentItem.Object.transform)) // or is already selected
+                    (currentItem != null &&
+                    item == currentItem.Object.transform)) // or is already selected
                 return;
 
             if (currentItem != null)
@@ -126,6 +133,17 @@ namespace U3.Player.Inventory
 
             playerInventoryMaster.Items[item].IsAssignedToSlot = false;
             playerInventoryMaster.CallEventItemRemovedFromContainer();
+        }
+
+        private void RemoveItem(InputAction.CallbackContext obj)
+        {
+            Transform item = playerInventoryMaster.Slots[activeSlotIDX[0]].Containers[activeSlotIDX[1]].Item;
+
+            if (item == null)
+                return;
+
+            RemoveItemFromContainer(activeSlotIDX, item);
+            playerInventoryMaster.CallEventRemoveItem(item);
         }
     }
 }

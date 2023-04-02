@@ -4,6 +4,7 @@ namespace U3.Player.Controller
     {
         Move,
         Look,
-        HeadBob
+        HeadBob,
+        Cursor
     }
 }

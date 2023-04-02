@@ -8,6 +8,7 @@ namespace U3.Player
         [SerializeField] private PlayerSettings playerSettings;
         [SerializeField] private Transform fpsCamera;
 
+        public bool IsActiveInventoryItemInteractionEnabled { get; set; }
         public PlayerSettings PlayerSettings { get { return playerSettings; } private set { } }
 
         public Transform FPSCamera { get { return fpsCamera; } private set { } }

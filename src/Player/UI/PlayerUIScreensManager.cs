@@ -25,6 +25,13 @@ namespace U3.Player.UI
             InputManager.PlayerInputActions.Humanoid.ToggleInventory.performed -= ToggleInventory;
             InputManager.PlayerInputActions.Humanoid.ToggleInventory.Disable();
         }
+        private void DisableScreen(UIScreenType screenType)
+        {
+            screens[screenType].Disable();
+            screens[screenType].ScreenObj.SetActive(false);
+
+            playerMaster.CallEventTogglePlayerControl(false, Controller.PlayerControlType.Cursor);
+        }
         /// <summary>
         /// Call Disable method on all screens
         /// Deactivate screen objects
@@ -35,19 +42,19 @@ namespace U3.Player.UI
         {
             foreach (KeyValuePair<UIScreenType, IUIScreen> screen in screens)
             {
-                screen.Value.Disable();
-                screen.Value.ScreenObj.SetActive(false);
+                DisableScreen(screen.Key);
             }
 
             screens[screenType].ScreenObj.SetActive(true);
             screens[screenType].Enable();
+
+            playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Cursor);
         }
         private void ToggleInventory(InputAction.CallbackContext obj)
         {
             if (screens[UIScreenType.Inventory].ScreenObj.activeSelf)
             {
-                screens[UIScreenType.Inventory].Disable();
-                screens[UIScreenType.Inventory].ScreenObj.SetActive(false);
+                DisableScreen(UIScreenType.Inventory);
 
                 playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Look);
 

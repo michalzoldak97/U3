@@ -21,7 +21,8 @@ namespace U3.Player.Controller
 
         private void TogglePlayerControl(bool toActiveState, PlayerControlType controlType)
         {
-            if (playerControlScripts[controlType].enabled == toActiveState)
+            if (!playerControlScripts.ContainsKey(controlType) ||
+                playerControlScripts[controlType].enabled == toActiveState)
                 return;
 
             playerControlScripts[controlType].enabled = toActiveState;

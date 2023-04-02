@@ -15,6 +15,7 @@ namespace U3.Player.Inventory.UI
         {
             inventoryMaster = GetComponentInParent<PlayerInventoryMaster>();
         }
+
         public void Disable()
         {
             foreach (IPlayerUIScreenStateDependent pd in GetComponentsInChildren<IPlayerUIScreenStateDependent>())

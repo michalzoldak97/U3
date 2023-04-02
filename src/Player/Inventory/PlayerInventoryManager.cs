@@ -8,7 +8,7 @@ namespace U3.Player.Inventory
 {
     public class PlayerInventoryManager : InventoryManager
     {
-        private int[] activeSlotIDX = new int[2];
+        private readonly int[] activeSlotIDX = new int[2];
         private PlayerInventoryMaster playerInventoryMaster;
         // hande adding and removing from slot
         private void LoadItems()
@@ -52,6 +52,15 @@ namespace U3.Player.Inventory
 
             InputManager.PlayerInputActions.Humanoid.ItemThrow.performed += RemoveItem;
             InputManager.PlayerInputActions.Humanoid.ItemThrow.Enable();
+
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot1.performed += ChangeActiveSlot1;
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot1.Enable();
+
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot2.performed += ChangeActiveSlot2;
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot2.Enable();
+
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot3.performed += ChangeActiveSlot3;
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot3.Enable();
         }
 
         protected override void OnDisable()
@@ -63,6 +72,15 @@ namespace U3.Player.Inventory
 
             InputManager.PlayerInputActions.Humanoid.ItemThrow.performed -= RemoveItem;
             InputManager.PlayerInputActions.Humanoid.ItemThrow.Disable();
+
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot1.performed -= ChangeActiveSlot1;
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot1.Disable();
+
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot2.performed -= ChangeActiveSlot2;
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot2.Disable();
+
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot3.performed -= ChangeActiveSlot3;
+            InputManager.PlayerInputActions.Humanoid.ChangeActiveInventorySlot3.Disable();
         }
 
         private void SelectSlotItem()
@@ -89,16 +107,39 @@ namespace U3.Player.Inventory
 
             if (slotIDX == activeSlotIDX[0]) // if selected slot is current one incerment container idx
             {
-                int cIDXToSet = activeSlotIDX[1] + 1 > 
-                    playerInventoryMaster.Slots[slotIDX].Containers.Length - 1 ? 0 : activeSlotIDX[1] + 1; // if current container is last go to the first
-                activeSlotIDX[1] = cIDXToSet;
-                return;
+
+                int numChecked = 0;
+
+                while (numChecked < playerInventoryMaster.Slots[slotIDX].Containers.Length)
+                {
+                    int cIDXToSet = activeSlotIDX[1] + 1 >=
+                        playerInventoryMaster.Slots[slotIDX].Containers.Length ? 0 : activeSlotIDX[1] + 1;
+
+                    activeSlotIDX[1] = cIDXToSet;
+
+                    if (playerInventoryMaster.Slots[slotIDX].Containers[cIDXToSet].Item != null)
+                    {
+                        SelectSlotItem();
+                        return;
+                    }
+
+                    numChecked++;
+                }
             }
 
             activeSlotIDX[0] = slotIDX;
-            activeSlotIDX[1] = 0;
 
-            SelectSlotItem();
+            for (int i = 0; i < playerInventoryMaster.Slots[slotIDX].Containers.Length; i++) // select first occupied container
+            {
+                if (playerInventoryMaster.Slots[slotIDX].Containers[i].Item != null)
+                {
+                    activeSlotIDX[1] = i;
+                    SelectSlotItem();
+                    return;
+                }
+            }
+
+            activeSlotIDX[1] = 0; // if all containers are empty set to 1st
         }
 
         private void AddItemToContainer(int[] containerIDX, Transform item)
@@ -144,6 +185,19 @@ namespace U3.Player.Inventory
 
             RemoveItemFromContainer(activeSlotIDX, item);
             playerInventoryMaster.CallEventRemoveItem(item);
+        }
+
+        private void ChangeActiveSlot1(InputAction.CallbackContext obj)
+        {
+            playerInventoryMaster.CallEventChangeActiveSlot(0);
+        }
+        private void ChangeActiveSlot2(InputAction.CallbackContext obj)
+        {
+            playerInventoryMaster.CallEventChangeActiveSlot(1);
+        }
+        private void ChangeActiveSlot3(InputAction.CallbackContext obj)
+        {
+            playerInventoryMaster.CallEventChangeActiveSlot(2);
         }
     }
 }

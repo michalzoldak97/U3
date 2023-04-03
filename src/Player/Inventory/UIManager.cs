@@ -49,6 +49,7 @@ namespace U3.Player.Inventory
                 UI.Item itemUIObj = itemButton.GetComponent<UI.Item>();
                 itemUIObj.SetItemName(item.Value.ItemMaster.ItemSettings.ToItemName);
                 itemUIObj.SetItemIcon(item.Value.ItemMaster.ItemSettings.ItemIcon);
+                itemUIObj.SetInventoryMaster(inventoryMaster);
                 itemUIObj.InventoryItem = item.Key;
             }
         }
@@ -73,7 +74,8 @@ namespace U3.Player.Inventory
 
                     Transform assignedItem = inventoryMaster.Slots[i].Containers[j].Item; // if container has assigned item
 
-                    if (assignedItem == null)
+                    if (assignedItem == null ||
+                        !inventoryMaster.Items.ContainsKey(assignedItem))
                         continue;
 
                     InventoryItem item = inventoryMaster.Items[assignedItem];
@@ -96,6 +98,7 @@ namespace U3.Player.Inventory
                     itemUIObj.SetItemName(item.ItemMaster.ItemSettings.ToItemName);
                     itemUIObj.SetItemIcon(item.ItemMaster.ItemSettings.ItemIcon);
                     itemUIObj.SetUIParent(cObj.transform);
+                    itemUIObj.SetInventoryMaster(inventoryMaster);
                     itemUIObj.InventoryItem = assignedItem;
                 }
             }

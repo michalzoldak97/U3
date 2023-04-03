@@ -10,7 +10,6 @@ namespace U3.Player.Inventory
     {
         private readonly int[] activeSlotIDX = new int[2];
         private PlayerInventoryMaster playerInventoryMaster;
-        // hande adding and removing from slot
         private void LoadItems()
         {
             foreach (Transform iT in itemContainer)
@@ -50,6 +49,8 @@ namespace U3.Player.Inventory
             playerInventoryMaster.EventAddItemToContainer += AddItemToContainer;
             playerInventoryMaster.EventRemoveItemFromContainer += RemoveItemFromContainer;
 
+            inventoryMaster.EventRemoveItem += RemoveItemOnButtonCall;
+
             InputManager.PlayerInputActions.Humanoid.ItemThrow.performed += RemoveItem;
             InputManager.PlayerInputActions.Humanoid.ItemThrow.Enable();
 
@@ -69,6 +70,8 @@ namespace U3.Player.Inventory
             playerInventoryMaster.EventChangeActiveSlot -= ChangeActiveSlot;
             playerInventoryMaster.EventAddItemToContainer -= AddItemToContainer;
             playerInventoryMaster.EventRemoveItemFromContainer -= RemoveItemFromContainer;
+
+            inventoryMaster.EventRemoveItem -= RemoveItemOnButtonCall;
 
             InputManager.PlayerInputActions.Humanoid.ItemThrow.performed -= RemoveItem;
             InputManager.PlayerInputActions.Humanoid.ItemThrow.Disable();
@@ -140,6 +143,7 @@ namespace U3.Player.Inventory
             }
 
             activeSlotIDX[1] = 0; // if all containers are empty set to 1st
+            SelectSlotItem();
         }
 
         private void AddItemToContainer(int[] containerIDX, Transform item)
@@ -171,8 +175,10 @@ namespace U3.Player.Inventory
             if (containerIDX[0] == activeSlotIDX[0] &&
                 containerIDX[1] == activeSlotIDX[1])
                 inventoryMaster.CallEventDeselectItem(currentItem.Object.transform);
+            
+            if (playerInventoryMaster.Items.ContainsKey(item))
+                playerInventoryMaster.Items[item].IsAssignedToSlot = false;
 
-            playerInventoryMaster.Items[item].IsAssignedToSlot = false;
             playerInventoryMaster.CallEventItemRemovedFromContainer();
         }
 
@@ -185,6 +191,21 @@ namespace U3.Player.Inventory
 
             RemoveItemFromContainer(activeSlotIDX, item);
             playerInventoryMaster.CallEventRemoveItem(item);
+        }
+
+        private void RemoveItemOnButtonCall(Transform item)
+        {
+            for (int i = 0; i < playerInventoryMaster.Slots.Length; i++)
+            {
+                for (int j = 0; j < playerInventoryMaster.Slots[i].Containers.Length; j++)
+                {
+                    if (playerInventoryMaster.Slots[i].Containers[j].Item == item)
+                    {
+                        RemoveItemFromContainer(new int[] {i, j}, item);
+                        return;
+                    }
+                }
+            }
         }
 
         private void ChangeActiveSlot1(InputAction.CallbackContext obj)

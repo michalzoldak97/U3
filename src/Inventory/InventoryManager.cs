@@ -68,6 +68,9 @@ namespace U3.Inventory
         /// <param name="itemTransform"></param>
         private void ToggleItem(bool toState, Transform itemTransform)
         {
+            if (!inventoryMaster.Items.ContainsKey(itemTransform))
+                return;
+
             InventoryItem item = inventoryMaster.Items[itemTransform];
 
             if (toState)

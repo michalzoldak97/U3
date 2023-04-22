@@ -5,6 +5,7 @@ namespace U3.Player.Inventory
 {
     public class PlayerInventoryMaster : InventoryMaster
     {
+        [SerializeField] private GameObject itemCamera;
         public Slot[] Slots { get; set; }
 
         public delegate void PlayerInventorySlotEventHandler(int slotIDX);
@@ -45,6 +46,17 @@ namespace U3.Player.Inventory
         public void CallEventInventoryUIReloadRequest()
         {
             EventInventoryUIReloadRequest?.Invoke();
+        }
+
+        private void Start()
+        {
+            if (itemCamera == null) 
+            {
+                Log.GameLogger.Log(Log.LogType.Warning, "no item camera set on player");
+                return;
+            }
+            
+            ItemCamera = itemCamera;
         }
     }
 }

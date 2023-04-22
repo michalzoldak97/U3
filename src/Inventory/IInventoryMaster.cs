@@ -7,6 +7,8 @@ namespace U3.Inventory
     {
         public Dictionary<Transform, InventoryItem> Items { get; set; }
 
+        public GameObject ItemCamera {get; set;}
+
         public void CallEventAddItem(Transform item);
         public void CallEventRemoveItem(Transform item);
 

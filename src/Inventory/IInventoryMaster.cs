@@ -6,7 +6,7 @@ namespace U3.Inventory
     public interface IInventoryMaster
     {
         // props
-        public Dictionary<Transform, IInventoryItem> InventoryItems { get; }
+        public InventoryStore Items { get; }
 
         // events
         public void CallEventAddItem(Transform item);

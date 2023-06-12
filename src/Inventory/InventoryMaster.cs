@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using U3.Log;
 
 namespace U3.Inventory
 {
     public class InventoryMaster : MonoBehaviour, IInventoryMaster
     {
-        public Dictionary<Transform, IInventoryItem> InventoryItems { get; } = new();
+        public InventoryStore Items { get; } = new();
 
         public delegate void InventoryItemEventHandler(Transform item);
         public event InventoryItemEventHandler EventAddItem;

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace U3.Inventory
 {
     public class InventoryManager : MonoBehaviour

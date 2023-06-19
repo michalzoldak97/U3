@@ -1,15 +1,20 @@
+using System;
+using System.Collections.Generic;
+using U3.Log;
+using UnityEngine;
+
 namespace U3.Inventory
 {
-    public class InventoryStore:
+    public class InventoryStore
     {
         private Dictionary<Transform, IInventoryItem> inventoryItems = new();
 
         public IInventoryItem GetItem(Transform item)
         {
-            if (!inventoryItems.Contains(item))
+            if (!inventoryItems.ContainsKey(item))
             {
                 GameLogger.Log(
-                    LogType.Warning, 
+                    Log.LogType.Warning, 
                     String.Format("trying to access non-existing inventory item {0}", item));
                 return null;
             }
@@ -19,7 +24,7 @@ namespace U3.Inventory
 
         public IInventoryItem[] GetAllItems()
         {
-            IInventoryItem[] allItems = new IInventoryItem(inventoryItems.Length);
+            IInventoryItem[] allItems = new IInventoryItem[inventoryItems.Count];
 
             int i = 0;
             foreach (IInventoryItem item in inventoryItems.Values)
@@ -33,10 +38,10 @@ namespace U3.Inventory
 
         public void AddItem(IInventoryItem item)
         {
-            if (inventoryItems.Contains(item.Item))
+            if (inventoryItems.ContainsKey(item.Item))
             {
                 GameLogger.Log(
-                    LogType.Warning, 
+                    Log.LogType.Warning, 
                     String.Format("trying to add duplicate inventory item {0}", item.Item));
                 return;
             }
@@ -46,10 +51,10 @@ namespace U3.Inventory
 
         public void RemoveItem(Transform item)
         {
-            if (!inventoryItems.Contains(item))
+            if (!inventoryItems.ContainsKey(item))
             {
                 GameLogger.Log(
-                    LogType.Warning, 
+                    Log.LogType.Warning, 
                     String.Format("trying to remove non-existing inventory item {0}", item));
                 return;
             }

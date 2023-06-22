@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace U3.Inventory
@@ -7,6 +6,7 @@ namespace U3.Inventory
     {
         // props
         public Transform ItemContainer { get; } // parent transform for items
+        public Transform SelectedItem { get; set; } // item active on parent
         public InventoryStore Items { get; } // protected dictionary of items
 
         // events
@@ -14,6 +14,11 @@ namespace U3.Inventory
         public void CallEventItemAdded(Transform item);
         public void CallEventRemoveItem(Transform item);
         public void CallEventItemRemoved(Transform item);
+
+        public void CallEventSelectItem(Transform item);
+        public void CallEventItemSelected(Transform item);
+        public void CallEventDeselectItem(Transform item);
+        public void CallEventItemDeselected(Transform item);
 
         public void CallEventClearInventory();
         public void CallEventInventoryCleared();

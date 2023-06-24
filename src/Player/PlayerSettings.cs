@@ -12,7 +12,10 @@ namespace U3.Player
     public class InventorySettings
     {
         public int LabelFontSize;
+        public int ItemSearchBufferSize;
         public float ItemCheckRate;
+        public float ItemSearchRange;
+        public float ItemSearchRadius;
         public Vector2 LabelDimensions;
         public Color LabelColor;
         public InventorySlotSetting[] InventorySlots;

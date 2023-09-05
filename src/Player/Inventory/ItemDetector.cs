@@ -89,7 +89,7 @@ namespace U3.Player
         /// Iterates over items buffer if not empty
         /// </summary>
         /// <returns>Visible item in the direction closest to the player camera</returns>
-        private Transform GetBestItem()
+        private Transform GetBestItemFromBuffer()
         {
             float maxDot = 0f;
             Transform selected = null;
@@ -115,21 +115,48 @@ namespace U3.Player
             return selected;
         }
 
-        private void DetectItem()
+        private Transform DetectWithSphereCast()
         {
             int numItemsInRange = Physics.SphereCastNonAlloc(fpsCamera.position, searchRadius, fpsCamera.forward, foundItemsBuffer, searchRange, itemLayer);
 
             if (numItemsInRange < 1)
+                return null;
+
+            return GetBestItemFromBuffer();
+        }
+
+        /// <summary>
+        /// If player points towards visible item it is assumed to be the most important
+        /// </summary>
+        /// <returns>Transform of the item that the player camera is pointing to</returns>
+        private Transform DetectWithRaycast()
+        {
+            if (Physics.Raycast(fpsCamera.position, fpsCamera.forward, out RaycastHit hit, searchRange, itemLayer))
+            {
+                if (IsItemVisible(hit.transform))
+                {
+                    return hit.transform;
+                }
+            }
+
+            return null;
+        }
+
+        private void DetectItem()
+        { 
+            Transform itemFound = DetectWithRaycast();
+
+            if (itemFound == null)
+                itemFound = DetectWithSphereCast();
+
+            if (itemFound == null)
             {
                 isItemInRange = false;
                 itemInRange = null;
                 return;
             }
 
-            Transform itemFound = GetBestItem();
-
-            if (itemFound == null ||
-                itemFound == itemInRange)
+            if (itemFound == itemInRange)
                 return;
 
             isItemInRange = true;

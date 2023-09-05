@@ -47,11 +47,6 @@ namespace U3.Item
             EventDeselected?.Invoke();
         }
 
-        public void CallEventInputCalled(int idx)
-        {
-            EventInputCalled?.Invoke(idx);
-        }
-
         public void CallEventAddedToInventory()
         {
             EventAddedToInventory?.Invoke();
@@ -61,5 +56,11 @@ namespace U3.Item
         {
             EventRemovedFromInventory?.Invoke();
         }
+
+        public void CallEventInputCalled(int idx)
+        {
+            EventInputCalled?.Invoke(idx);
+        }
+
     }
 }

@@ -36,17 +36,18 @@ namespace U3.Inventory
             return allItems;
         }
 
-        public void AddItem(InventoryItem item)
+        public bool AddItem(InventoryItem item)
         {
             if (inventoryItems.ContainsKey(item.Item))
             {
                 GameLogger.Log(
                     Log.LogType.Warning, 
                     String.Format("trying to add duplicate inventory item {0}", item.Item));
-                return;
+                return false;
             }
 
             inventoryItems.Add(item.Item, item);
+            return true;
         }
 
         public void RemoveItem(Transform item)

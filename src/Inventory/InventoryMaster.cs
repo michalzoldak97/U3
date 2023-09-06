@@ -4,7 +4,7 @@ namespace U3.Inventory
 {
     public class InventoryMaster : MonoBehaviour, IInventoryMaster
     {
-        public Transform ItemContainer { get; }
+        public Transform ItemContainer { get; protected set; }
         public Transform SelectedItem { get; set; }
         public InventoryStore Items { get; } = new();
 

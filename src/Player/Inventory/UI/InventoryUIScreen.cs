@@ -22,7 +22,8 @@ namespace U3.Player.Inventory.UI
                 pd.CallEventUIScreenDisabled();
             }
 
-            inventoryMaster.CallEventInventoryScreenClosed();
+            if (inventoryMaster != null)
+                inventoryMaster.CallEventInventoryScreenClosed();
         }
 
         public void Enable()

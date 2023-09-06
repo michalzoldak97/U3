@@ -32,20 +32,83 @@ namespace U3.Inventory
             inventoryMaster.EventClearInventory -= ClearInventory;
         }
 
-        private void AddItem(Transform item)
+        private void DeselectItem(Transform itemTransform)
         {
-            // check if item master exists
-            if (item.TryGetComponent(out ItemMaster itemMaster))
+            // check if exists and selected
+            // set active status and handle colliders and rb
+            // call deselected on item
+            // call deselected
+        }
+
+        private void SelectItem(Transform itemTransform)
+        {
+            InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
+
+            if (item == null ||
+                item.Item == inventoryMaster.SelectedItem)
+                return;
+
+            if (inventoryMaster.SelectedItem != null)
+                DeselectItem(inventoryMaster.SelectedItem);
+
+            item.ItemObject.SetActive(true);
+            inventoryMaster.SelectedItem = item.Item;
+
+            item.ItemMaster.CallEventSelected();
+
+            inventoryMaster.CallEventItemSelected(item.Item);
+        }
+
+        private void ToggleItemPhysics(InventoryItem item, bool toState)
+        {
+            foreach (Rigidbody rb in item.ItemRigidbodies)
             {
-                // fetch and disable all rb and colliders
-                // create item object and add to inventory, assign to parent transofrm
-                // call EventAddedToInventory
-                // evvaluate if should be selected
-                // call event item has been added
+                rb.isKinematic = !toState;
+                rb.useGravity = toState;
+            }
+
+            if (item.ItemMaster.ItemSettings.KeepColliderActive)
+                return;
+
+            foreach (Collider col in item.ItemColliders)
+            {
+                col.isTrigger = !toState;
+            }
+        }
+    
+        private void AddItem(Transform itemTransform)
+        {
+            if (itemTransform.TryGetComponent(out ItemMaster itemMaster))
+            {
+                InventoryItem newItem = new()
+                {
+                    Item = itemTransform,
+                    ItemObject = itemTransform.gameObject,
+                    ItemMaster = itemMaster
+                };
+
+                newItem.ItemRigidbodies = Engine.Engine.FetchAllComponents<Rigidbody>(newItem.ItemObject);
+                newItem.ItemColliders = Engine.Engine.FetchAllComponents<Collider>(newItem.ItemObject);
+
+                if (!inventoryMaster.Items.AddItem(newItem))
+                    return;
+
+                newItem.Item.SetParent(inventoryMaster.ItemContainer);
+
+                ToggleItemPhysics(newItem, false);
+
+                newItem.ItemMaster.CallEventAddedToInventory();
+
+                inventoryMaster.CallEventItemAdded(newItem.Item);
+
+                if (inventoryMaster.SelectedItem == null)
+                    SelectItem(newItem.Item);
+                else
+                    DeselectItem(newItem.Item);
             }
         }
 
-        private void RemoveItem(Transform item)
+        private void RemoveItem(Transform itemTransform)
         {
             // check if selected, if yes set selected to null or subsequent
             // enable rb and colliders
@@ -54,23 +117,6 @@ namespace U3.Inventory
             // call EventRemovedFromInventory
             // call event item has been removed 
             // call event item throw
-        }
-
-        private void SelectItem(Transform item)
-        {
-            // check if exists or already selected
-            // deslect current selected
-            // set active status and handle colliders and rb
-            // call selected on item
-            // call event selected
-        }
-
-        private void DeselectItem(Transform item)
-        {
-            // check if exists and selected
-            // set active status and handle colliders and rb
-            // call deselected on item
-            // call deselected
         }
 
         private void ClearInventory()

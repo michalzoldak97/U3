@@ -3,10 +3,10 @@ using UnityEngine;
 namespace U3.Player
 {
     [System.Serializable]
-    public class InventorySlotSetting
+    public class InventoryContainerSetting
     {
-        public string SlotName;
-        public int ContainerNum;
+        public string ContainerName;
+        public int SlotsNum;
     }
     [System.Serializable]
     public class InventorySettings
@@ -18,7 +18,7 @@ namespace U3.Player
         public float ItemSearchRadius;
         public Vector2 LabelDimensions;
         public Color LabelColor;
-        public InventorySlotSetting[] InventorySlots;
+        public InventoryContainerSetting[] InventorySlots;
     }
     [System.Serializable]
     public class SoundSettings

@@ -7,9 +7,9 @@ namespace U3.Inventory
 {
     public class InventoryStore
     {
-        private Dictionary<Transform, IInventoryItem> inventoryItems = new();
+        private Dictionary<Transform, InventoryItem> inventoryItems = new();
 
-        public IInventoryItem GetItem(Transform item)
+        public InventoryItem GetItem(Transform item)
         {
             if (!inventoryItems.ContainsKey(item))
             {
@@ -22,12 +22,12 @@ namespace U3.Inventory
             return inventoryItems[item];
         }
 
-        public IInventoryItem[] GetAllItems()
+        public InventoryItem[] GetAllItems()
         {
-            IInventoryItem[] allItems = new IInventoryItem[inventoryItems.Count];
+            InventoryItem[] allItems = new InventoryItem[inventoryItems.Count];
 
             int i = 0;
-            foreach (IInventoryItem item in inventoryItems.Values)
+            foreach (InventoryItem item in inventoryItems.Values)
             {
                 allItems[i] = item;
                 i++;
@@ -36,7 +36,7 @@ namespace U3.Inventory
             return allItems;
         }
 
-        public void AddItem(IInventoryItem item)
+        public void AddItem(InventoryItem item)
         {
             if (inventoryItems.ContainsKey(item.Item))
             {

@@ -1,3 +1,4 @@
+using U3.Item;
 using UnityEngine;
 
 namespace U3.Inventory
@@ -34,11 +35,14 @@ namespace U3.Inventory
         private void AddItem(Transform item)
         {
             // check if item master exists
-            // fetch and disable all rb and colliders
-            // create item object and add to inventory, assign to parent transofrm
-            // call EventAddedToInventory
-            // evvaluate if should be selected
-            // call event item has been added
+            if (item.TryGetComponent(out ItemMaster itemMaster))
+            {
+                // fetch and disable all rb and colliders
+                // create item object and add to inventory, assign to parent transofrm
+                // call EventAddedToInventory
+                // evvaluate if should be selected
+                // call event item has been added
+            }
         }
 
         private void RemoveItem(Transform item)

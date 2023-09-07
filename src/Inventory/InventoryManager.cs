@@ -34,10 +34,18 @@ namespace U3.Inventory
 
         private void DeselectItem(Transform itemTransform)
         {
-            // check if exists and selected
-            // set active status and handle colliders and rb
-            // call deselected on item
-            // call deselected
+            if (itemTransform != inventoryMaster.SelectedItem)
+                return;
+
+            InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
+            if (item == null)
+                return;
+
+            item.ItemMaster.CallEventDeselected();
+            item.ItemObject.SetActive(false);
+
+            inventoryMaster.SelectedItem = null;
+            inventoryMaster.CallEventItemDeselected(item.Item);
         }
 
         private void SelectItem(Transform itemTransform)
@@ -110,13 +118,25 @@ namespace U3.Inventory
 
         private void RemoveItem(Transform itemTransform)
         {
-            // check if selected, if yes set selected to null or subsequent
-            // enable rb and colliders
-            // set parent to null
-            // remove from inventory
-            // call EventRemovedFromInventory
-            // call event item has been removed 
-            // call event item throw
+            if (itemTransform == inventoryMaster.SelectedItem)
+                DeselectItem(itemTransform);
+
+            InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
+            if (item == null)
+                return;
+
+            ToggleItemPhysics(item, true);
+
+            item.Item.SetParent(null);
+            item.ItemObject.SetActive(true);
+
+            inventoryMaster.Items.RemoveItem(item.Item);
+
+            item.ItemMaster.CallEventRemovedFromInventory();
+
+            inventoryMaster.CallEventItemRemoved(item.Item);
+
+            item.ItemMaster.CallEventThrow(inventoryMaster.ItemContainer);
         }
 
         private void ClearInventory()

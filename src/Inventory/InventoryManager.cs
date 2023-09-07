@@ -141,7 +141,12 @@ namespace U3.Inventory
 
         private void ClearInventory()
         {
-            // call remove on all items
+            InventoryItem[] allItems = inventoryMaster.Items.GetAllItems();
+
+            foreach (InventoryItem item in allItems)
+            {
+                RemoveItem(item.Item);
+            }
         }
     }
 }

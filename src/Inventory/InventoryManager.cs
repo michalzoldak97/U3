@@ -7,12 +7,12 @@ namespace U3.Inventory
     {
         protected InventoryMaster inventoryMaster;
 
-        protected void SetInit()
+        protected virtual void SetInit()
         {
             inventoryMaster = GetComponent<InventoryMaster>();
         }
 
-        protected void OnEnable()
+        protected virtual void OnEnable()
         {
             SetInit();
 
@@ -23,7 +23,7 @@ namespace U3.Inventory
             inventoryMaster.EventClearInventory += ClearInventory;
         }
 
-        protected void OnDisable()
+        protected virtual void OnDisable()
         {
             inventoryMaster.EventAddItem -= AddItem;
             inventoryMaster.EventRemoveItem -= RemoveItem;
@@ -102,17 +102,12 @@ namespace U3.Inventory
                     return;
 
                 newItem.Item.SetParent(inventoryMaster.ItemContainer);
-
-                ToggleItemPhysics(newItem, false);
-
                 newItem.ItemMaster.CallEventAddedToInventory();
 
-                inventoryMaster.CallEventItemAdded(newItem.Item);
+                ToggleItemPhysics(newItem, false);
+                DeselectItem(newItem.Item);
 
-                if (inventoryMaster.SelectedItem == null)
-                    SelectItem(newItem.Item);
-                else
-                    DeselectItem(newItem.Item);
+                inventoryMaster.CallEventItemAdded(newItem.Item);
             }
         }
 

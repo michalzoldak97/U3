@@ -1,10 +1,30 @@
 using U3.Inventory;
+using U3.Player.Inventory;
 using UnityEngine;
 
 namespace U3
 {
     public class PlayerInventoryManager : InventoryManager
     {
+        private PlayerInventoryMaster playerInventoryMaster;
+        protected override void SetInit()
+        {
+            base.SetInit();
+            playerInventoryMaster = GetComponent<PlayerInventoryMaster>();
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            playerInventoryMaster.EventItemAdded += OnItemAdded;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            playerInventoryMaster.EventItemAdded -= OnItemAdded;
+        }
+
         private void OnItemSelected()
         {
             // when item selected assign it to the active slot
@@ -23,6 +43,11 @@ namespace U3
                 // clear fro object
             // if slot active select item
             // call event assigned
+        }
+
+        private void OnItemAdded(Transform item)
+        {
+            // if active slot is empty AssignItemToSlot()
         }
     }
 }

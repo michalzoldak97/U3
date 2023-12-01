@@ -3,10 +3,17 @@ using UnityEngine;
 namespace U3.Player
 {
     [System.Serializable]
+    public class InventorySlotSetting
+    {
+        public Item.ItemType[] AcceptableItemTypes;
+        public GameObject SlotUIPrefab;
+    }
+    [System.Serializable]
     public class InventoryContainerSetting
     {
         public string ContainerName;
         public int SlotsNum;
+        public GameObject ContainerUIPrefab;
     }
     [System.Serializable]
     public class InventorySettings

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using U3.Log;
 using UnityEngine;
@@ -7,7 +6,7 @@ namespace U3.Inventory
 {
     public class InventoryStore
     {
-        private Dictionary<Transform, InventoryItem> inventoryItems = new();
+        private readonly Dictionary<Transform, InventoryItem> inventoryItems = new();
 
         public InventoryItem GetItem(Transform item)
         {
@@ -15,7 +14,7 @@ namespace U3.Inventory
             {
                 GameLogger.Log(
                     Log.LogType.Warning, 
-                    String.Format("trying to access non-existing inventory item {0}", item));
+                    $"trying to access non-existing inventory item {item}");
                 return null;
             }
 
@@ -42,7 +41,7 @@ namespace U3.Inventory
             {
                 GameLogger.Log(
                     Log.LogType.Warning, 
-                    String.Format("trying to add duplicate inventory item {0}", item.Item));
+                    $"trying to add duplicate inventory item {item.Item}");
                 return false;
             }
 
@@ -56,7 +55,7 @@ namespace U3.Inventory
             {
                 GameLogger.Log(
                     Log.LogType.Warning, 
-                    String.Format("trying to remove non-existing inventory item {0}", item));
+                    $"trying to remove non-existing inventory item {item}");
                 return;
             }
 

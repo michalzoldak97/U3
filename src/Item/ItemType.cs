@@ -8,8 +8,12 @@ namespace U3.Item
         Rifle,
         MachineGun,
         Shotgun,
-        Grenade,
         Launcher,
+        Grenade,
+        Mine,
+        BodyArmor,
+        HeadArmor,
+        Booster,
         Other
     }
 }

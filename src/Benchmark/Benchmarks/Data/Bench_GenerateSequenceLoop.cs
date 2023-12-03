@@ -8,10 +8,7 @@ namespace U3.Benchmark.Data
         private const string benchName = "Generate Loop";
 
         private int[] receiver;
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
+        public override string GetBenchmarkName() => benchName;
 
         public override void Initialize()
         {

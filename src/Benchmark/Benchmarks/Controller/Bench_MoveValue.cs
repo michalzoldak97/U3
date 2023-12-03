@@ -17,11 +17,8 @@ namespace U3.Benchmark.Controller
 
             return movDir;
         }
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
-
+        public override string GetBenchmarkName() => benchName;
+       
         public override void Initialize()
         {
             

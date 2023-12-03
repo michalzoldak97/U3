@@ -7,10 +7,7 @@ namespace U3.Benchmark.Data
         private const string benchName = "Access Array";
 
         private float[] testArr;
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
+        public override string GetBenchmarkName() => benchName;
 
         public override void Initialize()
         {

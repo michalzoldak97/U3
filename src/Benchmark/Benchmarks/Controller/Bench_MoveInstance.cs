@@ -15,10 +15,7 @@ namespace U3.Benchmark.Controller
             movDir.y = testVec.y;
             movDir.z = testVec.z;
         }
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
+        public override string GetBenchmarkName() => benchName;
 
         public override void Initialize()
         {

@@ -7,10 +7,7 @@ namespace U3.Benchmark.Strings
         private const string benchName = "Adding a strings";
         private string testStr;
         private Vector3 dummy;
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
+        public override string GetBenchmarkName() => benchName;
 
         public override void Initialize()
         {

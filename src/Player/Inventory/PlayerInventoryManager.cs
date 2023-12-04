@@ -1,8 +1,7 @@
 using U3.Inventory;
-using U3.Player.Inventory;
 using UnityEngine;
 
-namespace U3
+namespace U3.Player.Inventory
 {
     public class PlayerInventoryManager : InventoryManager
     {

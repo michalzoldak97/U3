@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace U3
+namespace U3.Global.Config
 {
     public class ApplicationQuality : MonoBehaviour
     {

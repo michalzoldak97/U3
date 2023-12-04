@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace U3.Engine
+namespace U3.Global.Helper
 {
-    public static class Engine
+    public static class Helper
     {
         public static T[] FetchAllComponents<T>(GameObject obj) where T : Component //TODO: generic fetch
         {

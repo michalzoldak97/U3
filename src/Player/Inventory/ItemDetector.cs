@@ -4,7 +4,7 @@ using U3.Log;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace U3.Player
+namespace U3.Player.Inventory
 {
     public class ItemDetector : MonoBehaviour
     {

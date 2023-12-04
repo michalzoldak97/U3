@@ -1,4 +1,5 @@
 using U3.Item;
+using U3.Global.Helper;
 using UnityEngine;
 
 namespace U3.Inventory
@@ -95,8 +96,8 @@ namespace U3.Inventory
                     ItemMaster = itemMaster
                 };
 
-                newItem.ItemRigidbodies = Engine.Engine.FetchAllComponents<Rigidbody>(newItem.ItemObject);
-                newItem.ItemColliders = Engine.Engine.FetchAllComponents<Collider>(newItem.ItemObject);
+                newItem.ItemRigidbodies = Helper.FetchAllComponents<Rigidbody>(newItem.ItemObject);
+                newItem.ItemColliders = Helper.FetchAllComponents<Collider>(newItem.ItemObject);
 
                 if (!inventoryMaster.Items.AddItem(newItem))
                     return;

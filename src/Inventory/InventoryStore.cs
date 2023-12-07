@@ -12,9 +12,9 @@ namespace U3.Inventory
         {
             if (!inventoryItems.ContainsKey(item))
             {
-                GameLogger.Log(
+                GameLogger.Log(new GameLog(
                     Log.LogType.Warning, 
-                    $"trying to access non-existing inventory item {item}");
+                    $"trying to access non-existing inventory item {item}"));
                 return null;
             }
 
@@ -39,9 +39,9 @@ namespace U3.Inventory
         {
             if (inventoryItems.ContainsKey(item.Item))
             {
-                GameLogger.Log(
+                GameLogger.Log(new GameLog(
                     Log.LogType.Warning, 
-                    $"trying to add duplicate inventory item {item.Item}");
+                    $"trying to add duplicate inventory item {item.Item}"));
                 return false;
             }
 
@@ -53,9 +53,9 @@ namespace U3.Inventory
         {
             if (!inventoryItems.ContainsKey(item))
             {
-                GameLogger.Log(
+                GameLogger.Log(new GameLog(
                     Log.LogType.Warning, 
-                    $"trying to remove non-existing inventory item {item}");
+                    $"trying to remove non-existing inventory item {item}"));
                 return;
             }
 

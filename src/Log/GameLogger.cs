@@ -1,4 +1,4 @@
-using System.Text;
+using System.Collections.Generic;
 using U3.Global.Config;
 using UnityEngine;
 
@@ -6,34 +6,18 @@ namespace U3.Log
 {
     public static class GameLogger
     {
-        public static void Log(LogType logType, string msg)
+        public static readonly Dictionary<LogType, string> LogTypePerfixes = new()
+        {
+            { LogType.Error, "ERROR"},
+            { LogType.Warning, "WARNING"},
+            { LogType.Notification, "NOTIFICATION"}
+        };
+        public static void Log(GameLog gameLog)
         {
             if (!GameConfig.EnableLogs)
                 return;
 
-            StringBuilder logMsg = new();
-
-            switch (logType)
-            {
-                case LogType.Error:
-                    logMsg.Append("ERROR: ");
-                    break;
-
-                case LogType.Warning:
-                    logMsg.Append("WARNING: ");
-                    break;
-
-                case LogType.Notification:
-                    logMsg.Append("NOTIFICATION: ");
-                    break;
-
-                default:
-                    logMsg.Append("MESSAGE: ");
-                    break;
-            }
-
-            logMsg.Append(msg);
-            Debug.Log(logMsg.ToString());
+            Debug.Log($"{gameLog.GetFullMessage()}"); // TODO: send log to the server
         }
     }
 }

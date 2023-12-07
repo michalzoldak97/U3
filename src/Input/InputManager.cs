@@ -15,7 +15,7 @@ namespace U3.Input
         {
             if (actionMapToSet.enabled)
             {
-                GameLogger.Log(LogType.Warning, "action map is already active");
+                GameLogger.Log(new GameLog(LogType.Warning, "action map is already active"));
                 return;
             }
 

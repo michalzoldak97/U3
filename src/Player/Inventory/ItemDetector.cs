@@ -71,7 +71,9 @@ namespace U3.Player.Inventory
             if (itemInRange.TryGetComponent(out ItemMaster itemMaster))
                 itemMaster.CallEventInteractionCalled(transform);
             else
-                GameLogger.Log(Log.LogType.Warning, "calling item interaction on transform without item master");
+                GameLogger.Log(new GameLog(
+                    Log.LogType.Warning,
+                    "calling item interaction on transform without item master"));
         }
 
         private bool IsItemVisible(Transform item)

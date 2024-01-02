@@ -6,7 +6,7 @@ namespace U3.Inventory
     {
         public Transform ItemContainer { get; protected set; }
         public Transform SelectedItem { get; set; }
-        public InventoryStore Items { get; } = new();
+        public IInventoryStore Items { get; } = new InventoryStoreFactory().GetInventoryStore();
 
         public delegate void InventoryItemEventHandler(Transform item);
         public event InventoryItemEventHandler EventAddItem;

@@ -7,7 +7,7 @@ namespace U3.Inventory
         // props
         public Transform ItemContainer { get; } // parent transform for items
         public Transform SelectedItem { get; set; } // item active on parent
-        public InventoryStore Items { get; } // protected dictionary of items
+        public IInventoryStore Items { get; } // protected dictionary of items
 
         // events
         public void CallEventAddItem(Transform item);

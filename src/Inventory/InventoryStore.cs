@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace U3.Inventory
 {
-    public class InventoryStore
+    public class InventoryStore : IInventoryStore
     {
         private readonly Dictionary<Transform, InventoryItem> inventoryItems = new();
 

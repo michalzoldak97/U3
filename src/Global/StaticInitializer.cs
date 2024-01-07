@@ -7,7 +7,7 @@ namespace U3.Global
     {
         private void Awake()
         {
-            InputManager.Init();
+            ActionMapManager.Init();
             Config.GameConfig.Init();
         }
     }

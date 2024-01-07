@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace U3.Item
 {
-    public class ItemInventoryCoord : MonoBehaviour
+    public class ItemPositioner : MonoBehaviour
     {
         private ItemMaster itemMaster;
 
@@ -20,10 +20,9 @@ namespace U3.Item
 
         private void SetPositionAndRotation()
         {
-
-            gameObject.transform.localPosition = itemMaster.ItemSettings.OnParentPosition;
-
-            gameObject.transform.localRotation = Quaternion.Euler(itemMaster.ItemSettings.OnParentRotation);
+            transform.SetLocalPositionAndRotation(
+                itemMaster.ItemSettings.OnParentPosition,
+                Quaternion.Euler(itemMaster.ItemSettings.OnParentRotation));
         }
     }
 }

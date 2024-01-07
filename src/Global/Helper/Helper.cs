@@ -5,7 +5,7 @@ namespace U3.Global.Helper
 {
     public static class Helper
     {
-        public static T[] FetchAllComponents<T>(GameObject obj) where T : Component //TODO: generic fetch
+        public static T[] FetchAllComponents<T>(GameObject obj) where T : Component
         {
             List<T> components = new();
             foreach (T c in obj.GetComponents<T>())

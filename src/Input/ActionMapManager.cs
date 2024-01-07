@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace U3.Input
 {
-    public static class InputManager
+    public static class ActionMapManager
     {
         public static PlayerInputActions PlayerInputActions { get { return playerInputActions; } private set { } }
         public static event Action<InputActionMap> ActionMapChange;

@@ -1,7 +1,6 @@
-using U3.Player.UI;
 using UnityEngine;
 
-namespace U3.Player.Inventory.UI
+namespace U3.Player.UI
 {
     public class InventoryUIScreen : MonoBehaviour, IUIScreen
     {

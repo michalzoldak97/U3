@@ -6,6 +6,7 @@ namespace U3.Player.Inventory
     public class PlayerInventoryManager : InventoryManager
     {
         private PlayerInventoryMaster playerInventoryMaster;
+
         protected override void SetInit()
         {
             base.SetInit();
@@ -22,26 +23,6 @@ namespace U3.Player.Inventory
         {
             base.OnDisable();
             playerInventoryMaster.EventItemAdded -= OnItemAdded;
-        }
-
-        private void OnItemSelected()
-        {
-            // when item selected assign it to the active slot
-        }
-        private void UnassignItem()
-        {
-            // clear assigned item from slot object
-        }
-        private void AssignItemToSlot(Transform item, int[] idx)
-        {
-            // if -1 -1 unassign item
-            // if slot occupied release item
-                // call assign item to slot with -1 -1 
-            // assign slot object with item
-            // check if was assigned to any other slot
-                // clear fro object
-            // if slot active select item
-            // call event assigned
         }
 
         private void OnItemAdded(Transform item)

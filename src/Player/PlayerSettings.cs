@@ -5,15 +5,11 @@ namespace U3.Player
     [System.Serializable]
     public class InventorySlotSetting
     {
+        public bool IsAvailable;
         public Item.ItemType[] AcceptableItemTypes;
+        public Transform SlotUIParent;
         public GameObject SlotUIPrefab;
-    }
-    [System.Serializable]
-    public class InventoryContainerSetting
-    {
-        public string ContainerName;
-        public int SlotsNum;
-        public GameObject ContainerUIPrefab;
+        public GameObject AssignedItem;
     }
     [System.Serializable]
     public class InventorySettings
@@ -25,7 +21,7 @@ namespace U3.Player
         public float ItemSearchRadius;
         public Vector2 LabelDimensions;
         public Color LabelColor;
-        public InventoryContainerSetting[] InventorySlots;
+        public InventorySlotSetting[] InventorySlots;
     }
     [System.Serializable]
     public class SoundSettings

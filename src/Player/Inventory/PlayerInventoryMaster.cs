@@ -7,9 +7,12 @@ namespace U3.Player.Inventory
     {
         [SerializeField] private Transform itemContainer;
 
+        public PlayerMaster PlayerMaster { get; private set; }
+
         private void Awake()
         {
             ItemContainer = itemContainer;
+            PlayerMaster = GetComponent<PlayerMaster>();
         }
     }
 }

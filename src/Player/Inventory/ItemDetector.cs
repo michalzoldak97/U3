@@ -53,14 +53,14 @@ namespace U3.Player.Inventory
         {
             SetInit();
 
-            InputManager.PlayerInputActions.Humanoid.ItemInteract.performed += CallItemInteraction;
-            InputManager.PlayerInputActions.Humanoid.ItemInteract.Enable();
+            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.performed += CallItemInteraction;
+            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.Enable();
         }
 
         private void OnDisable()
         {
-            InputManager.PlayerInputActions.Humanoid.ItemInteract.performed -= CallItemInteraction;
-            InputManager.PlayerInputActions.Humanoid.ItemInteract.Disable();
+            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.performed -= CallItemInteraction;
+            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.Disable();
         }
 
         private void CallItemInteraction(InputAction.CallbackContext obj)

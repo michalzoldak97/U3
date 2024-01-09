@@ -17,17 +17,16 @@ namespace U3.Player.UI
         {
             playerMaster = GetComponent<PlayerMaster>();
 
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.performed += ToggleInventory;
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.Enable();
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.performed += ToggleInventory;
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.Enable();
         }
         private void OnDisable()
         {
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.performed -= ToggleInventory;
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.Disable();
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.performed -= ToggleInventory;
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.Disable();
         }
         private void DisableScreen(UIScreenType screenType)
         {
-            screens[screenType].Disable();
             screens[screenType].ScreenObj.SetActive(false);
 
             playerMaster.CallEventTogglePlayerControl(false, Controller.PlayerControlType.Cursor);
@@ -46,7 +45,6 @@ namespace U3.Player.UI
             }
 
             screens[screenType].ScreenObj.SetActive(true);
-            screens[screenType].Enable();
 
             playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Cursor);
         }

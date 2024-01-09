@@ -1,4 +1,5 @@
 using UnityEngine;
+using U3.Player.Inventory;
 
 namespace U3.Player.UI
 {
@@ -12,22 +13,6 @@ namespace U3.Player.UI
         private void Awake()
         {
             inventoryMaster = GetComponentInParent<PlayerInventoryMaster>();
-        }
-
-        public void Disable()
-        {
-            foreach (IPlayerUIScreenStateDependent pd in GetComponentsInChildren<IPlayerUIScreenStateDependent>())
-            {
-                pd.CallEventUIScreenDisabled();
-            }
-
-            if (inventoryMaster != null)
-                inventoryMaster.CallEventInventoryScreenClosed();
-        }
-
-        public void Enable()
-        {
-            inventoryMaster.CallEventInventoryScreenOpened();
         }
     }
 }

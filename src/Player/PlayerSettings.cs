@@ -6,8 +6,8 @@ namespace U3.Player
     public class InventorySlotSetting
     {
         public bool IsAvailable;
+        public string SlotUIParentCode;
         public Item.ItemType[] AcceptableItemTypes;
-        public Transform SlotUIParent;
         public GameObject SlotUIPrefab;
         public GameObject AssignedItem;
     }

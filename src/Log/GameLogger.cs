@@ -17,7 +17,14 @@ namespace U3.Log
             if (!GameConfig.EnableLogs)
                 return;
 
-            Debug.Log($"{gameLog.GetFullMessage()}"); // TODO: send log to the server
+            if (gameLog.LogType == LogType.Error)
+            {
+                Debug.LogException(new System.Exception(gameLog.GetFullMessage()));
+                Debug.Break();
+                return; // TODO: send log to the server 
+            }
+
+            Debug.Log(gameLog.GetFullMessage()); // TODO: send log to the server
         }
     }
 }

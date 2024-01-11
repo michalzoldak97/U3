@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using U3.Global.Helper;
 using U3.Inventory;
 using U3.Log;
@@ -19,6 +20,18 @@ namespace U3.Player.Inventory
             return new InventoryItem();
         }
 
+        private bool SlotParentCodeExists(string code)
+        {
+            if (!slotParents.Keys.Contains(code))
+            {
+                GameLogger.Log(new GameLog(
+                Log.LogType.Error,
+                    $"Inventory item slot with slot parent code {code} does not exists"));
+                return false;
+            }
+            return true;
+        }
+
         private void BuildSlotParentsSet()
         {
             foreach (ItemListSlotParent sParent in SlotParents)
@@ -33,6 +46,9 @@ namespace U3.Player.Inventory
 
             foreach (InventorySlotSetting slotSetting in slotSettings)
             {
+                if (!SlotParentCodeExists(slotSetting.SlotUIParentCode))
+                    continue;
+
                 GameObject slot = Instantiate(slotSetting.SlotUIPrefab, slotParents[slotSetting.SlotUIParentCode]);
 
                 if (slot.TryGetComponent(out IInventoryItemSlot inventoryItemSlot))

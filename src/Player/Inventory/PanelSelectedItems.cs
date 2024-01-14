@@ -11,7 +11,6 @@ namespace U3.Player.Inventory
     {
         [SerializeField] private ItemListSlotParent[] SlotParents;
 
-        private readonly Dictionary<string, Transform> slotParents = new();
         private PlayerInventoryMaster inventoryMaster;
 
         private InventoryItem CreateInventoryItem(GameObject itemPrefab)
@@ -20,7 +19,7 @@ namespace U3.Player.Inventory
             return new InventoryItem();
         }
 
-        private bool SlotParentCodeExists(string code)
+        private bool SlotParentCodeExists(Dictionary<string, Transform> slotParents, string code)
         {
             if (!slotParents.Keys.Contains(code))
             {
@@ -32,21 +31,23 @@ namespace U3.Player.Inventory
             return true;
         }
 
-        private void BuildSlotParentsSet()
+        private Dictionary<string, Transform> BuildSlotParentsSet()
         {
+            Dictionary<string, Transform> slotParents = new();
             foreach (ItemListSlotParent sParent in SlotParents)
             {
                 slotParents.Add(sParent.SlotCode, sParent.SlotParent);
             }
+            return slotParents;
         }
 
         private void SetUpInventorySlots(InventorySlotSetting[] slotSettings)
         {
-            BuildSlotParentsSet();
+            Dictionary<string, Transform> slotParents = BuildSlotParentsSet();
 
             foreach (InventorySlotSetting slotSetting in slotSettings)
             {
-                if (!SlotParentCodeExists(slotSetting.SlotUIParentCode))
+                if (!SlotParentCodeExists(slotParents, slotSetting.SlotUIParentCode))
                     continue;
 
                 GameObject slot = Instantiate(slotSetting.SlotUIPrefab, slotParents[slotSetting.SlotUIParentCode]);

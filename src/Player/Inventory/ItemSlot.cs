@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace U3.Player.Inventory
 {
-    public class ItemListSlot : MonoBehaviour, IInventoryDropArea, IInventoryItemSlot
+    public class ItemSlot : MonoBehaviour, IInventoryDropArea, IItemSlot
     {
+        public PlayerInventoryMaster InventoryMaster { get; set; }
         public InventoryItem AssignedItem { get; set; }
         public ItemType[] AcceptableItemTypes { get; set; }
 

@@ -9,7 +9,7 @@ namespace U3.Player.Inventory
 {
     public class PanelSelectedItems : MonoBehaviour
     {
-        [SerializeField] private ItemListSlotParent[] SlotParents;
+        [SerializeField] private ItemSlotParent[] SlotParents;
 
         private PlayerInventoryMaster inventoryMaster;
 
@@ -34,7 +34,7 @@ namespace U3.Player.Inventory
         private Dictionary<string, Transform> BuildSlotParentsSet()
         {
             Dictionary<string, Transform> slotParents = new();
-            foreach (ItemListSlotParent sParent in SlotParents)
+            foreach (ItemSlotParent sParent in SlotParents)
             {
                 slotParents.Add(sParent.SlotCode, sParent.SlotParent);
             }
@@ -52,11 +52,12 @@ namespace U3.Player.Inventory
 
                 GameObject slot = Instantiate(slotSetting.SlotUIPrefab, slotParents[slotSetting.SlotUIParentCode]);
 
-                if (slot.TryGetComponent(out IInventoryItemSlot inventoryItemSlot))
+                if (slot.TryGetComponent(out IItemSlot inventoryItemSlot))
                 {
                     if (slotSetting.AssignedItem != null)
                         inventoryItemSlot.AssignedItem = CreateInventoryItem(slotSetting.AssignedItem);
 
+                    inventoryItemSlot.InventoryMaster = inventoryMaster;
                     inventoryItemSlot.AcceptableItemTypes = slotSetting.AcceptableItemTypes;
                 }
                 else
@@ -108,7 +109,7 @@ namespace U3.Player.Inventory
 
         private void OnDisable()
         {
-            // TODO: Update Slot Settings on the player
+            inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }
     }
 }

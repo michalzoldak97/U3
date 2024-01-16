@@ -59,6 +59,8 @@ namespace U3.Player.Inventory
 
                     inventoryItemSlot.InventoryMaster = inventoryMaster;
                     inventoryItemSlot.AcceptableItemTypes = slotSetting.AcceptableItemTypes;
+
+                    inventoryMaster.ItemSlots.Add(inventoryItemSlot);
                 }
                 else
                 {
@@ -99,7 +101,7 @@ namespace U3.Player.Inventory
             {
                 GameLogger.Log(new GameLog(
                 Log.LogType.Error,
-                    $"There is no PlayerInventoryMaster on the PanelSelectedItems root"));
+                    $"There is no PlayerInventoryMaster on the {name} root"));
             }
         }
         private void OnEnable()

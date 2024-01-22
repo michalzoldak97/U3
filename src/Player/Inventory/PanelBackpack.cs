@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using U3.Inventory;
 using U3.Log;
@@ -10,11 +12,24 @@ namespace U3.Player.Inventory
         [SerializeField] private Transform itemsParent;
         [SerializeField] private TMP_Text headerCounter;
 
+        public Transform AreaTransform => transform;
+
         private PlayerInventoryMaster inventoryMaster;
+
+        private IEnumerable<InventoryItem> GetBackpackItems()
+        {
+            InventoryItem[] allItems = inventoryMaster.Items.GetAllItems();
+            HashSet<InventoryItem> slotItems = inventoryMaster.ItemSlots.Select(item => item.AssignedItem).ToHashSet();
+
+            return allItems.Where(item => !slotItems.Contains(item));
+        }
 
         private void ListBackpackItems()
         {
-
+            foreach (InventoryItem inventoryItem in GetBackpackItems())
+            {
+                ItemButtonFactory.AddItemButton(inventoryItem, inventoryMaster, this);
+            }
         }
 
         private void UpdateHeader()

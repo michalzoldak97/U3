@@ -1,6 +1,6 @@
 ﻿namespace U3.Player.Inventory
 {
-    interface IInventoryUIEventsMaster
+    public interface IInventoryUIEventsMaster
     {
         public void CallEventOnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea);
     }

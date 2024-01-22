@@ -6,7 +6,9 @@ namespace U3.Player.Inventory
     {
         public InventoryItem InventoryItem { get; set; }
 
-        public IInventoryDropArea ParentArea { get; set; }
+        public IInventoryUIEventsMaster UIEventsMaster { get;  set; }
+
+        public IInventoryDropArea ParentArea { get; }
 
         public void ChangeInventoryArea(IInventoryDropArea newArea);
     }

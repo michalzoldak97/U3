@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using TMPro;
 using U3.Inventory;
@@ -16,17 +16,9 @@ namespace U3.Player.Inventory
 
         private PlayerInventoryMaster inventoryMaster;
 
-        private IEnumerable<InventoryItem> GetBackpackItems()
-        {
-            InventoryItem[] allItems = inventoryMaster.Items.GetAllItems();
-            HashSet<InventoryItem> slotItems = inventoryMaster.ItemSlots.Select(item => item.AssignedItem).ToHashSet();
-
-            return allItems.Where(item => !slotItems.Contains(item));
-        }
-
         private void ListBackpackItems()
         {
-            foreach (InventoryItem inventoryItem in GetBackpackItems())
+            foreach (InventoryItem inventoryItem in inventoryMaster.GetBackpackItems())
             {
                 ItemButtonFactory.AddItemButton(inventoryItem, inventoryMaster, this);
             }
@@ -34,7 +26,19 @@ namespace U3.Player.Inventory
 
         private void UpdateHeader()
         {
+            headerCounter.text = $"{inventoryMaster.GetBackpackItems().Count()} | " +
+                $"{inventoryMaster.PlayerMaster.PlayerSettings.Inventory.BackpackCapacity}";
+        }
 
+        private void UpdateBackpack()
+        {
+            foreach (Transform itemButton in itemsParent)
+            {
+                Destroy(itemButton.gameObject);
+            }
+
+            ListBackpackItems();
+            UpdateHeader();
         }
 
         private void SetInit()
@@ -49,21 +53,41 @@ namespace U3.Player.Inventory
                 Log.LogType.Error,
                     $"There is no PlayerInventoryMaster on the {name} root"));
             }
+
+            UpdateBackpack();
         }
 
         private void OnEnable()
         {
-            if (inventoryMaster == null)
-                SetInit();
+            SetInit();
 
-            ListBackpackItems();
-            UpdateHeader();
+            inventoryMaster.EventInventoryCleared += OnEventToUpdateBackpack;
+
+            inventoryMaster.EventItemAdded += OnEventToUpdateBackpack;
+            inventoryMaster.EventItemSelected += OnEventToUpdateBackpack;
+            inventoryMaster.EventItemDeselected += OnEventToUpdateBackpack;
+            inventoryMaster.EventItemRemoved += OnEventToUpdateBackpack;
+
+            inventoryMaster.EventOnItemButtonDrop += OnEventToUpdateBackpack;
         }
 
         private void OnDisable()
         {
+            inventoryMaster.EventInventoryCleared -= OnEventToUpdateBackpack;
+
+            inventoryMaster.EventItemAdded -= OnEventToUpdateBackpack;
+            inventoryMaster.EventItemSelected -= OnEventToUpdateBackpack;
+            inventoryMaster.EventItemDeselected -= OnEventToUpdateBackpack;
+            inventoryMaster.EventItemRemoved -= OnEventToUpdateBackpack;
+
+            inventoryMaster.EventOnItemButtonDrop -= OnEventToUpdateBackpack;
+
             inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }
+
+        private void OnEventToUpdateBackpack() => UpdateBackpack();
+        private void OnEventToUpdateBackpack(Transform item) => UpdateBackpack();
+        private void OnEventToUpdateBackpack(IItemButton itemButton, IInventoryDropArea dropArea) => UpdateBackpack();
 
         public bool OnInventoryItemDrop(InventoryItem item)
         {

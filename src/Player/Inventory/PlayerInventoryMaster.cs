@@ -1,16 +1,19 @@
 using UnityEngine;
 using U3.Inventory;
 using System.Collections.Generic;
+using U3.Item;
+using System.Linq;
 
 namespace U3.Player.Inventory
 {
     public class PlayerInventoryMaster : InventoryMaster, IInventoryUIEventsMaster
     {
-        // TODO: check if inventory is full, it should depend on backapck and item type to pick up vs free slots acceptable types
         [SerializeField] private Transform itemContainer;
 
         public PlayerMaster PlayerMaster { get; private set; }
         public List<IItemSlot> ItemSlots { get; private set; }
+
+        private Dictionary<int, IItemSlot> selectableItemSlots;
 
         public delegate void InventoryUIEventHandler(IItemButton itemButton, IInventoryDropArea dropArea);
         public event InventoryUIEventHandler EventOnItemButtonDrop;
@@ -20,11 +23,35 @@ namespace U3.Player.Inventory
             EventOnItemButtonDrop?.Invoke(itemButton, dropArea);
         }
 
+        public IEnumerable<InventoryItem> GetBackpackItems()
+        {
+            InventoryItem[] allItems = Items.GetAllItems();
+            HashSet<InventoryItem> slotItems = ItemSlots.Select(item => item.AssignedItem).ToHashSet();
+
+            return allItems.Where(item => !slotItems.Contains(item));
+        }
+
+        public override bool IsInventoryAvailableForItem(ItemType itemType)
+        {
+            int eligibleSlotsNum = ItemSlots.Where(slot => slot.AcceptableItemTypes.Contains(itemType) && slot.AssignedItem == null).Count();
+
+            if (eligibleSlotsNum > 0)
+                return true;
+
+            return GetBackpackItems().Count() < PlayerMaster.PlayerSettings.Inventory.BackpackCapacity;
+        }
+
+        public void AddSelectableSlot(int index, IItemSlot slotToAdd)
+        {
+            selectableItemSlots.Add(index, slotToAdd);
+        }
+
         private void Awake()
         {
             ItemContainer = itemContainer;
             PlayerMaster = GetComponent<PlayerMaster>();
             ItemSlots = new(PlayerMaster.PlayerSettings.Inventory.InventorySlots.Length);
+            selectableItemSlots = new();
         }
     }
 }

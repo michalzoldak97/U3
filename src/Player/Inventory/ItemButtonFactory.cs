@@ -16,8 +16,7 @@ namespace U3.Player.Inventory
 
             if (itemObject.TryGetComponent(out IItemButton itemButton))
             {
-                itemButton.InventoryItem = inventoryItem;
-                itemButton.UIEventsMaster = uIEventsMaster;
+                itemButton.SetUpButton(inventoryItem, uIEventsMaster);
                 itemButton.ChangeInventoryArea(dropArea);
             }
             else

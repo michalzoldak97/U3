@@ -6,6 +6,8 @@ namespace U3.Player
     public class InventorySlotSetting
     {
         public bool IsAvailable;
+        public bool IsSelectable;
+        public int SlotIndex;
         public string SlotUIParentCode;
         public Item.ItemType[] AcceptableItemTypes;
         public GameObject SlotUIPrefab;
@@ -17,6 +19,7 @@ namespace U3.Player
         public int LabelFontSize;
         public int ItemSearchBufferSize;
         public int BackpackCapacity;
+        public int SelectedSlotIndex;
         public float ItemCheckRate;
         public float ItemSearchRange;
         public float ItemSearchRadius;

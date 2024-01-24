@@ -6,6 +6,7 @@ namespace U3.Player.Inventory
 {
     public class ItemSlot : MonoBehaviour, IInventoryDropArea, IItemSlot
     {
+        public bool IsSelected { get; set; }
         public Transform AreaTransform => transform;
         public PlayerInventoryMaster InventoryMaster { get; set; }
         public InventoryItem AssignedItem { get; set; }

@@ -35,9 +35,6 @@ namespace U3.Inventory
 
         private void DeselectItem(Transform itemTransform)
         {
-            if (itemTransform != inventoryMaster.SelectedItem)
-                return;
-
             InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
             if (item == null)
                 return;
@@ -45,7 +42,6 @@ namespace U3.Inventory
             item.ItemMaster.CallEventDeselected();
             item.ItemObject.SetActive(false);
 
-            inventoryMaster.SelectedItem = null;
             inventoryMaster.CallEventItemDeselected(item.Item);
         }
 
@@ -115,7 +111,10 @@ namespace U3.Inventory
         private void RemoveItem(Transform itemTransform)
         {
             if (itemTransform == inventoryMaster.SelectedItem)
+            {
                 DeselectItem(itemTransform);
+                inventoryMaster.SelectedItem = null;
+            }
 
             InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
             if (item == null)

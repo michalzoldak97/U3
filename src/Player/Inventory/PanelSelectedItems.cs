@@ -61,6 +61,9 @@ namespace U3.Player.Inventory
                     inventoryItemSlot.AcceptableItemTypes = slotSetting.AcceptableItemTypes;
 
                     inventoryMaster.ItemSlots.Add(inventoryItemSlot);
+
+                    if (slotSetting.IsSelectable)
+                        inventoryMaster.AddSelectableSlot(slotSetting.SlotIndex, inventoryItemSlot);
                 }
                 else
                 {

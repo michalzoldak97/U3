@@ -12,7 +12,7 @@ namespace U3.Player.Inventory
         [SerializeField] private Transform itemsParent;
         [SerializeField] private TMP_Text headerCounter;
 
-        public Transform AreaTransform => transform;
+        public Transform AreaTransform => itemsParent;
 
         private PlayerInventoryMaster inventoryMaster;
 

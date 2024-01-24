@@ -20,6 +20,7 @@ namespace U3.Player
         public float ItemCheckRate;
         public float ItemSearchRange;
         public float ItemSearchRadius;
+        public string InventoryFullMessageText;
         public Vector2 LabelDimensions;
         public Color LabelColor;
         public InventorySlotSetting[] InventorySlots;

@@ -1,9 +1,11 @@
+using U3.Item;
 using UnityEngine;
 
 namespace U3.Inventory
 {
     public class InventoryMaster : MonoBehaviour, IInventoryMaster
     {
+        [SerializeField] protected int capacity;
         public Transform ItemContainer { get; protected set; }
         public Transform SelectedItem { get; set; }
         public IInventoryStore Items { get; } = new InventoryStoreFactory().GetInventoryStore();
@@ -64,6 +66,11 @@ namespace U3.Inventory
         public void CallEventInventoryCleared()
         {
             EventInventoryCleared?.Invoke();
+        }
+
+        public virtual bool IsInventoryAvailableForItem(ItemType itemType)
+        {
+            return Items.Count < capacity;
         }
     }
 }

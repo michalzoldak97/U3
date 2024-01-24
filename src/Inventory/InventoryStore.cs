@@ -8,6 +8,8 @@ namespace U3.Inventory
     {
         private readonly Dictionary<Transform, InventoryItem> inventoryItems = new();
 
+        public int Count => inventoryItems.Count;
+
         public InventoryItem GetItem(Transform item)
         {
             if (!inventoryItems.ContainsKey(item))

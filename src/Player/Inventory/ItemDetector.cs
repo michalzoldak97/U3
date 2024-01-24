@@ -1,4 +1,5 @@
 using U3.Input;
+using U3.Inventory;
 using U3.Item;
 using U3.Log;
 using UnityEngine;
@@ -9,15 +10,18 @@ namespace U3.Player.Inventory
     public class ItemDetector : MonoBehaviour
     {
         private bool isItemInRange;
+        private bool isItemAvailable;
         private int ignorePlayerLayerMask;
         private float nextCheck, checkRate, searchRange, searchRadius;
         private string itemGUIText;
+        private string inventoryFullMessageText;
         private Vector2 labelDimensions;
         private LayerMask itemLayer;
         private Transform itemInRange, fpsCamera;
         private RaycastHit[] foundItemsBuffer;
         private Rect labelRect;
         private readonly GUIStyle labelStyle = new();
+        private InventoryMaster inventoryMaster;
 
         private void SetInit()
         {
@@ -30,6 +34,7 @@ namespace U3.Player.Inventory
             searchRange = inventorySettings.ItemSearchRange;
             searchRadius = inventorySettings.ItemSearchRadius;
             labelDimensions = inventorySettings.LabelDimensions;
+            inventoryFullMessageText = inventorySettings.InventoryFullMessageText;
             labelRect = new Rect
                 (
                     Screen.width / 2f - labelDimensions.x,
@@ -47,6 +52,8 @@ namespace U3.Player.Inventory
             ignorePlayerLayerMask = ~playerLayer;
 
             foundItemsBuffer = new RaycastHit[inventorySettings.ItemSearchBufferSize];
+
+            inventoryMaster = GetComponent<InventoryMaster>();
         }
 
         private void OnEnable()
@@ -55,17 +62,23 @@ namespace U3.Player.Inventory
 
             ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.performed += CallItemInteraction;
             ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.Enable();
+
+            inventoryMaster.EventItemRemoved += UpdateItemStatusOnInventoryChanged;
+            inventoryMaster.EventInventoryCleared += UpdateItemStatusOnInventoryChanged;
         }
 
         private void OnDisable()
         {
             ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.performed -= CallItemInteraction;
             ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.Disable();
+
+            inventoryMaster.EventItemRemoved -= UpdateItemStatusOnInventoryChanged;
+            inventoryMaster.EventInventoryCleared -= UpdateItemStatusOnInventoryChanged;
         }
 
         private void CallItemInteraction(InputAction.CallbackContext obj)
         {
-            if (!isItemInRange)
+            if (!isItemInRange || !isItemAvailable)
                 return;
 
             if (itemInRange.TryGetComponent(out ItemMaster itemMaster))
@@ -73,7 +86,38 @@ namespace U3.Player.Inventory
             else
                 GameLogger.Log(new GameLog(
                     Log.LogType.Warning,
-                    "calling item interaction on transform without item master"));
+                    $"calling item interaction on transform {itemInRange.name} without item master"));
+        }
+
+        private void UpdateItemStatus(Transform item)
+        {
+            if (item.TryGetComponent(out ItemMaster itemMaster))
+            {
+                if (!inventoryMaster.IsInventoryAvailableForItem(itemMaster.ItemSettings.ItemType))
+                {
+                    isItemAvailable = false;
+                    itemGUIText = inventoryFullMessageText;
+                    return;
+                }
+
+                itemGUIText = itemMaster.ItemSettings.GUITextToDisplay != "" ?
+                    itemMaster.ItemSettings.GUITextToDisplay :
+                    itemGUIText = item.name;
+            }
+            else
+            {
+                itemGUIText = item.name;
+            }
+        }
+
+        private void UpdateItemStatusOnInventoryChanged(Transform item = null)
+        {
+            UpdateItemStatus(itemInRange);
+        }
+
+        private void UpdateItemStatusOnInventoryChanged()
+        {
+            UpdateItemStatus(itemInRange);
         }
 
         private bool IsItemVisible(Transform item)
@@ -162,18 +206,10 @@ namespace U3.Player.Inventory
                 return;
 
             isItemInRange = true;
+            isItemAvailable = true;
             itemInRange = itemFound;
 
-            if (itemFound.TryGetComponent(out ItemMaster itemMaster))
-            {
-                itemGUIText = itemMaster.ItemSettings.GUITextToDisplay != "" ?
-                    itemMaster.ItemSettings.GUITextToDisplay :
-                    itemGUIText = itemFound.name;
-            }
-            else
-            {
-                itemGUIText = itemFound.name;
-            }
+            UpdateItemStatus(itemFound);
         }
 
         private void ManageItemSearch()

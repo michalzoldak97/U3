@@ -4,14 +4,64 @@ using U3.Global.Helper;
 using U3.Inventory;
 using U3.Log;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace U3.Player.Inventory
 {
-    public class PanelSelectedItems : MonoBehaviour
+    public class InventorySlotsManager : MonoBehaviour
     {
         [SerializeField] private ItemSlotParent[] SlotParents;
 
+        public InputActionReference selectSlot1;
+        public InputActionReference selectSlot2;
+        public InputActionReference selectSlot3;
+
         private PlayerInventoryMaster inventoryMaster;
+
+        private void SetInit()
+        {
+            inventoryMaster = GetComponent<PlayerInventoryMaster>();
+        }
+
+        private void OnEnable()
+        {
+            SetInit();
+
+            selectSlot1.action.Enable();
+            selectSlot1.action.performed += context => OnSlotSelected(1);
+
+            selectSlot2.action.Enable();
+            selectSlot2.action.performed += context => OnSlotSelected(2);
+
+            selectSlot3.action.Enable();
+            selectSlot3.action.performed += context => OnSlotSelected(3);
+        }
+
+        private void OnDisable()
+        {
+            selectSlot1.action.performed -= context => OnSlotSelected(1);
+            selectSlot1.action.Disable();
+
+            selectSlot2.action.performed -= context => OnSlotSelected(2);
+            selectSlot2.action.Disable();
+
+            selectSlot3.action.performed -= context => OnSlotSelected(3);
+            selectSlot3.action.Disable();
+
+            inventoryMaster.PlayerMaster.UpdateInventorySettings();
+        }
+
+        private void OnSlotSelected(int slotIndex)
+        {
+            bool isSlotSelected = inventoryMaster.SelectableItemSlots[slotIndex].IsSelected;
+
+            foreach (IItemSlot slot in inventoryMaster.SelectableItemSlots.Values)
+            {
+                slot.SetIsSelected(false);
+            }
+
+            inventoryMaster.SelectableItemSlots[slotIndex].SetIsSelected(!isSlotSelected);
+        }
 
         private InventoryItem CreateInventoryItem(GameObject itemPrefab)
         {
@@ -86,35 +136,12 @@ namespace U3.Player.Inventory
             return true;
         }
 
-        private void SetInit()
+        private void Start()
         {
-            if (inventoryMaster != null)
-                return;
-
             if (!SlotCodesAreUnique())
                 return;
 
-            if (transform.root.TryGetComponent(out PlayerInventoryMaster playerInventoryMaster))
-            {
-                inventoryMaster = playerInventoryMaster;
-                
-                SetUpInventorySlots(inventoryMaster.PlayerMaster.PlayerSettings.Inventory.InventorySlots);
-            }
-            else
-            {
-                GameLogger.Log(new GameLog(
-                Log.LogType.Error,
-                    $"There is no PlayerInventoryMaster on the {name} root"));
-            }
-        }
-        private void OnEnable()
-        {
-            SetInit();
-        }
-
-        private void OnDisable()
-        {
-            inventoryMaster.PlayerMaster.UpdateInventorySettings();
+            SetUpInventorySlots(inventoryMaster.PlayerMaster.PlayerSettings.Inventory.InventorySlots);
         }
     }
 }

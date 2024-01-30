@@ -12,8 +12,7 @@ namespace U3.Player.Inventory
 
         public PlayerMaster PlayerMaster { get; private set; }
         public List<IItemSlot> ItemSlots { get; private set; }
-
-        private Dictionary<int, IItemSlot> selectableItemSlots;
+        public Dictionary<int, IItemSlot> SelectableItemSlots { get; private set; }
 
         public delegate void InventoryUIEventHandler(IItemButton itemButton, IInventoryDropArea dropArea);
         public event InventoryUIEventHandler EventOnItemButtonDrop;
@@ -43,7 +42,7 @@ namespace U3.Player.Inventory
 
         public void AddSelectableSlot(int index, IItemSlot slotToAdd)
         {
-            selectableItemSlots.Add(index, slotToAdd);
+            SelectableItemSlots.Add(index, slotToAdd);
         }
 
         private void Awake()
@@ -51,7 +50,7 @@ namespace U3.Player.Inventory
             ItemContainer = itemContainer;
             PlayerMaster = GetComponent<PlayerMaster>();
             ItemSlots = new(PlayerMaster.PlayerSettings.Inventory.InventorySlots.Length);
-            selectableItemSlots = new();
+            SelectableItemSlots = new();
         }
     }
 }

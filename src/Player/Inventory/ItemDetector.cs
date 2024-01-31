@@ -21,7 +21,7 @@ namespace U3.Player.Inventory
         private RaycastHit[] foundItemsBuffer;
         private Rect labelRect;
         private readonly GUIStyle labelStyle = new();
-        private InventoryMaster inventoryMaster;
+        private PlayerInventoryMaster inventoryMaster;
 
         private void SetInit()
         {
@@ -53,7 +53,7 @@ namespace U3.Player.Inventory
 
             foundItemsBuffer = new RaycastHit[inventorySettings.ItemSearchBufferSize];
 
-            inventoryMaster = GetComponent<InventoryMaster>();
+            inventoryMaster = GetComponent<PlayerInventoryMaster>();
         }
 
         private void OnEnable()
@@ -78,7 +78,7 @@ namespace U3.Player.Inventory
 
         private void CallItemInteraction(InputAction.CallbackContext obj)
         {
-            if (!isItemInRange || !isItemAvailable)
+            if (!isItemInRange || !isItemAvailable || !inventoryMaster.PlayerMaster.IsInventoryItemInteractionEnabled)
                 return;
 
             if (itemInRange.TryGetComponent(out ItemMaster itemMaster))
@@ -214,6 +214,9 @@ namespace U3.Player.Inventory
 
         private void ManageItemSearch()
         {
+            if (!inventoryMaster.PlayerMaster.IsInventoryItemInteractionEnabled)
+                return;
+
             if (!isItemInRange &&
                 Time.time > nextCheck)
             {
@@ -233,7 +236,7 @@ namespace U3.Player.Inventory
 
         private void OnGUI()
         {
-            if (isItemInRange)
+            if (isItemInRange && inventoryMaster.PlayerMaster.IsInventoryItemInteractionEnabled)
                 GUI.Label(labelRect, itemGUIText, labelStyle);
         }
     }

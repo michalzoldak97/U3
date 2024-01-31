@@ -55,12 +55,17 @@ namespace U3.Player.Inventory
         {
             bool isSlotSelected = inventoryMaster.SelectableItemSlots[slotIndex].IsSelected;
 
+            if (isSlotSelected)
+                return;
+
             foreach (IItemSlot slot in inventoryMaster.SelectableItemSlots.Values)
             {
                 slot.SetIsSelected(false);
             }
 
-            inventoryMaster.SelectableItemSlots[slotIndex].SetIsSelected(!isSlotSelected);
+            inventoryMaster.SelectableItemSlots[slotIndex].SetIsSelected(true);
+
+            // Call event slot selected
         }
 
         private InventoryItem CreateInventoryItem(GameObject itemPrefab)
@@ -142,6 +147,8 @@ namespace U3.Player.Inventory
                 return;
 
             SetUpInventorySlots(inventoryMaster.PlayerMaster.PlayerSettings.Inventory.InventorySlots);
+
+            OnSlotSelected(1);
         }
     }
 }

@@ -29,5 +29,10 @@ namespace U3.Player.Inventory
         {
             // if active slot is empty AssignItemToSlot()
         }
+
+        private void OnSlotSelected(Transform item)
+        {
+
+        }
     }
 }

@@ -9,9 +9,7 @@ namespace U3.Player.UI
     {
         private readonly Dictionary<UIScreenType, IUIScreen> screens = new();
 
-        PlayerMaster playerMaster;
-
-        // TODO: handle cursor and PlayerLook
+        private PlayerMaster playerMaster;
 
         private void OnEnable()
         {

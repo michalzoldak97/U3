@@ -16,18 +16,13 @@ namespace U3.Player.Inventory
         protected override void OnEnable()
         {
             base.OnEnable();
-            playerInventoryMaster.EventItemAdded += OnItemAdded;
+            playerInventoryMaster.EventSlotSelected += OnSlotSelected;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            playerInventoryMaster.EventItemAdded -= OnItemAdded;
-        }
-
-        private void OnItemAdded(Transform item)
-        {
-            // if active slot is empty AssignItemToSlot()
+            playerInventoryMaster.EventSlotSelected += OnSlotSelected;
         }
 
         private void OnSlotSelected(Transform item)

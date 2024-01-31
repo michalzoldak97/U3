@@ -6,9 +6,11 @@ namespace U3.Player.Inventory
     {
         public bool IsSelected { get; }
         public PlayerInventoryMaster InventoryMaster { get; set; }
-        public InventoryItem AssignedItem { get; set; }
+        public InventoryItem AssignedItem { get; }
         public Item.ItemType[] AcceptableItemTypes { get; set; }
 
         public void SetIsSelected(bool isSelected);
+
+        public void AssignItem(InventoryItem toAssign);
     }
 }

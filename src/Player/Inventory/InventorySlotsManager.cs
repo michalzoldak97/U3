@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using U3.Global.Helper;
 using U3.Inventory;
+using U3.Item;
 using U3.Log;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,6 +17,7 @@ namespace U3.Player.Inventory
         public InputActionReference selectSlot2;
         public InputActionReference selectSlot3;
 
+        private bool isInit;
         private PlayerInventoryMaster inventoryMaster;
 
         private void SetInit()
@@ -35,6 +37,8 @@ namespace U3.Player.Inventory
 
             selectSlot3.action.Enable();
             selectSlot3.action.performed += context => OnSlotSelected(3);
+
+            inventoryMaster.EventItemAdded += OnItemAdded;
         }
 
         private void OnDisable()
@@ -47,6 +51,8 @@ namespace U3.Player.Inventory
 
             selectSlot3.action.performed -= context => OnSlotSelected(3);
             selectSlot3.action.Disable();
+
+            inventoryMaster.EventItemAdded -= OnItemAdded;
 
             inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }
@@ -65,13 +71,65 @@ namespace U3.Player.Inventory
 
             inventoryMaster.SelectableItemSlots[slotIndex].SetIsSelected(true);
 
-            // Call event slot selected
+            inventoryMaster.CallEventSlotSelected(inventoryMaster.SelectableItemSlots[slotIndex].AssignedItem.Item);
+        }
+
+        private void AssignItemToSlot(Transform item, IItemSlot slot)
+        {
+            // set up a button
+            // place it on the slot
+            // inform slot it has been assigned with an item
+            // slot should
+                // if it is active item select it and call activate
+                // if not enable object and call activate then disable it back
+        }
+
+        /// <summary>
+        /// Assigns added item to slot if any available
+        /// Notice it will be called on initialization too
+        /// so 1st condition validates if it is initialization based on the isInit
+        /// </summary>
+        /// <param name="item"></param>
+        private void OnItemAdded(Transform item)
+        {
+            if (isInit)
+                return;
+
+            // if there is a free slot for the type
+                // AssignItemToSlot
+        }
+
+        private void UnassignItemFromSlot(Transform item, IItemSlot slot)
+        {
+            // inform slot
+            // slot should
+                // call deactivate
+                // remove button
+        }
+
+        private void OnItemRemoved(Transform item)
+        {
+            // check if was assigned to slot
+            // if assigned 
+                // UnassignItemFromSlot
         }
 
         private InventoryItem CreateInventoryItem(GameObject itemPrefab)
         {
-            // TODO: should use a factory
-            return new InventoryItem();
+            // TODO: test it dummy
+            GameObject itemObject = Instantiate(itemPrefab);
+            if (itemObject.TryGetComponent(out ItemMaster _))
+            {
+                inventoryMaster.CallEventAddItem(itemObject.transform);
+                return inventoryMaster.Items.GetItem(itemObject.transform);
+            }
+            else
+            {
+                GameLogger.Log(new GameLog(
+                Log.LogType.Error,
+                    $"{name} attempted to instantiate from prefab {itemPrefab.name} that is not an item"));
+                return null;
+            }
         }
 
         private bool SlotParentCodeExists(Dictionary<string, Transform> slotParents, string code)
@@ -109,11 +167,11 @@ namespace U3.Player.Inventory
 
                 if (slot.TryGetComponent(out IItemSlot inventoryItemSlot))
                 {
-                    if (slotSetting.AssignedItem != null)
-                        inventoryItemSlot.AssignedItem = CreateInventoryItem(slotSetting.AssignedItem);
-
                     inventoryItemSlot.InventoryMaster = inventoryMaster;
                     inventoryItemSlot.AcceptableItemTypes = slotSetting.AcceptableItemTypes;
+
+                    if (slotSetting.AssignedItem != null)
+                        AssignItemToSlot(CreateInventoryItem(slotSetting.AssignedItem).Item, inventoryItemSlot);
 
                     inventoryMaster.ItemSlots.Add(inventoryItemSlot);
 
@@ -146,7 +204,9 @@ namespace U3.Player.Inventory
             if (!SlotCodesAreUnique())
                 return;
 
+            isInit = true;
             SetUpInventorySlots(inventoryMaster.PlayerMaster.PlayerSettings.Inventory.InventorySlots);
+            isInit = false;
 
             OnSlotSelected(1);
         }

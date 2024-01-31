@@ -10,13 +10,20 @@ namespace U3.Player.Inventory
         public bool IsSelected { get; private set; }
         public Transform AreaTransform => transform;
         public PlayerInventoryMaster InventoryMaster { get; set; }
-        public InventoryItem AssignedItem { get; set; }
+        public InventoryItem AssignedItem { get; private set; }
         public ItemType[] AcceptableItemTypes { get; set; }
 
         public void SetIsSelected(bool isSelected)
         {
             IsSelected = isSelected;
             ChangeSlotSelection();
+        }
+
+        public void AssignItem(InventoryItem toAssign)
+        {
+            // inform AssignedItem it is unassigned
+            AssignedItem = toAssign;
+            // inform item it its actions are activated
         }
 
         public bool OnInventoryItemDrop(InventoryItem item)

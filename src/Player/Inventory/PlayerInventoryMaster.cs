@@ -14,6 +14,13 @@ namespace U3.Player.Inventory
         public List<IItemSlot> ItemSlots { get; private set; }
         public Dictionary<int, IItemSlot> SelectableItemSlots { get; private set; }
 
+        public event InventoryItemEventHandler EventSlotSelected;
+
+        public void CallEventSlotSelected(Transform item)
+        {
+            EventSlotSelected?.Invoke(item);
+        }
+
         public delegate void InventoryUIEventHandler(IItemButton itemButton, IInventoryDropArea dropArea);
         public event InventoryUIEventHandler EventOnItemButtonDrop;
 

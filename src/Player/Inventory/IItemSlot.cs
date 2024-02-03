@@ -1,4 +1,5 @@
 using U3.Inventory;
+using UnityEngine;
 
 namespace U3.Player.Inventory
 {
@@ -11,6 +12,8 @@ namespace U3.Player.Inventory
 
         public void SetIsSelected(bool isSelected);
 
-        public void AssignItem(InventoryItem toAssign);
+        public void AssignItem(InventoryItem itemToAssign);
+
+        public void UnassignItem(Transform itme);
     }
 }

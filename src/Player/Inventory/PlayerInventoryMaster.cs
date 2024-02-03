@@ -16,18 +16,17 @@ namespace U3.Player.Inventory
 
         public event InventoryItemEventHandler EventSlotSelected;
 
-        public void CallEventSlotSelected(Transform item)
-        {
-            EventSlotSelected?.Invoke(item);
-        }
+        public void CallEventSlotSelected(Transform item) => EventSlotSelected?.Invoke(item);
 
-        public delegate void InventoryUIEventHandler(IItemButton itemButton, IInventoryDropArea dropArea);
-        public event InventoryUIEventHandler EventOnItemButtonDrop;
+        public delegate void InventoryUIEventHandler();
+        public event InventoryUIEventHandler EventReloadBackpack;
 
-        public void CallEventOnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea)
-        {
-            EventOnItemButtonDrop?.Invoke(itemButton, dropArea);
-        }
+        public void CallEventReloadBackpack() => EventReloadBackpack?.Invoke();
+
+        public delegate void InventoryUIDragDropEventHandler(IItemButton itemButton, IInventoryDropArea dropArea);
+        public event InventoryUIDragDropEventHandler EventOnItemButtonDrop;
+
+        public void CallEventOnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea) => EventOnItemButtonDrop?.Invoke(itemButton, dropArea);
 
         public IEnumerable<InventoryItem> GetBackpackItems()
         {

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using TMPro;
 using U3.Inventory;
@@ -69,6 +68,8 @@ namespace U3.Player.Inventory
             inventoryMaster.EventItemRemoved += OnEventToUpdateBackpack;
 
             inventoryMaster.EventOnItemButtonDrop += OnEventToUpdateBackpack;
+
+            inventoryMaster.EventReloadBackpack += OnEventToUpdateBackpack;
         }
 
         private void OnDisable()
@@ -81,6 +82,8 @@ namespace U3.Player.Inventory
             inventoryMaster.EventItemRemoved -= OnEventToUpdateBackpack;
 
             inventoryMaster.EventOnItemButtonDrop -= OnEventToUpdateBackpack;
+
+            inventoryMaster.EventReloadBackpack -= OnEventToUpdateBackpack;
 
             inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }

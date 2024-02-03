@@ -1,6 +1,7 @@
 using System.Linq;
 using U3.Inventory;
 using U3.Item;
+using U3.Log;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,9 +21,44 @@ namespace U3.Player.Inventory
             ChangeSlotSelection();
         }
 
+        private bool IsItemAssigned(Transform item)
+        {
+            if (AssignedItem == null)
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"Attempt to unassign item {item.name} from an empty slot"));
+                return false;
+            }
+            else if (AssignedItem.Item != item)
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"Item {item.name} is not assigned to the slot, assigned item is {AssignedItem.Item.name}"));
+                return false;
+            }
+
+            return true;
+        }
+
+        public void UnassignItem(Transform item)
+        {
+            if (!IsItemAssigned(item))
+                return;
+
+            if (!AssignedItem.ItemObject.activeSelf)
+                AssignedItem.ItemObject.SetActive(true);
+
+            AssignedItem.ItemMaster.CallEventActionDeactivated();
+
+            AssignedItem = null;
+
+            if (InventoryMaster.Items.GetItem(item) != null)
+                InventoryMaster.CallEventDeselectItem(item);
+
+            InventoryMaster.CallEventReloadBackpack();
+        }
+
         public void AssignItem(InventoryItem toAssign)
         {
-            // inform AssignedItem it is unassigned
+            if (AssignedItem != null)
+                UnassignItem(AssignedItem.Item);
 
             AssignedItem = toAssign;
 

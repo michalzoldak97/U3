@@ -2,7 +2,7 @@ using U3.Inventory;
 
 namespace U3.Player.Inventory
 {
-    public interface IItemSlot
+    public interface IItemSlot : IInventoryDropArea
     {
         public bool IsSelected { get; }
         public PlayerInventoryMaster InventoryMaster { get; set; }

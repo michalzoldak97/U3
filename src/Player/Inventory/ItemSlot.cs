@@ -1,3 +1,4 @@
+using System.Linq;
 using U3.Inventory;
 using U3.Item;
 using UnityEngine;
@@ -22,15 +23,27 @@ namespace U3.Player.Inventory
         public void AssignItem(InventoryItem toAssign)
         {
             // inform AssignedItem it is unassigned
+
             AssignedItem = toAssign;
-            // inform item it its actions are activated
+
+            if (!AssignedItem.ItemObject.activeSelf)
+                AssignedItem.ItemObject.SetActive(true);
+
+            AssignedItem.ItemMaster.CallEventActionActivated();
+
+            if (IsSelected)
+                InventoryMaster.CallEventSelectItem(toAssign.Item);
+            else
+                InventoryMaster.CallEventDeselectItem(toAssign.Item);
         }
 
         public bool OnInventoryItemDrop(InventoryItem item)
         {
-            // if item is of accepted type - swap current item with a new item
-            // else
-            return false;
+            if (!AcceptableItemTypes.Contains(item.ItemMaster.ItemSettings.ItemType))
+                return false;
+
+            AssignItem(item);
+            return true;
         }
 
         private void ChangeSlotSelection()

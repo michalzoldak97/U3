@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using U3.Global.Helper;
@@ -71,17 +72,34 @@ namespace U3.Player.Inventory
 
             inventoryMaster.SelectableItemSlots[slotIndex].SetIsSelected(true);
 
+            if (inventoryMaster.SelectableItemSlots[slotIndex].AssignedItem == null)
+                return;
+
             inventoryMaster.CallEventSlotSelected(inventoryMaster.SelectableItemSlots[slotIndex].AssignedItem.Item);
         }
 
         private void AssignItemToSlot(Transform item, IItemSlot slot)
         {
-            // set up a button
-            // place it on the slot
-            // inform slot it has been assigned with an item
-            // slot should
-                // if it is active item select it and call activate
-                // if not enable object and call activate then disable it back
+            InventoryItem itemToAssign = inventoryMaster.Items.GetItem(item);
+            ItemButtonFactory.AddItemButton(itemToAssign, inventoryMaster, slot);
+            slot.AssignItem(itemToAssign);
+        }
+
+        private (IItemSlot slot, bool isAvailable) GetAvailableSlot(Transform item)
+        {
+            ItemType itemType = inventoryMaster.Items.GetItem(item).ItemMaster.ItemSettings.ItemType;
+
+            IEnumerable<IItemSlot> freeSlots = inventoryMaster.ItemSlots.Where(slot => slot.AcceptableItemTypes.Contains(itemType) && slot.AssignedItem == null);
+            if (freeSlots.Count() == 0)
+                return (null, false);
+
+            foreach (IItemSlot slot in freeSlots)
+            {
+                if (slot.IsSelected)
+                    return (slot, true);
+            }
+
+            return (freeSlots.First(), true);
         }
 
         /// <summary>
@@ -95,8 +113,11 @@ namespace U3.Player.Inventory
             if (isInit)
                 return;
 
-            // if there is a free slot for the type
-                // AssignItemToSlot
+            (IItemSlot slot, bool isAvailable) = GetAvailableSlot(item);
+            if (!isAvailable)
+                return;
+
+            AssignItemToSlot(item, slot);
         }
 
         private void UnassignItemFromSlot(Transform item, IItemSlot slot)

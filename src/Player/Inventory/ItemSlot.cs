@@ -53,6 +53,14 @@ namespace U3.Player.Inventory
                 GetComponent<Image>().color = new Color32(69, 128, 157, 178);
             else
                 GetComponent<Image>().color = new Color32(0, 0, 0, 178);
+
+            if (AssignedItem == null)
+                return;
+
+            if (IsSelected)
+                InventoryMaster.CallEventSelectItem(AssignedItem.Item);
+            else
+                InventoryMaster.CallEventDeselectItem(AssignedItem.Item);
         }
     }
 }

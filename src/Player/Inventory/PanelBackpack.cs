@@ -40,18 +40,20 @@ namespace U3.Player.Inventory
             UpdateHeader();
         }
 
-        private void SetInit()
+        private void AssignInventoryMaster()
         {
             if (transform.root.TryGetComponent(out PlayerInventoryMaster playerInventoryMaster))
-            {
                 inventoryMaster = playerInventoryMaster;
-            }
             else
-            {
                 GameLogger.Log(new GameLog(
                 Log.LogType.Error,
                     $"There is no PlayerInventoryMaster on the {name} root"));
-            }
+        }
+
+        private void SetInit()
+        {
+            if (inventoryMaster == null)
+                AssignInventoryMaster();
 
             UpdateBackpack();
         }

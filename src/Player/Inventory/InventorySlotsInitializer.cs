@@ -2,33 +2,23 @@ using System.Collections.Generic;
 using System.Linq;
 using U3.Global.Helper;
 using U3.Inventory;
-using U3.Item;
 using U3.Log;
 using UnityEngine;
 
 namespace U3.Player.Inventory
 {
-    public class InventorySlotsInitializer : MonoBehaviour
+    internal class InventorySlotsInitializer
     {
-        [SerializeField] private ItemSlotParent[] SlotParents;
+        private readonly ItemSlotParent[] slotParents;
 
-        private PlayerInventoryMaster inventoryMaster;
+        private readonly PlayerInventoryMaster inventoryMaster;
 
-        private InventoryItem CreateInventoryItem(GameObject itemPrefab)
+        public InventorySlotsInitializer(PlayerInventoryMaster inventoryMaster, ItemSlotParent[] slotParents)
         {
-            GameObject itemObject = Instantiate(itemPrefab);
-            if (itemObject.TryGetComponent(out ItemMaster _))
-            {
-                inventoryMaster.CallEventAddItem(itemObject.transform);
-                return inventoryMaster.Items.GetItem(itemObject.transform);
-            }
-            else
-            {
-                GameLogger.Log(new GameLog(
-                Log.LogType.Error,
-                    $"{name} attempted to instantiate from prefab {itemPrefab.name} that is not an item"));
-                return null;
-            }
+            this.inventoryMaster = inventoryMaster;
+            this.slotParents = slotParents;
+
+            Initialize();
         }
 
         private void AssignItemToSlot(Transform item, IItemSlot slot)
@@ -53,7 +43,7 @@ namespace U3.Player.Inventory
         private Dictionary<string, Transform> BuildSlotParentsSet()
         {
             Dictionary<string, Transform> slotParents = new();
-            foreach (ItemSlotParent sParent in SlotParents)
+            foreach (ItemSlotParent sParent in this.slotParents)
             {
                 slotParents.Add(sParent.SlotCode, sParent.SlotParent);
             }
@@ -69,15 +59,15 @@ namespace U3.Player.Inventory
                 if (!SlotParentCodeExists(slotParents, slotSetting.SlotUIParentCode))
                     continue;
 
-                GameObject slot = Instantiate(slotSetting.SlotUIPrefab, slotParents[slotSetting.SlotUIParentCode]);
+                GameObject slot = Object.Instantiate(slotSetting.SlotUIPrefab, slotParents[slotSetting.SlotUIParentCode]);
 
                 if (slot.TryGetComponent(out IItemSlot inventoryItemSlot))
                 {
-                    inventoryItemSlot.InventoryMaster = inventoryMaster;
+                    inventoryItemSlot.SetInventoryMaster(inventoryMaster);
                     inventoryItemSlot.AcceptableItemTypes = slotSetting.AcceptableItemTypes;
 
                     if (slotSetting.AssignedItem != null)
-                        AssignItemToSlot(CreateInventoryItem(slotSetting.AssignedItem).Item, inventoryItemSlot);
+                        AssignItemToSlot(InventoryItemFactory.CreateInventoryItem(slotSetting.AssignedItem, inventoryMaster).Item, inventoryItemSlot);
 
                     inventoryMaster.ItemSlots.Add(inventoryItemSlot);
 
@@ -95,24 +85,24 @@ namespace U3.Player.Inventory
 
         private bool AreSlotCodesUnique()
         {
-            if (!Helper.IsPropertyUnique(SlotParents, "SlotCode"))
+            if (!Helper.IsPropertyUnique(slotParents, "SlotCode"))
             {
                 GameLogger.Log(new GameLog(
                 Log.LogType.Error,
-                        $"Slot codes on the {name} have to be unique"));
+                        $"Slot codes have to be unique"));
                 return false;
             }
             return true;
         }
 
-        private void Start()
+        private void Initialize()
         {
-            inventoryMaster = GetComponent<PlayerInventoryMaster>();
-
             if (!AreSlotCodesUnique())
                 return;
 
             SetUpInventorySlots(inventoryMaster.PlayerMaster.PlayerSettings.Inventory.InventorySlots);
+
+            inventoryMaster.CallEventSelectSlot(1);
         }
     }
 }

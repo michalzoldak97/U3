@@ -11,14 +11,53 @@ namespace U3.Player.Inventory
     {
         public bool IsSelected { get; private set; }
         public Transform AreaTransform => transform;
-        public PlayerInventoryMaster InventoryMaster { get; set; }
         public InventoryItem AssignedItem { get; private set; }
         public ItemType[] AcceptableItemTypes { get; set; }
+
+        private PlayerInventoryMaster inventoryMaster;
+
+        public void SetInventoryMaster(PlayerInventoryMaster inventoryMaster)
+        {
+            this.inventoryMaster = inventoryMaster;
+            inventoryMaster.EventItemRemoved += UnassignItem;
+        }
+
+        private void SetSlotColor()
+        {
+            if (IsSelected)
+                GetComponent<Image>().color = inventoryMaster.PlayerMaster.PlayerSettings.Inventory.SlotSelectedColor;
+            else
+                GetComponent<Image>().color = inventoryMaster.PlayerMaster.PlayerSettings.Inventory.SlotDefaultColor;
+        }
+
+        private void ChangeSlotSelection()
+        {
+            SetSlotColor();
+
+            if (AssignedItem == null)
+                return;
+
+            if (IsSelected)
+                inventoryMaster.CallEventSelectItem(AssignedItem.Item);
+            else
+                inventoryMaster.CallEventDeselectItem(AssignedItem.Item);
+        }
 
         public void SetIsSelected(bool isSelected)
         {
             IsSelected = isSelected;
             ChangeSlotSelection();
+        }
+
+        private void RemoveUIButton()
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.TryGetComponent<IItemButton>(out IItemButton _))
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
 
         private bool IsItemAssigned(Transform item)
@@ -37,10 +76,12 @@ namespace U3.Player.Inventory
             return true;
         }
 
-        public void UnassignItem(Transform item)
+        private void UnassignItem(Transform item)
         {
             if (!IsItemAssigned(item))
                 return;
+
+            RemoveUIButton();
 
             if (!AssignedItem.ItemObject.activeSelf)
                 AssignedItem.ItemObject.SetActive(true);
@@ -49,10 +90,10 @@ namespace U3.Player.Inventory
 
             AssignedItem = null;
 
-            if (InventoryMaster.Items.GetItem(item) != null)
-                InventoryMaster.CallEventDeselectItem(item);
+            if (inventoryMaster.Items.GetItem(item) != null)
+                inventoryMaster.CallEventDeselectItem(item);
 
-            InventoryMaster.CallEventReloadBackpack();
+            inventoryMaster.CallEventReloadBackpack();
         }
 
         public void AssignItem(InventoryItem toAssign)
@@ -68,9 +109,9 @@ namespace U3.Player.Inventory
             AssignedItem.ItemMaster.CallEventActionActivated();
 
             if (IsSelected)
-                InventoryMaster.CallEventSelectItem(toAssign.Item);
+                inventoryMaster.CallEventSelectItem(toAssign.Item);
             else
-                InventoryMaster.CallEventDeselectItem(toAssign.Item);
+                inventoryMaster.CallEventDeselectItem(toAssign.Item);
         }
 
         public bool OnInventoryItemDrop(InventoryItem item)
@@ -80,23 +121,6 @@ namespace U3.Player.Inventory
 
             AssignItem(item);
             return true;
-        }
-
-        private void ChangeSlotSelection()
-        {
-            //dev code to indicate selection
-            if (IsSelected)
-                GetComponent<Image>().color = new Color32(69, 128, 157, 178);
-            else
-                GetComponent<Image>().color = new Color32(0, 0, 0, 178);
-
-            if (AssignedItem == null)
-                return;
-
-            if (IsSelected)
-                InventoryMaster.CallEventSelectItem(AssignedItem.Item);
-            else
-                InventoryMaster.CallEventDeselectItem(AssignedItem.Item);
         }
     }
 }

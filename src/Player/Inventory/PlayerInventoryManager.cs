@@ -5,6 +5,8 @@ namespace U3.Player.Inventory
 {
     public class PlayerInventoryManager : InventoryManager
     {
+        [SerializeField] private ItemSlotParent[] SlotParents;
+
         private PlayerInventoryMaster playerInventoryMaster;
 
         protected override void SetInit()
@@ -28,6 +30,12 @@ namespace U3.Player.Inventory
         private void OnSlotSelected(Transform item)
         {
 
+        }
+
+        private void Start()
+        {
+            InventorySlotsInitializer slotsInitializer = new(playerInventoryMaster, SlotParents);
+            BackpackInitializer backpackInitializer = new(playerInventoryMaster);
         }
     }
 }

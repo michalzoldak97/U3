@@ -28,6 +28,11 @@ namespace U3.Player.Inventory
 
         public void CallEventOnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea) => EventOnItemButtonDrop?.Invoke(itemButton, dropArea);
 
+        public delegate void InventorySlotsEventHandler(int slotIndex);
+        public event InventorySlotsEventHandler EventSelectSlot;
+
+        public void CallEventSelectSlot(int slotIndex) => EventSelectSlot?.Invoke(slotIndex);
+
         public IEnumerable<InventoryItem> GetBackpackItems()
         {
             InventoryItem[] allItems = Items.GetAllItems();

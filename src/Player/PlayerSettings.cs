@@ -26,6 +26,8 @@ namespace U3.Player
         public string InventoryFullMessageText;
         public Vector2 LabelDimensions;
         public Color LabelColor;
+        public Color SlotDefaultColor;
+        public Color SlotSelectedColor;
         public InventorySlotSetting[] InventorySlots;
         public GameObject[] BackpackItems;
     }

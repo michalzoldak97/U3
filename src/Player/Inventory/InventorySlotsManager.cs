@@ -34,6 +34,8 @@ namespace U3.Player.Inventory
             selectSlot3.action.Enable();
             selectSlot3.action.performed += context => OnSlotSelected(3);
 
+            inventoryMaster.EventSelectSlot += OnSlotSelected;
+
             inventoryMaster.EventItemAdded += OnItemAdded;
             inventoryMaster.EventItemRemoved += OnItemRemoved;
         }
@@ -48,6 +50,8 @@ namespace U3.Player.Inventory
 
             selectSlot3.action.performed -= context => OnSlotSelected(3);
             selectSlot3.action.Disable();
+
+            inventoryMaster.EventSelectSlot -= OnSlotSelected;
 
             inventoryMaster.EventItemAdded -= OnItemAdded;
             inventoryMaster.EventItemRemoved -= OnItemRemoved;
@@ -118,8 +122,6 @@ namespace U3.Player.Inventory
             if (!AreSlotsSetUp())
                 return;
 
-            Debug.Log("On Item added");
-
             (IItemSlot slot, bool isAvailable) = GetAvailableSlot(item);
             if (!isAvailable)
                 return;
@@ -145,11 +147,6 @@ namespace U3.Player.Inventory
                     return;
                 }
             }
-        }
-
-        private void Start()
-        {
-            OnSlotSelected(1);
         }
     }
 }

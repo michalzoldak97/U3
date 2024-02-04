@@ -2,55 +2,63 @@ using System.Collections.Generic;
 using System.Linq;
 using U3.Global.Helper;
 using U3.Inventory;
+using U3.Item;
 using U3.Log;
 using UnityEngine;
 
 namespace U3.Player.Inventory
 {
-    internal class InventorySlotsInitializer
+    internal static class InventorySlotsInitializer
     {
-        private readonly ItemSlotParent[] slotParents;
+        private static ItemSlotParent[] slotParents;
 
-        private readonly PlayerInventoryMaster inventoryMaster;
+        private static PlayerInventoryMaster inventoryMaster;
 
-        public InventorySlotsInitializer(PlayerInventoryMaster inventoryMaster, ItemSlotParent[] slotParents)
+        private static bool IsItemTypeAccepted(ItemType[] acceptableTypes, ItemType itemType)
         {
-            this.inventoryMaster = inventoryMaster;
-            this.slotParents = slotParents;
-
-            Initialize();
+            if (acceptableTypes.Contains(itemType))
+                return true;
+            else
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Error,
+                    $"Unacceptable type {itemType} of the item assigned to the slot"));
+                return false;
+            }
         }
 
-        private void AssignItemToSlot(Transform item, IItemSlot slot)
+        private static void AssignItemToSlot(Transform item, IItemSlot slot)
         {
             InventoryItem itemToAssign = inventoryMaster.Items.GetItem(item);
+
+            if (!IsItemTypeAccepted(slot.AcceptableItemTypes, itemToAssign.ItemMaster.ItemSettings.ItemType))
+                return;
+
             ItemButtonFactory.AddItemButton(itemToAssign, inventoryMaster, slot);
             slot.AssignItem(itemToAssign);
         }
 
-        private bool SlotParentCodeExists(Dictionary<string, Transform> slotParents, string code)
+        private static bool SlotParentCodeExists(Dictionary<string, Transform> slotParents, string code)
         {
             if (!slotParents.Keys.Contains(code))
             {
-                GameLogger.Log(new GameLog(
-                Log.LogType.Error,
+                GameLogger.Log(new GameLog(Log.LogType.Error,
                     $"Inventory item slot with slot parent code {code} does not exists"));
                 return false;
             }
             return true;
         }
 
-        private Dictionary<string, Transform> BuildSlotParentsSet()
+        private static Dictionary<string, Transform> BuildSlotParentsSet()
         {
-            Dictionary<string, Transform> slotParents = new();
-            foreach (ItemSlotParent sParent in this.slotParents)
+            Dictionary<string, Transform> slotParentsDict = new();
+            foreach (ItemSlotParent sParent in slotParents)
             {
-                slotParents.Add(sParent.SlotCode, sParent.SlotParent);
+                slotParentsDict.Add(sParent.SlotCode, sParent.SlotParent);
             }
-            return slotParents;
+            return slotParentsDict;
         }
 
-        private void SetUpInventorySlots(InventorySlotSetting[] slotSettings)
+        private static void SetUpInventorySlots(InventorySlotSetting[] slotSettings)
         {
             Dictionary<string, Transform> slotParents = BuildSlotParentsSet();
 
@@ -83,7 +91,7 @@ namespace U3.Player.Inventory
             }
         }
 
-        private bool AreSlotCodesUnique()
+        private static bool AreSlotCodesUnique()
         {
             if (!Helper.IsPropertyUnique(slotParents, "SlotCode"))
             {
@@ -95,8 +103,11 @@ namespace U3.Player.Inventory
             return true;
         }
 
-        private void Initialize()
+        public static void Initialize(PlayerInventoryMaster inventoryMasterToSet, ItemSlotParent[] slotParentsToSet)
         {
+            inventoryMaster = inventoryMasterToSet;
+            slotParents = slotParentsToSet;
+
             if (!AreSlotCodesUnique())
                 return;
 

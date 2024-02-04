@@ -37,7 +37,6 @@ namespace U3.Player.Inventory
             inventoryMaster.EventSelectSlot += OnSlotSelected;
 
             inventoryMaster.EventItemAdded += OnItemAdded;
-            inventoryMaster.EventItemRemoved += OnItemRemoved;
         }
 
         private void OnDisable()
@@ -54,7 +53,6 @@ namespace U3.Player.Inventory
             inventoryMaster.EventSelectSlot -= OnSlotSelected;
 
             inventoryMaster.EventItemAdded -= OnItemAdded;
-            inventoryMaster.EventItemRemoved -= OnItemRemoved;
 
             inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }
@@ -127,26 +125,6 @@ namespace U3.Player.Inventory
                 return;
 
             AssignItemToSlot(item, slot);
-        }
-
-        private void UnassignItemFromSlot(Transform item, IItemSlot slot)
-        {
-            // inform slot
-            // slot should
-                // call deactivate
-                // remove button
-        }
-
-        private void OnItemRemoved(Transform item)
-        {
-            foreach (IItemSlot slot in inventoryMaster.ItemSlots)
-            {
-                if (slot.AssignedItem.Item == item)
-                {
-                    UnassignItemFromSlot(item, slot);
-                    return;
-                }
-            }
         }
     }
 }

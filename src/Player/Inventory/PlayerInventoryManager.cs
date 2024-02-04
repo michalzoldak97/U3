@@ -34,8 +34,8 @@ namespace U3.Player.Inventory
 
         private void Start()
         {
-            InventorySlotsInitializer slotsInitializer = new(playerInventoryMaster, SlotParents);
-            BackpackInitializer backpackInitializer = new(playerInventoryMaster);
+            InventorySlotsInitializer.Initialize(playerInventoryMaster, SlotParents);
+            BackpackInitializer.Initialize(playerInventoryMaster);
         }
     }
 }

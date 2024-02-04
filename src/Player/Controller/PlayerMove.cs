@@ -108,14 +108,16 @@ namespace U3.Player.Controller
             {
                 moveDir.x *= inertiaCoeff;
                 moveDir.z *= inertiaCoeff;
+                isMoving = true;
             }
             else if (isMoving)
             {
                 moveDir.x = 0f;
                 moveDir.z = 0f;
 
-                moveManager.CallEventStoppedMoving(stateIdx);
                 isMoving = false;
+
+                moveManager.CallEventStoppedMoving(stateIdx);
             }
         }
 
@@ -123,10 +125,10 @@ namespace U3.Player.Controller
         {
             CalcMoveVector(moveInput);
 
-            m_CharacterController.Move(moveDir * Time.fixedDeltaTime);
-
             if (!m_CharacterController.isGrounded) // stick player to the ground
                 moveDir += gravityMultiplayer * Time.fixedDeltaTime * Physics.gravity;
+
+            m_CharacterController.Move(moveDir * Time.fixedDeltaTime);
         }
 
         private void FixedUpdate()

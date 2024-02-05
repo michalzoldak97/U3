@@ -14,5 +14,10 @@ namespace U3.Player.UI
         {
             inventoryMaster = GetComponentInParent<PlayerInventoryMaster>();
         }
+
+        private void OnDisable()
+        {
+            inventoryMaster.CallEventItemUnfocused(inventoryMaster.FocusedItem);
+        }
     }
 }

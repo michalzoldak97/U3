@@ -1,5 +1,7 @@
+using U3.Input;
 using U3.Inventory;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace U3.Player.Inventory
 {
@@ -18,18 +20,26 @@ namespace U3.Player.Inventory
         protected override void OnEnable()
         {
             base.OnEnable();
-            playerInventoryMaster.EventSlotSelected += OnSlotSelected;
+
+            ActionMapManager.PlayerInputActions.Humanoid.ItemThrow.performed += OnItemThrow;
+            ActionMapManager.PlayerInputActions.Humanoid.ItemThrow.Enable();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            playerInventoryMaster.EventSlotSelected += OnSlotSelected;
+
+            ActionMapManager.PlayerInputActions.Humanoid.ItemThrow.performed -= OnItemThrow;
+            ActionMapManager.PlayerInputActions.Humanoid.ItemThrow.Disable();
         }
 
-        private void OnSlotSelected(Transform item)
+        private void OnItemThrow(InputAction.CallbackContext obj)
         {
+            InventoryItem toThrow = inventoryMaster.Items.GetItem(playerInventoryMaster.FocusedItem);
+            if (toThrow == null)
+                return;
 
+            playerInventoryMaster.CallEventRemoveItem(toThrow.Item);
         }
 
         private void Start()

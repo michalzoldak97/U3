@@ -10,6 +10,7 @@ namespace U3.Player.Inventory
     {
         [SerializeField] private Transform itemContainer;
 
+        public Transform FocusedItem { get; set; }
         public PlayerMaster PlayerMaster { get; private set; }
         public List<IItemSlot> ItemSlots { get; private set; }
         public Dictionary<int, IItemSlot> SelectableItemSlots { get; private set; }
@@ -27,6 +28,13 @@ namespace U3.Player.Inventory
         public event InventoryUIDragDropEventHandler EventOnItemButtonDrop;
 
         public void CallEventOnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea) => EventOnItemButtonDrop?.Invoke(itemButton, dropArea);
+
+        public delegate void InventoryUIItemFocusEventHandler(Transform focusedItem);
+        public event InventoryUIItemFocusEventHandler EventItemFocused;
+        public event InventoryUIItemFocusEventHandler EventItemUnfocused;
+
+        public void CallEventItemFocused(Transform item) => EventItemFocused?.Invoke(item);
+        public void CallEventItemUnfocused(Transform item) => EventItemUnfocused?.Invoke(item);
 
         public delegate void InventorySlotsEventHandler(int slotIndex);
         public event InventorySlotsEventHandler EventSelectSlot;

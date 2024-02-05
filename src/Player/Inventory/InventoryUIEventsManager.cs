@@ -27,11 +27,19 @@ namespace U3.Player.Inventory
                 SetInit();
 
             inventoryMaster.EventOnItemButtonDrop += OnItemButtonDrop;
+
+            inventoryMaster.EventItemFocused += OnItemFocused;
+            inventoryMaster.EventItemUnfocused += OnItemUnfocused;
+            inventoryMaster.EventItemRemoved += OnItemUnfocused;
         }
 
         private void OnDisable()
         {
             inventoryMaster.EventOnItemButtonDrop -= OnItemButtonDrop;
+
+            inventoryMaster.EventItemFocused -= OnItemFocused;
+            inventoryMaster.EventItemUnfocused -= OnItemUnfocused;
+            inventoryMaster.EventItemRemoved -= OnItemUnfocused;
         }
 
         private void OnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea)
@@ -50,6 +58,17 @@ namespace U3.Player.Inventory
             // inform new area button was assigned
 
             // inform inventory 
+        }
+
+        private void OnItemFocused(Transform item)
+        {
+            inventoryMaster.FocusedItem = item;
+        }
+
+        private void OnItemUnfocused(Transform item)
+        {
+            if (item == inventoryMaster.FocusedItem)
+                inventoryMaster.FocusedItem = null;
         }
     }
 }

@@ -8,5 +8,7 @@ namespace U3.Player.Inventory
         public bool OnInventoryItemDrop(InventoryItem item);
 
         public Transform AreaTransform { get; }
+
+        public void ItemRemovedFromArea(Transform item);
     }
 }

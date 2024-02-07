@@ -65,6 +65,7 @@ namespace U3.Player.Inventory
 
             inventoryMaster.EventItemRemoved += UpdateItemStatusOnInventoryChanged;
             inventoryMaster.EventInventoryCleared += UpdateItemStatusOnInventoryChanged;
+            inventoryMaster.EventReloadBackpack += UpdateItemStatusOnInventoryChanged;
         }
 
         private void OnDisable()
@@ -74,6 +75,7 @@ namespace U3.Player.Inventory
 
             inventoryMaster.EventItemRemoved -= UpdateItemStatusOnInventoryChanged;
             inventoryMaster.EventInventoryCleared -= UpdateItemStatusOnInventoryChanged;
+            inventoryMaster.EventReloadBackpack -= UpdateItemStatusOnInventoryChanged;
         }
 
         private void CallItemInteraction(InputAction.CallbackContext obj)
@@ -100,6 +102,7 @@ namespace U3.Player.Inventory
                     return;
                 }
 
+                isItemAvailable = true;
                 itemGUIText = itemMaster.ItemSettings.GUITextToDisplay != "" ?
                     itemMaster.ItemSettings.GUITextToDisplay :
                     itemGUIText = item.name;
@@ -112,12 +115,14 @@ namespace U3.Player.Inventory
 
         private void UpdateItemStatusOnInventoryChanged(Transform item = null)
         {
-            UpdateItemStatus(itemInRange);
+            if (itemInRange != null)
+                UpdateItemStatus(itemInRange);
         }
 
         private void UpdateItemStatusOnInventoryChanged()
         {
-            UpdateItemStatus(itemInRange);
+            if (itemInRange != null)
+                UpdateItemStatus(itemInRange);
         }
 
         private bool IsItemVisible(Transform item)

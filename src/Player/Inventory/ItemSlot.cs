@@ -54,31 +54,13 @@ namespace U3.Player.Inventory
             foreach (Transform child in transform)
             {
                 if (child.TryGetComponent<IItemButton>(out IItemButton _))
-                {
                     Destroy(child.gameObject);
-                }
             }
-        }
-
-        private bool IsItemAssigned(Transform item)
-        {
-            if (AssignedItem == null)
-            {
-                GameLogger.Log(new GameLog(Log.LogType.Warning, $"Attempt to unassign item {item.name} from an empty slot"));
-                return false;
-            }
-            else if (AssignedItem.Item != item)
-            {
-                GameLogger.Log(new GameLog(Log.LogType.Warning, $"Item {item.name} is not assigned to the slot, assigned item is {AssignedItem.Item.name}"));
-                return false;
-            }
-
-            return true;
         }
 
         private void UnassignItem(Transform item)
         {
-            if (!IsItemAssigned(item))
+            if (AssignedItem == null || AssignedItem.Item != item)
                 return;
 
             RemoveUIButton();
@@ -91,7 +73,10 @@ namespace U3.Player.Inventory
             AssignedItem = null;
 
             if (inventoryMaster.Items.GetItem(item) != null)
+            {
                 inventoryMaster.CallEventDeselectItem(item);
+                inventoryMaster.CallEventItemAdded(item);
+            }
 
             inventoryMaster.CallEventReloadBackpack();
         }
@@ -121,6 +106,11 @@ namespace U3.Player.Inventory
 
             AssignItem(item);
             return true;
+        }
+
+        public void ItemRemovedFromArea(Transform item)
+        {
+            UnassignItem(item);
         }
     }
 }

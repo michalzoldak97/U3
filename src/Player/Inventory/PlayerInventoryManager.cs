@@ -35,6 +35,9 @@ namespace U3.Player.Inventory
 
         private void OnItemThrow(InputAction.CallbackContext obj)
         {
+            if (playerInventoryMaster.FocusedItem == null)
+                return;
+
             InventoryItem toThrow = inventoryMaster.Items.GetItem(playerInventoryMaster.FocusedItem);
             if (toThrow == null)
                 return;

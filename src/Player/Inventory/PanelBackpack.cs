@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using U3.Inventory;
@@ -96,8 +97,21 @@ namespace U3.Player.Inventory
 
         public bool OnInventoryItemDrop(InventoryItem item)
         {
-            // if there is a capacity add new to the list
-            return false;
+            IEnumerable<InventoryItem> backpackItems = inventoryMaster.GetBackpackItems();
+
+            if (backpackItems.Contains(item))
+                return false;
+
+            if (backpackItems.Count() >= 
+                inventoryMaster.PlayerMaster.PlayerSettings.Inventory.BackpackCapacity)
+                return false;
+
+            return true;
+        }
+
+        public void ItemRemovedFromArea(Transform _)
+        {
+            UpdateHeader();
         }
     }
 }

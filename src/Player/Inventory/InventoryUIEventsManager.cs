@@ -1,4 +1,5 @@
-﻿using U3.Log;
+﻿using U3.Inventory;
+using U3.Log;
 using UnityEngine;
 
 namespace U3.Player.Inventory
@@ -60,15 +61,48 @@ namespace U3.Player.Inventory
             // inform inventory 
         }
 
+        private void ShutDownItemDetails()
+        {
+            foreach (Transform uiElement in inventoryMaster.DetailsParent.transform)
+            {
+                if (uiElement.TryGetComponent(out IItemDetails itemDetails))
+                    Destroy(itemDetails.UIObject);
+            }
+
+            inventoryMaster.DetailsParent.SetActive(false);
+        }
+
+        private void SetUpItemDetails(Transform item)
+        {
+            InventoryItem inventoryItem = inventoryMaster.Items.GetItem(item);
+            if (inventoryItem == null)
+                return;
+
+            inventoryMaster.DetailsParent.SetActive(true);
+            ItemDetailsFactory.AddItemDetails(inventoryItem, inventoryMaster.DetailsParent.transform);
+        }
+
+        private void ToggleItemDetails(bool toActive, Transform item)
+        {
+            if (toActive)
+                SetUpItemDetails(item);
+            else
+                ShutDownItemDetails();
+        }
+
         private void OnItemFocused(Transform item)
         {
             inventoryMaster.FocusedItem = item;
+            ToggleItemDetails(true, item);
         }
 
         private void OnItemUnfocused(Transform item)
         {
             if (item == inventoryMaster.FocusedItem)
                 inventoryMaster.FocusedItem = null;
+
+            if (inventoryMaster.FocusedItem == null)
+                ToggleItemDetails(false, item);
         }
     }
 }

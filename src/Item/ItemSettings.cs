@@ -12,6 +12,7 @@ namespace U3.Item
         public string ToItemName;
         public string ToLayerName;
         public string GUITextToDisplay;
+        public string ItemDescription;
         public Vector3 OnParentPosition;
         public Vector3 OnParentRotation;
         public Sprite ItemIcon;

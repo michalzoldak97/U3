@@ -1,7 +1,6 @@
 using System.Linq;
 using U3.Inventory;
 using U3.Item;
-using U3.Log;
 using UnityEngine;
 using UnityEngine.UI;
 

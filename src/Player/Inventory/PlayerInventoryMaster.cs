@@ -9,8 +9,11 @@ namespace U3.Player.Inventory
     public class PlayerInventoryMaster : InventoryMaster, IInventoryUIEventsMaster
     {
         [SerializeField] private Transform itemContainer;
+        [SerializeField] private GameObject detailsParent;
+
 
         public Transform FocusedItem { get; set; }
+        public GameObject DetailsParent => detailsParent;
         public PlayerMaster PlayerMaster { get; private set; }
         public List<IItemSlot> ItemSlots { get; private set; }
         public Dictionary<int, IItemSlot> SelectableItemSlots { get; private set; }

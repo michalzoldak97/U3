@@ -10,9 +10,14 @@ namespace U3.Inventory
 
         public int Count => inventoryItems.Count;
 
+        public bool IsOnInventory(Transform item)
+        {
+            return item != null && inventoryItems.ContainsKey(item);
+        }
+
         public InventoryItem GetItem(Transform item)
         {
-            if (!inventoryItems.ContainsKey(item))
+            if (!IsOnInventory(item))
             {
                 GameLogger.Log(new GameLog(
                     Log.LogType.Warning, 
@@ -39,7 +44,7 @@ namespace U3.Inventory
 
         public bool AddItem(InventoryItem item)
         {
-            if (inventoryItems.ContainsKey(item.Item))
+            if (IsOnInventory(item.Item))
             {
                 GameLogger.Log(new GameLog(
                     Log.LogType.Warning, 
@@ -53,7 +58,7 @@ namespace U3.Inventory
 
         public void RemoveItem(Transform item)
         {
-            if (!inventoryItems.ContainsKey(item))
+            if (!IsOnInventory(item))
             {
                 GameLogger.Log(new GameLog(
                     Log.LogType.Warning, 

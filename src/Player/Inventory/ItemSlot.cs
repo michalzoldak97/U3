@@ -52,7 +52,7 @@ namespace U3.Player.Inventory
         {
             foreach (Transform child in transform)
             {
-                if (child.TryGetComponent<IItemButton>(out IItemButton _))
+                if (child.TryGetComponent(out IItemButton _))
                     Destroy(child.gameObject);
             }
         }
@@ -71,11 +71,8 @@ namespace U3.Player.Inventory
 
             AssignedItem = null;
 
-            if (inventoryMaster.Items.GetItem(item) != null)
-            {
+            if (inventoryMaster.Items.IsOnInventory(item))
                 inventoryMaster.CallEventDeselectItem(item);
-                inventoryMaster.CallEventItemAdded(item);
-            }
 
             inventoryMaster.CallEventReloadBackpack();
         }

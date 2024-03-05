@@ -4,6 +4,7 @@ namespace U3.Inventory
 {
     public interface IInventoryStore
     {
+        public bool IsOnInventory(Transform item);
         public bool AddItem(InventoryItem item);
 
         public int Count { get; } 

@@ -81,7 +81,7 @@ namespace U3.Player.Inventory
             inventoryMaster.CallEventReloadBackpack();
         }
 
-        public void AssignItem(InventoryItem toAssign)
+        private void ChangeAssignedItem(InventoryItem toAssign)
         {
             if (AssignedItem != null)
                 UnassignItem(AssignedItem.Item);
@@ -106,9 +106,11 @@ namespace U3.Player.Inventory
 
         public void AssignInventoryItem(InventoryItem toAssign)
         {
-            // unify with assign item
-            // if had an item already unassign it
-            // call new event to add it to the free slot
+            InventoryItem prevItem = AssignedItem;
+            ChangeAssignedItem(toAssign);
+
+            if (prevItem != null && inventoryMaster.Items.IsOnInventory(prevItem.Item))
+                inventoryMaster.CallEventAssignItemToFreeSlot(prevItem.Item);
         }
 
         public void ItemRemovedFromArea(Transform item)

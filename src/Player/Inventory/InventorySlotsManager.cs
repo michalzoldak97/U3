@@ -56,7 +56,7 @@ namespace U3.Player.Inventory
 
             inventoryMaster.EventItemAdded -= AssignItemToFreeSlot;
 
-            inventoryMaster.EventItemAdded -= AssignItemToFreeSlot;
+            inventoryMaster.EventAssignItemToFreeSlot -= AssignItemToFreeSlot;
 
             inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }
@@ -85,7 +85,7 @@ namespace U3.Player.Inventory
         {
             InventoryItem itemToAssign = inventoryMaster.Items.GetItem(item);
             ItemButtonFactory.AddItemButton(itemToAssign, inventoryMaster, slot);
-            slot.AssignItem(itemToAssign);
+            slot.AssignInventoryItem(itemToAssign);
         }
 
         private (IItemSlot slot, bool isAvailable) GetAvailableSlot(Transform item)

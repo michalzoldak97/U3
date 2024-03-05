@@ -34,7 +34,7 @@ namespace U3.Player.Inventory
                 return;
 
             ItemButtonFactory.AddItemButton(itemToAssign, inventoryMaster, slot);
-            slot.AssignItem(itemToAssign);
+            slot.AssignInventoryItem(itemToAssign);
         }
 
         private static bool SlotParentCodeExists(Dictionary<string, Transform> slotParents, string code)

@@ -10,10 +10,11 @@ namespace U3.Player.Inventory
     {
         [SerializeField] private Transform itemContainer;
         [SerializeField] private GameObject detailsParent;
-
+        [SerializeField] private Canvas mainCanvas;
 
         public Transform FocusedItem { get; set; }
         public GameObject DetailsParent => detailsParent;
+        public Canvas MainCanvas => mainCanvas;
         public PlayerMaster PlayerMaster { get; private set; }
         public List<IItemSlot> ItemSlots { get; private set; }
         public Dictionary<int, IItemSlot> SelectableItemSlots { get; private set; }
@@ -27,15 +28,17 @@ namespace U3.Player.Inventory
 
         public void CallEventReloadBackpack() => EventReloadBackpack?.Invoke();
 
-        public delegate void InventoryUIDragDropEventHandler(IItemButton itemButton, IInventoryDropArea dropArea);
+        public delegate void InventoryUIDragDropEventHandler(IItemButton itemButton, RectTransform buttonTransform);
         public event InventoryUIDragDropEventHandler EventOnItemButtonDrop;
 
-        public void CallEventOnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea) => EventOnItemButtonDrop?.Invoke(itemButton, dropArea);
+        public void CallEventOnItemButtonDrop(IItemButton itemButton, RectTransform buttonTransform) => EventOnItemButtonDrop?.Invoke(itemButton, buttonTransform);
 
-        public delegate void InventoryUIItemFocusEventHandler(Transform focusedItem);
-        public event InventoryUIItemFocusEventHandler EventItemFocused;
-        public event InventoryUIItemFocusEventHandler EventItemUnfocused;
+        public delegate void InventoryUIItemEventHandler(Transform item);
+        public event InventoryUIItemEventHandler EventAssignItemToFreeSlot;
+        public event InventoryUIItemEventHandler EventItemFocused;
+        public event InventoryUIItemEventHandler EventItemUnfocused;
 
+        public void CallEventAssignItemToFreeSlot(Transform item) => EventAssignItemToFreeSlot?.Invoke(item);
         public void CallEventItemFocused(Transform item) => EventItemFocused?.Invoke(item);
         public void CallEventItemUnfocused(Transform item) => EventItemUnfocused?.Invoke(item);
 
@@ -43,6 +46,7 @@ namespace U3.Player.Inventory
         public event InventorySlotsEventHandler EventSelectSlot;
 
         public void CallEventSelectSlot(int slotIndex) => EventSelectSlot?.Invoke(slotIndex);
+
 
         public IEnumerable<InventoryItem> GetBackpackItems()
         {

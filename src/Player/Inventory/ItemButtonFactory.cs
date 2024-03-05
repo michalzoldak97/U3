@@ -12,7 +12,7 @@ namespace U3.Player.Inventory
             if (uiPrefab == null)
                 GameLogger.Log(new GameLog(Log.LogType.Error,$"The {inventoryItem.Item.name} item is missing UI prefab"));
 
-            GameObject itemObject = Object.Instantiate(uiPrefab, dropArea.AreaTransform);
+            GameObject itemObject = Object.Instantiate(uiPrefab, dropArea.ItemParentTransform);
 
             if (itemObject.TryGetComponent(out IItemButton itemButton))
             {

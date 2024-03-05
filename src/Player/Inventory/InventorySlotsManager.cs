@@ -36,7 +36,9 @@ namespace U3.Player.Inventory
 
             inventoryMaster.EventSelectSlot += OnSlotSelected;
 
-            inventoryMaster.EventItemAdded += OnItemAdded;
+            inventoryMaster.EventItemAdded += AssignItemToFreeSlot;
+
+            inventoryMaster.EventAssignItemToFreeSlot += AssignItemToFreeSlot;
         }
 
         private void OnDisable()
@@ -52,7 +54,9 @@ namespace U3.Player.Inventory
 
             inventoryMaster.EventSelectSlot -= OnSlotSelected;
 
-            inventoryMaster.EventItemAdded -= OnItemAdded;
+            inventoryMaster.EventItemAdded -= AssignItemToFreeSlot;
+
+            inventoryMaster.EventItemAdded -= AssignItemToFreeSlot;
 
             inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }
@@ -115,7 +119,7 @@ namespace U3.Player.Inventory
         /// so 1st condition validates if it is initialization based on the AreSlotsSetUp()
         /// </summary>
         /// <param name="item"></param>
-        private void OnItemAdded(Transform item)
+        private void AssignItemToFreeSlot(Transform item)
         {
             if (!AreSlotsSetUp())
                 return;

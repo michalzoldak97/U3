@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using U3.Inventory;
+using U3.Log;
 using U3.Player.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,13 @@ namespace U3.Player.Inventory
 
             itemName.text = InventoryItem.Item.name;
             initialBackgroundColor = background.color;
+
+            if (TryGetComponent(out DraggableItem draggabeItem))
+                draggabeItem.SetUpDraggableItem(UIEventsMaster);
+            else
+                GameLogger.Log(new GameLog(
+                Log.LogType.Error,
+                    $"There is no PDraggableItem on the {transform.name} object, required by the {name}"));
         }
 
         public void ChangeInventoryArea(IInventoryDropArea newArea)
@@ -35,11 +43,7 @@ namespace U3.Player.Inventory
                 return;
             }
 
-            if (!newArea.OnInventoryItemDrop(InventoryItem))
-                return;
-
-            transform.SetParent(newArea.AreaTransform);
-            ParentArea.ItemRemovedFromArea(InventoryItem.Item);
+            transform.SetParent(newArea.ItemParentTransform);
             ParentArea = newArea;
         }
 

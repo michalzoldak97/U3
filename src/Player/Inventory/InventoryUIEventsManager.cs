@@ -1,6 +1,7 @@
 ﻿using U3.Inventory;
 using U3.Log;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace U3.Player.Inventory
 {
@@ -43,20 +44,36 @@ namespace U3.Player.Inventory
             inventoryMaster.EventItemRemoved -= OnItemUnfocused;
         }
 
-        private void OnItemButtonDrop(IItemButton itemButton, IInventoryDropArea dropArea)
+        private IInventoryDropArea GetButtonDropArea(RectTransform buttonTransform)
         {
-            if (dropArea == itemButton.ParentArea)
-                return;
+            foreach (IInventoryDropArea inventoryDropArea in GetComponentsInChildren<IInventoryDropArea>())
+            {
+                if (RectTransformUtility.RectangleContainsScreenPoint(
+                    inventoryDropArea.DropAreaTransform, buttonTransform.position))
+                    return inventoryDropArea;
+            }
 
-            // if drop area == null => determine drop area from rect transform
+            return null;
+        }
+
+        private void OnItemButtonDrop(IItemButton itemButton, RectTransform buttonTransform)
+        {
+            IInventoryDropArea dropArea = GetButtonDropArea(buttonTransform);
+            if (dropArea == null || dropArea == itemButton.ParentArea)
+                buttonTransform.SetParent(itemButton.ParentArea.ItemParentTransform);
 
             // if drop area is button and parent area is slot and drop are button type is accepted by the slot do the swap
 
+            // ask area if can accept it -> IsInventoryItemAccepted
             // check if new area can accept the button
+            // else -> send button back
+
+            // assign button -> button.ChangeInventoryArea
+
+            // call area for change -> AssignInventoryItem
+            // inform new area button was assigned
 
             // inform previous area that item button has been removed
-
-            // inform new area button was assigned
 
             // inform inventory 
         }

@@ -5,9 +5,11 @@ namespace U3.Player.Inventory
 {
     public interface IInventoryDropArea
     {
-        public bool OnInventoryItemDrop(InventoryItem item);
+        public bool IsInventoryItemAccepted(InventoryItem item);
+        public void AssignInventoryItem(InventoryItem item);
 
-        public Transform AreaTransform { get; }
+        public RectTransform DropAreaTransform { get; }
+        public Transform ItemParentTransform { get; }
 
         public void ItemRemovedFromArea(Transform item);
     }

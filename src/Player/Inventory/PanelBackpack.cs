@@ -10,9 +10,11 @@ namespace U3.Player.Inventory
     public class PanelBackpack : MonoBehaviour, IInventoryDropArea
     {
         [SerializeField] private Transform itemsParent;
+        [SerializeField] private RectTransform dropAreaTransform;
         [SerializeField] private TMP_Text headerCounter;
 
-        public Transform AreaTransform => itemsParent;
+        public RectTransform DropAreaTransform => dropAreaTransform;
+        public Transform ItemParentTransform => itemsParent;
 
         private PlayerInventoryMaster inventoryMaster;
 
@@ -32,6 +34,8 @@ namespace U3.Player.Inventory
 
         private void UpdateBackpack()
         {
+            Debug.Log("updatin the backpack");
+
             foreach (Transform itemButton in itemsParent)
             {
                 Destroy(itemButton.gameObject);
@@ -93,9 +97,9 @@ namespace U3.Player.Inventory
 
         private void OnEventToUpdateBackpack() => UpdateBackpack();
         private void OnEventToUpdateBackpack(Transform item) => UpdateBackpack();
-        private void OnEventToUpdateBackpack(IItemButton itemButton, IInventoryDropArea dropArea) => UpdateBackpack();
+        private void OnEventToUpdateBackpack(IItemButton itemButton, RectTransform buttonTransform) => UpdateBackpack();
 
-        public bool OnInventoryItemDrop(InventoryItem item)
+        public bool IsInventoryItemAccepted(InventoryItem item)
         {
             IEnumerable<InventoryItem> backpackItems = inventoryMaster.GetBackpackItems();
 
@@ -110,6 +114,11 @@ namespace U3.Player.Inventory
         }
 
         public void ItemRemovedFromArea(Transform _)
+        {
+            UpdateHeader();
+        }
+
+        public void AssignInventoryItem(InventoryItem item)
         {
             UpdateHeader();
         }

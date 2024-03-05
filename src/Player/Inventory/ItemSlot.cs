@@ -9,16 +9,20 @@ namespace U3.Player.Inventory
     public class ItemSlot : MonoBehaviour, IInventoryDropArea, IItemSlot
     {
         public bool IsSelected { get; private set; }
-        public Transform AreaTransform => transform;
+        public RectTransform DropAreaTransform => slotRectTransform;
+        public Transform ItemParentTransform => transform;
         public InventoryItem AssignedItem { get; private set; }
         public ItemType[] AcceptableItemTypes { get; set; }
 
+        private RectTransform slotRectTransform;
         private PlayerInventoryMaster inventoryMaster;
 
         public void SetInventoryMaster(PlayerInventoryMaster inventoryMaster)
         {
             this.inventoryMaster = inventoryMaster;
             inventoryMaster.EventItemRemoved += UnassignItem;
+
+            slotRectTransform = GetComponent<RectTransform>();
         }
 
         private void SetSlotColor()
@@ -72,7 +76,7 @@ namespace U3.Player.Inventory
             AssignedItem = null;
 
             if (inventoryMaster.Items.IsOnInventory(item))
-                inventoryMaster.CallEventDeselectItem(item);
+                inventoryMaster.CallEventDeselectItem(item); // + call a new event AssignItemToFreeSlot
 
             inventoryMaster.CallEventReloadBackpack();
         }
@@ -95,13 +99,16 @@ namespace U3.Player.Inventory
                 inventoryMaster.CallEventDeselectItem(toAssign.Item);
         }
 
-        public bool OnInventoryItemDrop(InventoryItem item)
+        public bool IsInventoryItemAccepted(InventoryItem item)
         {
-            if (!AcceptableItemTypes.Contains(item.ItemMaster.ItemSettings.ItemType))
-                return false;
+            return AcceptableItemTypes.Contains(item.ItemMaster.ItemSettings.ItemType);
+        }
 
-            AssignItem(item);
-            return true;
+        public void AssignInventoryItem(InventoryItem toAssign)
+        {
+            // unify with assign item
+            // if had an item already unassign it
+            // call new event to add it to the free slot
         }
 
         public void ItemRemovedFromArea(Transform item)

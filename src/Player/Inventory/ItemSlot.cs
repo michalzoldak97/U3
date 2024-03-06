@@ -52,12 +52,18 @@ namespace U3.Player.Inventory
             ChangeSlotSelection();
         }
 
-        private void RemoveUIButton()
+        private void RemoveUIButton(Transform item)
         {
             foreach (Transform child in transform)
             {
-                if (child.TryGetComponent(out IItemButton _))
-                    Destroy(child.gameObject);
+                if (child.TryGetComponent(out IItemButton itemButton))
+                {
+                    if (itemButton.InventoryItem.Item == item)
+                    {
+                        Destroy(child.gameObject);
+                        return;
+                    }
+                }
             }
         }
 
@@ -66,7 +72,7 @@ namespace U3.Player.Inventory
             if (AssignedItem == null || AssignedItem.Item != item)
                 return;
 
-            RemoveUIButton();
+            RemoveUIButton(item);
 
             if (!AssignedItem.ItemObject.activeSelf)
                 AssignedItem.ItemObject.SetActive(true);
@@ -76,13 +82,16 @@ namespace U3.Player.Inventory
             AssignedItem = null;
 
             if (inventoryMaster.Items.IsOnInventory(item))
-                inventoryMaster.CallEventDeselectItem(item); // + call a new event AssignItemToFreeSlot
+                inventoryMaster.CallEventDeselectItem(item);
 
             inventoryMaster.CallEventReloadBackpack();
         }
 
         private void ChangeAssignedItem(InventoryItem toAssign)
         {
+            if (toAssign == null)
+                return;
+
             if (AssignedItem != null)
                 UnassignItem(AssignedItem.Item);
 

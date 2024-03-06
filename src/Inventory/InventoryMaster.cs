@@ -44,6 +44,7 @@ namespace U3.Inventory
 
         public void CallEventSelectItem(Transform item)
         {
+            Debug.Log($"called select for {item.name}");
             EventSelectItem?.Invoke(item);
         }
         public void CallEventItemSelected(Transform item)
@@ -56,6 +57,7 @@ namespace U3.Inventory
         }
         public void CallEventItemDeselected(Transform item)
         {
+            Debug.Log($"called DESELECT for {item.name}");
             EventItemDeselected?.Invoke(item);
         }
 

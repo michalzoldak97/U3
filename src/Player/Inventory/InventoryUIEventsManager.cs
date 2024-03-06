@@ -59,23 +59,26 @@ namespace U3.Player.Inventory
         private void OnItemButtonDrop(IItemButton itemButton, RectTransform buttonTransform)
         {
             IInventoryDropArea dropArea = GetButtonDropArea(buttonTransform);
-            if (dropArea == null || dropArea == itemButton.ParentArea)
+            if (dropArea == null 
+                || dropArea == itemButton.ParentArea
+                || !dropArea.IsInventoryItemAccepted(itemButton.InventoryItem))
+            {
                 buttonTransform.SetParent(itemButton.ParentArea.ItemParentTransform);
+                OnItemUnfocused(itemButton.InventoryItem.Item);
+                return;
+            }
 
-            // if drop area is button and parent area is slot and drop are button type is accepted by the slot do the swap
+            IInventoryDropArea prevArea = itemButton.ParentArea;
 
-            // ask area if can accept it -> IsInventoryItemAccepted
-            // check if new area can accept the button
-            // else -> send button back
+            itemButton.ChangeInventoryArea(dropArea);
 
-            // assign button -> button.ChangeInventoryArea
+            prevArea.ItemRemovedFromArea(itemButton.InventoryItem.Item);
 
-            // call area for change -> AssignInventoryItem
-            // inform new area button was assigned
+            dropArea.AssignInventoryItem(itemButton.InventoryItem);
 
-            // inform previous area that item button has been removed
+            OnItemUnfocused(itemButton.InventoryItem.Item);
 
-            // inform inventory 
+            inventoryMaster.CallEventReloadBackpack();
         }
 
         private void ShutDownItemDetails()

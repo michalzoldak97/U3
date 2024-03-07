@@ -13,6 +13,10 @@ namespace U3.Player.Inventory
         public InputActionReference selectSlot1;
         public InputActionReference selectSlot2;
         public InputActionReference selectSlot3;
+        public InputActionReference selectSlot4;
+        public InputActionReference selectSlot5;
+        public InputActionReference selectSlot6;
+        public InputActionReference selectSlot7;
 
         private PlayerInventoryMaster inventoryMaster;
 
@@ -34,6 +38,18 @@ namespace U3.Player.Inventory
             selectSlot3.action.Enable();
             selectSlot3.action.performed += context => OnSlotSelected(3);
 
+            selectSlot4.action.Enable();
+            selectSlot4.action.performed += context => OnSlotSelected(4);
+
+            selectSlot5.action.Enable();
+            selectSlot5.action.performed += context => OnSlotSelected(5);
+
+            selectSlot6.action.Enable();
+            selectSlot6.action.performed += context => OnSlotSelected(6);
+
+            selectSlot7.action.Enable();
+            selectSlot7.action.performed += context => OnSlotSelected(7);
+
             inventoryMaster.EventSelectSlot += OnSlotSelected;
 
             inventoryMaster.EventItemAdded += AssignItemToFreeSlot;
@@ -51,6 +67,18 @@ namespace U3.Player.Inventory
 
             selectSlot3.action.performed -= context => OnSlotSelected(3);
             selectSlot3.action.Disable();
+
+            selectSlot4.action.performed -= context => OnSlotSelected(4);
+            selectSlot4.action.Disable();
+
+            selectSlot5.action.performed -= context => OnSlotSelected(5);
+            selectSlot5.action.Disable();
+
+            selectSlot6.action.performed -= context => OnSlotSelected(6);
+            selectSlot6.action.Disable();
+
+            selectSlot7.action.performed -= context => OnSlotSelected(7);
+            selectSlot7.action.Disable();
 
             inventoryMaster.EventSelectSlot -= OnSlotSelected;
 

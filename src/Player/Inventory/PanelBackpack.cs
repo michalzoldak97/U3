@@ -69,12 +69,7 @@ namespace U3.Player.Inventory
 
             inventoryMaster.EventInventoryCleared += OnEventToUpdateBackpack;
 
-            inventoryMaster.EventItemAdded += OnEventToUpdateBackpack;
-            inventoryMaster.EventItemSelected += OnEventToUpdateBackpack;
-            inventoryMaster.EventItemDeselected += OnEventToUpdateBackpack;
             inventoryMaster.EventItemRemoved += OnEventToUpdateBackpack;
-
-            inventoryMaster.EventOnItemButtonDrop += OnEventToUpdateBackpack;
 
             inventoryMaster.EventReloadBackpack += OnEventToUpdateBackpack;
         }
@@ -83,12 +78,7 @@ namespace U3.Player.Inventory
         {
             inventoryMaster.EventInventoryCleared -= OnEventToUpdateBackpack;
 
-            inventoryMaster.EventItemAdded -= OnEventToUpdateBackpack;
-            inventoryMaster.EventItemSelected -= OnEventToUpdateBackpack;
-            inventoryMaster.EventItemDeselected -= OnEventToUpdateBackpack;
             inventoryMaster.EventItemRemoved -= OnEventToUpdateBackpack;
-
-            inventoryMaster.EventOnItemButtonDrop -= OnEventToUpdateBackpack;
 
             inventoryMaster.EventReloadBackpack -= OnEventToUpdateBackpack;
 
@@ -97,8 +87,6 @@ namespace U3.Player.Inventory
 
         private void OnEventToUpdateBackpack() => UpdateBackpack();
         private void OnEventToUpdateBackpack(Transform item) => UpdateBackpack();
-        private void OnEventToUpdateBackpack(IItemButton itemButton, RectTransform buttonTransform) => UpdateBackpack();
-
         public bool IsInventoryItemAccepted(InventoryItem item)
         {
             IEnumerable<InventoryItem> backpackItems = inventoryMaster.GetBackpackItems();

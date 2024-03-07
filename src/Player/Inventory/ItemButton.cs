@@ -19,7 +19,7 @@ namespace U3.Player.Inventory
 
         private Color initialBackgroundColor = new();
 
-        public void SetUpButton(InventoryItem inventoryItem, IInventoryUIEventsMaster uIEventsMaster)
+        public virtual void SetUpButton(InventoryItem inventoryItem, IInventoryUIEventsMaster uIEventsMaster)
         {
             InventoryItem = inventoryItem;
             UIEventsMaster = uIEventsMaster;
@@ -32,7 +32,7 @@ namespace U3.Player.Inventory
             else
                 GameLogger.Log(new GameLog(
                 Log.LogType.Error,
-                    $"There is no PDraggableItem on the {transform.name} object, required by the {name}"));
+                    $"There is no DraggableItem on the {transform.name} object, required by the {name}"));
         }
 
         public void ChangeInventoryArea(IInventoryDropArea newArea)

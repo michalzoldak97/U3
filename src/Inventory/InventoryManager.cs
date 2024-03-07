@@ -39,6 +39,9 @@ namespace U3.Inventory
             if (item == null)
                 return;
 
+            if (itemTransform == inventoryMaster.SelectedItem)
+                inventoryMaster.SelectedItem = null;
+
             item.ItemMaster.CallEventDeselected();
             item.ItemObject.SetActive(false);
 

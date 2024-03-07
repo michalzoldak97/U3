@@ -83,8 +83,6 @@ namespace U3.Player.Inventory
 
             if (inventoryMaster.Items.IsOnInventory(item))
                 inventoryMaster.CallEventDeselectItem(item);
-
-            inventoryMaster.CallEventReloadBackpack();
         }
 
         private void ChangeAssignedItem(InventoryItem toAssign)

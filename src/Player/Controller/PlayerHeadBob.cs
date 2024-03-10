@@ -49,7 +49,7 @@ namespace U3.Player.Controller
             float headShift = Mathf.Sin(bobTimer) * headBobMagnitude[stateIdx];
 
             cameraPosToSet.x = fpsCamera.localPosition.x + (headShift * headBobMultiplayer[1]); 
-            cameraPosToSet.y = cameraXYPos[0] + (headShift * headBobMultiplayer[0]); 
+            cameraPosToSet.y = cameraXYPos.y + (headShift * headBobMultiplayer[0]); 
             cameraPosToSet.z = fpsCamera.localPosition.z;
 
             fpsCamera.localPosition = cameraPosToSet;
@@ -57,8 +57,8 @@ namespace U3.Player.Controller
 
         private void ResetDefaultCameraPos(int dummy)
         {
-            cameraPosToSet.x = cameraXYPos.y;
-            cameraPosToSet.y = cameraXYPos.x;
+            cameraPosToSet.x = cameraXYPos.x;
+            cameraPosToSet.y = cameraXYPos.y;
             cameraPosToSet.z = fpsCamera.localPosition.z;
 
             fpsCamera.localPosition = cameraPosToSet;

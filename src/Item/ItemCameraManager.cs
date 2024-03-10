@@ -1,4 +1,3 @@
-using U3.Inventory;
 using UnityEngine;
 
 namespace U3.Item
@@ -7,9 +6,9 @@ namespace U3.Item
     {
        private bool shouldInformCamera;
        private ItemMaster itemMaster;
-       private IInventoryMaster inventoryMaster;
+       // private IInventoryMaster inventoryMaster;
 
-       private void OnEnable()
+       /*private void OnEnable()
        {
             itemMaster = GetComponent<ItemMaster>();
 
@@ -57,6 +56,6 @@ namespace U3.Item
        private void OnTriggerExit(Collider other)
        {
             ToggleCamera(false);
-       }
+       }*/
     }
 }

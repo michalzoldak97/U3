@@ -8,10 +8,11 @@ namespace U3.Player
         [SerializeField] private PlayerSettings playerSettings;
         [SerializeField] private Transform fpsCamera;
 
-        public bool IsActiveInventoryItemInteractionEnabled { get; set; }
-        public PlayerSettings PlayerSettings { get { return playerSettings; } private set { } }
+        public bool IsInventoryItemInteractionEnabled { get; set; }
+        public PlayerSettings PlayerSettings => playerSettings;
+        public Transform FPSCamera => fpsCamera;
 
-        public Transform FPSCamera { get { return fpsCamera; } private set { } }
+        private readonly PlayerAPIMaster playerAPI = new();
 
         public delegate void PlayerControlTggleEventHandler(bool toActiveState, PlayerControlType controlType);
         public event PlayerControlTggleEventHandler EventTogglePlayerControl;
@@ -19,6 +20,11 @@ namespace U3.Player
         public void CallEventTogglePlayerControl(bool toActiveState, PlayerControlType controlType)
         {
             EventTogglePlayerControl?.Invoke(toActiveState, controlType);
+        }
+
+        public void UpdateInventorySettings()
+        {
+            playerAPI.CallEventPlayerSettingsUpdate();
         }
     }
 }

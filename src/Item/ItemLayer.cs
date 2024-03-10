@@ -4,13 +4,16 @@ namespace U3.Item
 {
     public class ItemLayer : MonoBehaviour
     {
-        private int originalLayer;
+        private int originalLayer = -1;
 
         private ItemMaster itemMaster;
 
         private void OnEnable()
         {
             itemMaster = GetComponent<ItemMaster>();
+
+            if (originalLayer == -1)
+                originalLayer = gameObject.layer;
 
             itemMaster.EventAddedToInventory += ChangeLayerOnAdd;
             itemMaster.EventRemovedFromInventory += ChangeLayerOnRemove;
@@ -39,11 +42,6 @@ namespace U3.Item
         private void ChangeLayerOnRemove()
         {
             ChangeLayer(originalLayer);
-        }
-
-        private void Start()
-        {
-            originalLayer = gameObject.layer;
         }
     }
 }

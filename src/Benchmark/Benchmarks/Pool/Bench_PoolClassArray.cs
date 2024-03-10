@@ -38,10 +38,7 @@ namespace U3.Benchmark.Pool
 
         private PoolClassArray classArray;
 
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
+        public override string GetBenchmarkName() => benchName;
 
         public override void Initialize()
         {

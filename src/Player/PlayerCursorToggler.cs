@@ -27,21 +27,21 @@ namespace U3.Player
             if (toActiveState && 
                 Cursor.lockState != CursorLockMode.None)
             {
-                playerMaster.IsActiveInventoryItemInteractionEnabled = false; // disable mouse click events when UI is active
+                playerMaster.IsInventoryItemInteractionEnabled = false; // disable mouse click events when UI is active
                 Cursor.lockState = CursorLockMode.None;
             }
             else if (!toActiveState &&
                 Cursor.lockState != CursorLockMode.Locked)
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                playerMaster.IsActiveInventoryItemInteractionEnabled = true;
+                playerMaster.IsInventoryItemInteractionEnabled = true;
             }
         }
 
         private void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
-            playerMaster.IsActiveInventoryItemInteractionEnabled = true;
+            playerMaster.IsInventoryItemInteractionEnabled = true;
         }
     }
 }

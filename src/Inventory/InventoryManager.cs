@@ -1,30 +1,27 @@
-using System.Collections.Generic;
 using U3.Item;
-using U3.Log;
+using U3.Global.Helper;
 using UnityEngine;
 
 namespace U3.Inventory
 {
     public class InventoryManager : MonoBehaviour
     {
-        protected Transform itemContainer;
-
-        protected InventoryItem currentItem;
         protected InventoryMaster inventoryMaster;
 
-        protected virtual void SetInit() {}
-        private void Awake()
+        protected virtual void SetInit()
         {
             inventoryMaster = GetComponent<InventoryMaster>();
-            inventoryMaster.Items = new();
-            inventoryMaster.EventAddItem += AddItem;
         }
+
         protected virtual void OnEnable()
         {
             SetInit();
+
+            inventoryMaster.EventAddItem += AddItem;
             inventoryMaster.EventRemoveItem += RemoveItem;
             inventoryMaster.EventSelectItem += SelectItem;
             inventoryMaster.EventDeselectItem += DeselectItem;
+            inventoryMaster.EventClearInventory += ClearInventory;
         }
 
         protected virtual void OnDisable()
@@ -33,80 +30,46 @@ namespace U3.Inventory
             inventoryMaster.EventRemoveItem -= RemoveItem;
             inventoryMaster.EventSelectItem -= SelectItem;
             inventoryMaster.EventDeselectItem -= DeselectItem;
+            inventoryMaster.EventClearInventory -= ClearInventory;
         }
 
-        private void DeselectItem(InventoryItem item)
+        private void DeselectItem(Transform itemTransform)
         {
-            item.IsSelected = false;
+            InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
+            if (item == null)
+                return;
 
-            if (currentItem == item)
-                currentItem = null;
+            if (itemTransform == inventoryMaster.SelectedItem)
+                inventoryMaster.SelectedItem = null;
 
             item.ItemMaster.CallEventDeselected();
+            item.ItemObject.SetActive(false);
 
-            item.Object.SetActive(false);
-
-            inventoryMaster.CallEventItemDeselected(item.Object.transform);
+            inventoryMaster.CallEventItemDeselected(item.Item);
         }
 
-        private void SelectItem(InventoryItem item)
+        private void SelectItem(Transform itemTransform)
         {
-            item.Object.SetActive(true);
-            item.IsSelected = true;
+            InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
 
-            currentItem = item;
+            if (item == null ||
+                item.Item == inventoryMaster.SelectedItem)
+                return;
+
+            if (inventoryMaster.SelectedItem != null)
+                DeselectItem(inventoryMaster.SelectedItem);
+
+            item.ItemObject.SetActive(true);
+            inventoryMaster.SelectedItem = item.Item;
 
             item.ItemMaster.CallEventSelected();
-            inventoryMaster.CallEventItemSelected(item.Object.transform);
+
+            inventoryMaster.CallEventItemSelected(item.Item);
         }
 
-        /// <summary>
-        /// Sets inventory item to selected or deselected state on the inventory
-        /// If the current item is the deselected one it's set to null
-        /// </summary>
-        /// <param name="toState"></param>
-        /// <param name="itemTransform"></param>
-        private void ToggleItem(bool toState, Transform itemTransform)
+        private void ToggleItemPhysics(InventoryItem item, bool toState)
         {
-            if (!inventoryMaster.Items.ContainsKey(itemTransform))
-                return;
-
-            InventoryItem item = inventoryMaster.Items[itemTransform];
-
-            if (toState)
-            {
-                SelectItem(item);
-                return;
-            }
-
-            if (item.IsSelected)
-            {
-                DeselectItem(item);
-                return;
-            }
-
-            item.Object.SetActive(false);
-            item.IsSelected = false;
-        }
-
-        private void SelectItem(Transform item)
-        {
-            ToggleItem(true, item);
-        }
-
-        private void DeselectItem(Transform item)
-        {
-            ToggleItem(false, item);
-        }
-
-        /// <summary>
-        /// Sets objec physics so it can be stored on parent
-        /// </summary>
-        /// <param name="toState"></param>
-        /// <param name="item"></param>
-        private void ToggleItemPhysics(bool toState, InventoryItem item)
-        {
-            foreach (Rigidbody rb in item.RBs)
+            foreach (Rigidbody rb in item.ItemRigidbodies)
             {
                 rb.isKinematic = !toState;
                 rb.useGravity = toState;
@@ -115,128 +78,73 @@ namespace U3.Inventory
             if (item.ItemMaster.ItemSettings.KeepColliderActive)
                 return;
 
-            foreach (Collider col in item.Colliders)
+            foreach (Collider col in item.ItemColliders)
             {
                 col.isTrigger = !toState;
             }
         }
-
-        /// <summary>
-        /// Handles item collider and rigidbody when placing on player
-        /// If theres no item selected the picked up item will be selected
-        /// Then the item is placed on the parent transform
-        /// </summary>
-        /// <param name="activateForInventory"></param>
-        /// <param name="itemTransform"></param>
-        private void SetItemState(bool activateForInventory, Transform itemTransform)
+    
+        private void AddItem(Transform itemTransform)
         {
-            InventoryItem item = inventoryMaster.Items[itemTransform];
-
-            ToggleItemPhysics(!activateForInventory, item);
-
-            if (activateForInventory)
+            if (itemTransform.TryGetComponent(out ItemMaster itemMaster))
             {
-                itemTransform.SetParent(itemContainer);
-                item.ItemMaster.CallEventAddedToInventory(); // inform item it has been added
-            }
-            else
-            {
-                itemTransform.SetParent(null);
-                item.ItemMaster.CallEventRemovedFromInventory(); // inform item it has been removed
-            }
+                InventoryItem newItem = new()
+                {
+                    Item = itemTransform,
+                    ItemObject = itemTransform.gameObject,
+                    ItemMaster = itemMaster
+                };
 
-            if (!activateForInventory)
-                return;
+                newItem.ItemRigidbodies = Helper.FetchAllComponents<Rigidbody>(newItem.ItemObject);
+                newItem.ItemColliders = Helper.FetchAllComponents<Collider>(newItem.ItemObject);
 
-            if (!item.ItemMaster.ItemSettings.KeepObjActive)
-                ToggleItem(false, itemTransform);
+                if (!inventoryMaster.Items.AddItem(newItem))
+                    return;
+
+                newItem.Item.SetParent(inventoryMaster.ItemContainer);
+                newItem.ItemMaster.CallEventAddedToInventory();
+
+                ToggleItemPhysics(newItem, false);
+                DeselectItem(newItem.Item);
+
+                inventoryMaster.CallEventItemAdded(newItem.Item);
+            }
         }
 
-        /// <summary>
-        /// Activates the item so it can be removed
-        /// Enables item physics, sets parent to null and calls throw request on item
-        /// </summary>
-        /// <param name="itemTransform"></param>
         private void RemoveItem(Transform itemTransform)
         {
-            InventoryItem item = inventoryMaster.Items[itemTransform];
-
-            item.Object.SetActive(true);
-            SetItemState(false, itemTransform);
-
-            item.ItemMaster.CallEventThrow(itemContainer);
-            inventoryMaster.Items.Remove(itemTransform);
-
-            inventoryMaster.CallEventItemRemoved();
-        }
-
-        private void FetchColliders(InventoryItem item)
-        {
-            List<Collider> colliders = new();
-            foreach (Collider col in item.Object.GetComponents<Collider>())
+            if (itemTransform == inventoryMaster.SelectedItem)
             {
-                colliders.Add(col);
+                DeselectItem(itemTransform);
+                inventoryMaster.SelectedItem = null;
             }
 
-            foreach (Collider col in item.Object.GetComponentsInChildren<Collider>())
-            {
-                colliders.Add(col);
-            }
-
-            item.Colliders = colliders.ToArray();
-        }
-
-        private void FetchRigidbodies(InventoryItem item)
-        {
-            List<Rigidbody> rigidbodies = new();
-            foreach (Rigidbody rb in item.Object.GetComponents<Rigidbody>())
-            {
-                rigidbodies.Add(rb);
-            }
-
-            foreach (Rigidbody rb in item.Object.GetComponentsInChildren<Rigidbody>())
-            {
-                rigidbodies.Add(rb);
-            }
-
-            item.RBs = rigidbodies.ToArray();
-        }
-
-        /// <summary>
-        /// Creates inventory item object and adds it to inventory dictionary
-        /// Item state is set and event on inventory called
-        /// </summary>
-        /// <param name="item"></param>
-        private void AddItem(Transform item)
-        {
-            if (inventoryMaster.Items.ContainsKey(item))
-            {
-                GameLogger.Log(Log.LogType.Warning, "trying to add already existing item to the inventory");
+            InventoryItem item = inventoryMaster.Items.GetItem(itemTransform);
+            if (item == null)
                 return;
-            }
 
-            InventoryItem newItem = new()
+            ToggleItemPhysics(item, true);
+
+            item.Item.SetParent(null);
+            item.ItemObject.SetActive(true);
+
+            inventoryMaster.Items.RemoveItem(item.Item);
+
+            item.ItemMaster.CallEventRemovedFromInventory();
+
+            inventoryMaster.CallEventItemRemoved(item.Item);
+
+            item.ItemMaster.CallEventThrow(inventoryMaster.ItemContainer);
+        }
+
+        private void ClearInventory()
+        {
+            InventoryItem[] allItems = inventoryMaster.Items.GetAllItems();
+
+            foreach (InventoryItem item in allItems)
             {
-                ItemMaster = item.GetComponent<ItemMaster>(),
-                Object = item.gameObject
-            };
-
-            if (newItem.ItemMaster == null)
-            {
-                GameLogger.Log(Log.LogType.Error, "add item called by transform without master");
-                return;
+                RemoveItem(item.Item);
             }
-
-            newItem.Type = newItem.ItemMaster.ItemSettings.ItemType;
-
-            FetchRigidbodies(newItem);
-            FetchColliders(newItem);
-
-            inventoryMaster.Items.Add(item, newItem); // add to all inventory items
-
-            SetItemState(true, item); // disable item on parent
-
-            inventoryMaster.CallEventItemAdded();
         }
     }
 }

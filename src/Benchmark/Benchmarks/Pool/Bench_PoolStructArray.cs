@@ -35,10 +35,7 @@ namespace U3.Benchmark.Pool
         private const string benchName = "Struct Array";
 
         private PoolClassStruct classStruct;
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
+        public override string GetBenchmarkName() => benchName;
 
         public override void Initialize()
         {

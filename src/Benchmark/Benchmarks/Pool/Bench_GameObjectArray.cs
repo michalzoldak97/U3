@@ -15,10 +15,7 @@ namespace U3.Benchmark.Pool
             }
         }
 
-        public GameObject GetPooledObject(int idx)
-        {
-            return objArray[idx];
-        }
+        public GameObject GetPooledObject(int idx) => objArray[idx];
     }
     public class Bench_GameObjectArray : Benchmark
     {
@@ -27,11 +24,8 @@ namespace U3.Benchmark.Pool
 
         private GameObjectArray objectArray;
 
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
-
+        public override string GetBenchmarkName() => benchName;
+       
         public override void Initialize()
         {
             objectArray = new(arrLen);

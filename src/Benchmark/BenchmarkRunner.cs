@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using U3.Benchmark.Controller;
 using U3.Benchmark.Data;
-using U3.Benchmark.Strings;
 using UnityEngine;
 
 namespace U3.Benchmark
@@ -86,7 +84,7 @@ namespace U3.Benchmark
             foreach (var result in results)
             {
                 resultsText.AppendLine(
-                    string.Format("Bench: {0} Elapsed: {1} Tics: {2}", result.Key, result.Value[0], result.Value[1]));
+                    $"Bench: {result.Key} Elapsed: {result.Value[0]} Tics: {result.Value[1]}");
             }
 
             UnityEngine.Debug.Log(resultsText.ToString());

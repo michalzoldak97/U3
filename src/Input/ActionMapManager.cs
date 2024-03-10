@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace U3.Input
 {
-    public static class InputManager
+    public static class ActionMapManager
     {
         public static PlayerInputActions PlayerInputActions { get { return playerInputActions; } private set { } }
         public static event Action<InputActionMap> ActionMapChange;
@@ -15,7 +15,7 @@ namespace U3.Input
         {
             if (actionMapToSet.enabled)
             {
-                GameLogger.Log(LogType.Warning, "action map is already active");
+                GameLogger.Log(new GameLog(LogType.Warning, "action map is already active"));
                 return;
             }
 

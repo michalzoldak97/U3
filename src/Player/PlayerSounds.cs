@@ -29,13 +29,13 @@ namespace U3.Player
         {
             SetInit();
 
-            InputManager.PlayerInputActions.Humanoid.Jump.performed += PlayJumpSound;
+            ActionMapManager.PlayerInputActions.Humanoid.Jump.performed += PlayJumpSound;
             moveManager.EventLand += PlayLandSound;
             moveManager.EventStep += PlayFootstepSound;
         }
         private void OnDisable()
         {
-            InputManager.PlayerInputActions.Humanoid.Jump.performed -= PlayJumpSound;
+            ActionMapManager.PlayerInputActions.Humanoid.Jump.performed -= PlayJumpSound;
             moveManager.EventLand -= PlayLandSound;
             moveManager.EventStep -= PlayFootstepSound;
         }

@@ -25,8 +25,8 @@ namespace U3.Player.Controller
             left = Vector3.left;
             m_Transform = transform;
             fpsCamera = playerMaster.FPSCamera;
-            lookX = InputManager.PlayerInputActions.Humanoid.MouseX;
-            lookY = InputManager.PlayerInputActions.Humanoid.MouseY;
+            lookX = ActionMapManager.PlayerInputActions.Humanoid.MouseX;
+            lookY = ActionMapManager.PlayerInputActions.Humanoid.MouseY;
         }
         private void OnEnable()
         {

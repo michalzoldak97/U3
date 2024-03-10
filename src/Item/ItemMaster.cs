@@ -18,48 +18,25 @@ namespace U3.Item
         public event ItemInventoryEventHandler EventDeselected;
         public event ItemInventoryEventHandler EventAddedToInventory;
         public event ItemInventoryEventHandler EventRemovedFromInventory;
+        public event ItemInventoryEventHandler EventActionActivated;
+        public event ItemInventoryEventHandler EventActionDeactivated;
 
-        public delegate void ItemInputEventHandler(int idx);
-        public event ItemInputEventHandler EventInputCalled;
+        public void CallEventInteractionCalled(Transform origin) => EventInteractionCalled?.Invoke(origin);
 
-        public void CallEventInteractionCalled(Transform origin)
-        {
-            EventInteractionCalled?.Invoke(origin);
-        }
+        public void CallEventPickUp(Transform origin) => EventPickUp?.Invoke(origin);
 
-        public void CallEventPickUp(Transform origin)
-        {
-            EventPickUp?.Invoke(origin);
-        }
+        public void CallEventThrow(Transform origin) => EventThrow?.Invoke(origin);
 
-        public void CallEventThrow(Transform origin)
-        {
-            EventThrow?.Invoke(origin);
-        }
+        public void CallEventSelected() => EventSelected?.Invoke();
 
-        public void CallEventSelected()
-        {
-            EventSelected?.Invoke();
-        }
+        public void CallEventDeselected() => EventDeselected?.Invoke();
 
-        public void CallEventDeselected()
-        {
-            EventDeselected?.Invoke();
-        }
+        public void CallEventAddedToInventory() => EventAddedToInventory?.Invoke();
 
-        public void CallEventInputCalled(int idx)
-        {
-            EventInputCalled?.Invoke(idx);
-        }
+        public void CallEventRemovedFromInventory() => EventRemovedFromInventory?.Invoke();
 
-        public void CallEventAddedToInventory()
-        {
-            EventAddedToInventory?.Invoke();
-        }
+        public void CallEventActionActivated() => EventActionActivated?.Invoke();
 
-        public void CallEventRemovedFromInventory()
-        {
-            EventRemovedFromInventory?.Invoke();
-        }
+        public void CallEventActionDeactivated() => EventActionDeactivated?.Invoke();
     }
 }

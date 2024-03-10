@@ -5,17 +5,31 @@ namespace U3.Player
     [System.Serializable]
     public class InventorySlotSetting
     {
-        public string SlotName;
-        public int ContainerNum;
+        public bool IsAvailable;
+        public bool IsSelectable;
+        public int SlotIndex;
+        public string SlotUIParentCode;
+        public Item.ItemType[] AcceptableItemTypes;
+        public GameObject SlotUIPrefab;
+        public GameObject AssignedItem;
     }
     [System.Serializable]
     public class InventorySettings
     {
         public int LabelFontSize;
+        public int ItemSearchBufferSize;
+        public int BackpackCapacity;
+        public int SelectedSlotIndex;
         public float ItemCheckRate;
+        public float ItemSearchRange;
+        public float ItemSearchRadius;
+        public string InventoryFullMessageText;
         public Vector2 LabelDimensions;
         public Color LabelColor;
+        public Color SlotDefaultColor;
+        public Color SlotSelectedColor;
         public InventorySlotSetting[] InventorySlots;
+        public GameObject[] BackpackItems;
     }
     [System.Serializable]
     public class SoundSettings

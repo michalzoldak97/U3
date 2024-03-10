@@ -8,10 +8,7 @@ namespace U3.Benchmark.Data
 
         private Vector3 m_Pos;
         private float radius, height;
-        public override string GetBenchmarkName()
-        {
-            return benchName;
-        }
+        public override string GetBenchmarkName() => benchName;
 
         public override void Initialize()
         {

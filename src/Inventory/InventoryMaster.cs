@@ -1,66 +1,53 @@
-using System.Collections.Generic;
+using U3.Item;
 using UnityEngine;
 
 namespace U3.Inventory
 {
     public class InventoryMaster : MonoBehaviour, IInventoryMaster
     {
-        public Dictionary<Transform, InventoryItem> Items { get; set; }
+        [SerializeField] protected int capacity;
+        public Transform ItemContainer { get; protected set; }
+        public Transform SelectedItem { get; set; }
+        public IInventoryStore Items { get; } = new InventoryStoreFactory().GetInventoryStore();
 
-        public GameObject ItemCamera {get; set; }
+        public delegate void InventoryItemEventHandler(Transform item);
+        public event InventoryItemEventHandler EventAddItem;
+        public event InventoryItemEventHandler EventItemAdded;
+        public event InventoryItemEventHandler EventRemoveItem;
+        public event InventoryItemEventHandler EventItemRemoved;
 
-        public delegate void ItemRequestEventHandler(Transform item);
-        public event ItemRequestEventHandler EventAddItem;
-        public event ItemRequestEventHandler EventRemoveItem;
+        public event InventoryItemEventHandler EventSelectItem;
+        public event InventoryItemEventHandler EventItemSelected;
+        public event InventoryItemEventHandler EventDeselectItem;
+        public event InventoryItemEventHandler EventItemDeselected;
 
-        public delegate void ItemEventCallbackHandler();
-        public event ItemEventCallbackHandler EventItemAdded;
-        public event ItemEventCallbackHandler EventItemRemoved;
+        public delegate void InventoryEventHandler();
+        public event InventoryEventHandler EventClearInventory;
+        public event InventoryEventHandler EventInventoryCleared;
 
-        public delegate void ItemSelectionEventHandler(Transform item);
-        public event ItemSelectionEventHandler EventSelectItem;
-        public event ItemSelectionEventHandler EventDeselectItem;
-        public event ItemSelectionEventHandler EventItemSelected;
-        public event ItemSelectionEventHandler EventItemDeselected;
+        public void CallEventAddItem(Transform item) => EventAddItem?.Invoke(item);
 
-        public void CallEventAddItem(Transform item)
+        public void CallEventItemAdded(Transform item) => EventItemAdded?.Invoke(item);
+
+        public void CallEventRemoveItem(Transform item) => EventRemoveItem?.Invoke(item);
+
+        public void CallEventItemRemoved(Transform item) => EventItemRemoved?.Invoke(item);
+
+        public void CallEventSelectItem(Transform item) => EventSelectItem?.Invoke(item);
+
+        public void CallEventItemSelected(Transform item) => EventItemSelected?.Invoke(item);
+
+        public void CallEventDeselectItem(Transform item) => EventDeselectItem?.Invoke(item);
+
+        public void CallEventItemDeselected(Transform item) => EventItemDeselected?.Invoke(item);
+
+        public void CallEventClearInventory() => EventClearInventory?.Invoke();
+
+        public void CallEventInventoryCleared() => EventInventoryCleared?.Invoke();
+
+        public virtual bool IsInventoryAvailableForItem(ItemType itemType)
         {
-            EventAddItem?.Invoke(item);
-        }
-
-        public void CallEventRemoveItem(Transform item)
-        {
-            EventRemoveItem?.Invoke(item);
-        }
-
-        public void CallEventItemAdded()
-        {
-            EventItemAdded?.Invoke();
-        }
-
-        public void CallEventItemRemoved()
-        {
-            EventItemRemoved?.Invoke();
-        }
-
-        public void CallEventSelectItem(Transform item)
-        {
-            EventSelectItem?.Invoke(item);
-        }
-
-        public void CallEventDeselectItem(Transform item)
-        {
-            EventDeselectItem?.Invoke(item);
-        }
-
-        public void CallEventItemSelected(Transform item)
-        {
-            EventItemSelected?.Invoke(item);
-        }
-
-        public void CallEventItemDeselected(Transform item)
-        {
-            EventItemDeselected?.Invoke(item);
+            return Items.Count < capacity;
         }
     }
 }

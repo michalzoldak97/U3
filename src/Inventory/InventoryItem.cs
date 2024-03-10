@@ -5,12 +5,10 @@ namespace U3.Inventory
 {
     public class InventoryItem
     {
-        public bool IsSelected { get; set; }
-        public bool IsAssignedToSlot { get; set; }
-        public ItemType Type { get; set; }
-        public Collider[] Colliders { get; set; }
-        public Rigidbody[] RBs { get; set; }
-        public GameObject Object { get; set; }
+        public Transform Item { get; set; }
+        public Collider[] ItemColliders { get; set; }
+        public Rigidbody[] ItemRigidbodies { get; set; }
+        public GameObject ItemObject { get; set; }
         public ItemMaster ItemMaster { get; set; }
     }
 }

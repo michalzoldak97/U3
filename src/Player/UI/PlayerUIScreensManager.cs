@@ -9,29 +9,37 @@ namespace U3.Player.UI
     {
         private readonly Dictionary<UIScreenType, IUIScreen> screens = new();
 
-        PlayerMaster playerMaster;
-
-        // TODO: handle cursor and PlayerLook
+        private PlayerMaster playerMaster;
 
         private void OnEnable()
         {
             playerMaster = GetComponent<PlayerMaster>();
 
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.performed += ToggleInventory;
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.Enable();
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.performed += ToggleInventory;
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.Enable();
         }
         private void OnDisable()
         {
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.performed -= ToggleInventory;
-            InputManager.PlayerInputActions.Humanoid.ToggleInventory.Disable();
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.performed -= ToggleInventory;
+            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.Disable();
         }
+
+        private void InformScreenDisabled(GameObject uiScreenObject)
+        {
+            foreach (IUIScreenStateDependent dependentUI in uiScreenObject.GetComponentsInChildren<IUIScreenStateDependent>())
+            {
+                dependentUI.OnUIScreenDisabled();
+            }
+        }
+
         private void DisableScreen(UIScreenType screenType)
         {
-            screens[screenType].Disable();
+            InformScreenDisabled(screens[screenType].ScreenObj);
             screens[screenType].ScreenObj.SetActive(false);
 
             playerMaster.CallEventTogglePlayerControl(false, Controller.PlayerControlType.Cursor);
         }
+
         /// <summary>
         /// Call Disable method on all screens
         /// Deactivate screen objects
@@ -46,10 +54,10 @@ namespace U3.Player.UI
             }
 
             screens[screenType].ScreenObj.SetActive(true);
-            screens[screenType].Enable();
 
             playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Cursor);
         }
+
         private void ToggleInventory(InputAction.CallbackContext obj)
         {
             if (screens[UIScreenType.Inventory].ScreenObj.activeSelf)
@@ -65,6 +73,7 @@ namespace U3.Player.UI
 
             EnableScreen(UIScreenType.Inventory);
         }
+
         private void FetchScreens()
         {
             foreach (Transform t in transform)
@@ -76,6 +85,7 @@ namespace U3.Player.UI
                 }
             }
         }
+
         private void Start()
         {
             FetchScreens();

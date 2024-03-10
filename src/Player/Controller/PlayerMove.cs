@@ -27,7 +27,7 @@ namespace U3.Player.Controller
 
             m_Transform = transform;
             m_CharacterController = GetComponent<CharacterController>();
-            moveAction = InputManager.PlayerInputActions.Humanoid.Move;
+            moveAction = ActionMapManager.PlayerInputActions.Humanoid.Move;
             moveManager = GetComponent<PlayerMoveManager>();
         }
 
@@ -37,27 +37,27 @@ namespace U3.Player.Controller
 
             moveAction.Enable();
 
-            InputManager.PlayerInputActions.Humanoid.Jump.performed += HandleJump;
-            InputManager.PlayerInputActions.Humanoid.Jump.Enable();
+            ActionMapManager.PlayerInputActions.Humanoid.Jump.performed += HandleJump;
+            ActionMapManager.PlayerInputActions.Humanoid.Jump.Enable();
 
-            InputManager.PlayerInputActions.Humanoid.RunStart.performed += StartRun;
-            InputManager.PlayerInputActions.Humanoid.RunStart.Enable();
+            ActionMapManager.PlayerInputActions.Humanoid.RunStart.performed += StartRun;
+            ActionMapManager.PlayerInputActions.Humanoid.RunStart.Enable();
 
-            InputManager.PlayerInputActions.Humanoid.RunFinish.performed += StopRun;
-            InputManager.PlayerInputActions.Humanoid.RunFinish.Enable();
+            ActionMapManager.PlayerInputActions.Humanoid.RunFinish.performed += StopRun;
+            ActionMapManager.PlayerInputActions.Humanoid.RunFinish.Enable();
         }
         private void OnDisable()
         {
             moveAction.Disable();
 
-            InputManager.PlayerInputActions.Humanoid.Jump.performed -= HandleJump;
-            InputManager.PlayerInputActions.Humanoid.Jump.Disable();
+            ActionMapManager.PlayerInputActions.Humanoid.Jump.performed -= HandleJump;
+            ActionMapManager.PlayerInputActions.Humanoid.Jump.Disable();
 
-            InputManager.PlayerInputActions.Humanoid.RunStart.performed -= StartRun;
-            InputManager.PlayerInputActions.Humanoid.RunStart.Disable();
+            ActionMapManager.PlayerInputActions.Humanoid.RunStart.performed -= StartRun;
+            ActionMapManager.PlayerInputActions.Humanoid.RunStart.Disable();
 
-            InputManager.PlayerInputActions.Humanoid.RunFinish.performed -= StopRun;
-            InputManager.PlayerInputActions.Humanoid.RunFinish.Disable();
+            ActionMapManager.PlayerInputActions.Humanoid.RunFinish.performed -= StopRun;
+            ActionMapManager.PlayerInputActions.Humanoid.RunFinish.Disable();
         }
 
         private void StartRun(InputAction.CallbackContext obj)
@@ -108,14 +108,16 @@ namespace U3.Player.Controller
             {
                 moveDir.x *= inertiaCoeff;
                 moveDir.z *= inertiaCoeff;
+                isMoving = true;
             }
             else if (isMoving)
             {
                 moveDir.x = 0f;
                 moveDir.z = 0f;
 
-                moveManager.CallEventStoppedMoving(stateIdx);
                 isMoving = false;
+
+                moveManager.CallEventStoppedMoving(stateIdx);
             }
         }
 
@@ -123,10 +125,10 @@ namespace U3.Player.Controller
         {
             CalcMoveVector(moveInput);
 
-            m_CharacterController.Move(moveDir * Time.fixedDeltaTime);
-
             if (!m_CharacterController.isGrounded) // stick player to the ground
                 moveDir += gravityMultiplayer * Time.fixedDeltaTime * Physics.gravity;
+
+            m_CharacterController.Move(moveDir * Time.fixedDeltaTime);
         }
 
         private void FixedUpdate()

@@ -1,62 +1,82 @@
-using U3.Inventory;
 using UnityEngine;
+using U3.Inventory;
+using System.Collections.Generic;
+using U3.Item;
+using System.Linq;
 
 namespace U3.Player.Inventory
 {
-    public class PlayerInventoryMaster : InventoryMaster
+    public class PlayerInventoryMaster : InventoryMaster, IInventoryUIEventsMaster
     {
-        [SerializeField] private GameObject itemCamera;
-        public Slot[] Slots { get; set; }
+        [SerializeField] private Transform itemContainer;
+        [SerializeField] private GameObject detailsParent;
+        [SerializeField] private Canvas mainCanvas;
 
-        public delegate void PlayerInventorySlotEventHandler(int slotIDX);
+        public Transform FocusedItem { get; set; }
+        public GameObject DetailsParent => detailsParent;
+        public Canvas MainCanvas => mainCanvas;
+        public PlayerMaster PlayerMaster { get; private set; }
+        public List<IItemSlot> ItemSlots { get; private set; }
+        public Dictionary<int, IItemSlot> SelectableItemSlots { get; private set; }
 
-        public event PlayerInventorySlotEventHandler EventChangeActiveSlot;
+        public event InventoryItemEventHandler EventSlotSelected;
 
-        public delegate void PlayerInventoryContainerEventHandler(int[] containerIDX, Transform item);
+        public void CallEventSlotSelected(Transform item) => EventSlotSelected?.Invoke(item);
 
-        public event PlayerInventoryContainerEventHandler EventAddItemToContainer;
-        public event PlayerInventoryContainerEventHandler EventRemoveItemFromContainer;
+        public delegate void InventoryUIEventHandler();
+        public event InventoryUIEventHandler EventReloadBackpack;
 
-        public delegate void PlayerInventoryContainerCallbackEventHandler();
-        public event PlayerInventoryContainerCallbackEventHandler EventItemAddedToContainer;
-        public event PlayerInventoryContainerCallbackEventHandler EventItemRemovedFromContainer;
-        public event PlayerInventoryContainerCallbackEventHandler EventInventoryUIReloadRequest;
+        public void CallEventReloadBackpack() => EventReloadBackpack?.Invoke();
 
-        public void CallEventChangeActiveSlot(int slotIDX)
+        public delegate void InventoryUIDragDropEventHandler(IItemButton itemButton, RectTransform buttonTransform);
+        public event InventoryUIDragDropEventHandler EventOnItemButtonDrop;
+
+        public void CallEventOnItemButtonDrop(IItemButton itemButton, RectTransform buttonTransform) => EventOnItemButtonDrop?.Invoke(itemButton, buttonTransform);
+
+        public delegate void InventoryUIItemEventHandler(Transform item);
+        public event InventoryUIItemEventHandler EventAssignItemToFreeSlot;
+        public event InventoryUIItemEventHandler EventItemFocused;
+        public event InventoryUIItemEventHandler EventItemUnfocused;
+
+        public void CallEventAssignItemToFreeSlot(Transform item) => EventAssignItemToFreeSlot?.Invoke(item);
+        public void CallEventItemFocused(Transform item) => EventItemFocused?.Invoke(item);
+        public void CallEventItemUnfocused(Transform item) => EventItemUnfocused?.Invoke(item);
+
+        public delegate void InventorySlotsEventHandler(int slotIndex);
+        public event InventorySlotsEventHandler EventSelectSlot;
+
+        public void CallEventSelectSlot(int slotIndex) => EventSelectSlot?.Invoke(slotIndex);
+
+
+        public IEnumerable<InventoryItem> GetBackpackItems()
         {
-            EventChangeActiveSlot?.Invoke(slotIDX);
+            InventoryItem[] allItems = Items.GetAllItems();
+            HashSet<InventoryItem> slotItems = ItemSlots.Select(item => item.AssignedItem).ToHashSet();
+
+            return allItems.Where(item => !slotItems.Contains(item));
         }
-        public void CallEventAddItemToContainer(int[] containerIDX, Transform item)
+
+        public override bool IsInventoryAvailableForItem(ItemType itemType)
         {
-            EventAddItemToContainer?.Invoke(containerIDX, item);
-        }
-        public void CallEventRemoveItemFromContainer(int[] containerIDX, Transform item)
-        {
-            EventRemoveItemFromContainer?.Invoke(containerIDX, item);
+            int eligibleSlotsNum = ItemSlots.Where(slot => slot.AcceptableItemTypes.Contains(itemType) && slot.AssignedItem == null).Count();
+
+            if (eligibleSlotsNum > 0)
+                return true;
+
+            return GetBackpackItems().Count() < PlayerMaster.PlayerSettings.Inventory.BackpackCapacity;
         }
 
-        public void CallEventItemAddedToContainer()
+        public void AddSelectableSlot(int index, IItemSlot slotToAdd)
         {
-            EventItemAddedToContainer?.Invoke();
-        }
-        public void CallEventItemRemovedFromContainer()
-        {
-            EventItemRemovedFromContainer?.Invoke();
-        }
-        public void CallEventInventoryUIReloadRequest()
-        {
-            EventInventoryUIReloadRequest?.Invoke();
+            SelectableItemSlots.Add(index, slotToAdd);
         }
 
-        private void Start()
+        private void Awake()
         {
-            if (itemCamera == null) 
-            {
-                Log.GameLogger.Log(Log.LogType.Warning, "no item camera set on player");
-                return;
-            }
-            
-            ItemCamera = itemCamera;
+            ItemContainer = itemContainer;
+            PlayerMaster = GetComponent<PlayerMaster>();
+            ItemSlots = new(PlayerMaster.PlayerSettings.Inventory.InventorySlots.Length);
+            SelectableItemSlots = new();
         }
     }
 }

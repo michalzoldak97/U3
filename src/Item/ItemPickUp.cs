@@ -27,9 +27,7 @@ namespace U3.Item
         private void PlaceOnInventory(Transform inventory)
         {
             if (inventory.TryGetComponent(out IInventoryMaster inventoryMaster))
-            {
                 inventoryMaster.CallEventAddItem(transform);
-            }
         }
     }
 }

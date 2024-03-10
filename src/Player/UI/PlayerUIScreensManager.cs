@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using U3.Input;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace U3.Player.UI
 {
@@ -15,13 +14,11 @@ namespace U3.Player.UI
         {
             playerMaster = GetComponent<PlayerMaster>();
 
-            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.performed += ToggleInventory;
-            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.Enable();
+            PlayerInputManager.HumanoidInputActions.EventToggleInventory += ToggleInventory;
         }
         private void OnDisable()
         {
-            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.performed -= ToggleInventory;
-            ActionMapManager.PlayerInputActions.Humanoid.ToggleInventory.Disable();
+            PlayerInputManager.HumanoidInputActions.EventToggleInventory -= ToggleInventory;
         }
 
         private void InformScreenDisabled(GameObject uiScreenObject)
@@ -58,7 +55,7 @@ namespace U3.Player.UI
             playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Cursor);
         }
 
-        private void ToggleInventory(InputAction.CallbackContext obj)
+        private void ToggleInventory()
         {
             if (screens[UIScreenType.Inventory].ScreenObj.activeSelf)
             {

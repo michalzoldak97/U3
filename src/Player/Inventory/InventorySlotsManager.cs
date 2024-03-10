@@ -1,23 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using U3.Input;
 using U3.Inventory;
 using U3.Item;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace U3.Player.Inventory
 {
     public class InventorySlotsManager : MonoBehaviour
     {
-        public InputActionReference selectSlot1;
-        public InputActionReference selectSlot2;
-        public InputActionReference selectSlot3;
-        public InputActionReference selectSlot4;
-        public InputActionReference selectSlot5;
-        public InputActionReference selectSlot6;
-        public InputActionReference selectSlot7;
-
         private PlayerInventoryMaster inventoryMaster;
 
         private void SetInit()
@@ -29,26 +21,13 @@ namespace U3.Player.Inventory
         {
             SetInit();
 
-            selectSlot1.action.Enable();
-            selectSlot1.action.performed += context => OnSlotSelected(1);
-
-            selectSlot2.action.Enable();
-            selectSlot2.action.performed += context => OnSlotSelected(2);
-
-            selectSlot3.action.Enable();
-            selectSlot3.action.performed += context => OnSlotSelected(3);
-
-            selectSlot4.action.Enable();
-            selectSlot4.action.performed += context => OnSlotSelected(4);
-
-            selectSlot5.action.Enable();
-            selectSlot5.action.performed += context => OnSlotSelected(5);
-
-            selectSlot6.action.Enable();
-            selectSlot6.action.performed += context => OnSlotSelected(6);
-
-            selectSlot7.action.Enable();
-            selectSlot7.action.performed += context => OnSlotSelected(7);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot1 += () => OnSlotSelected(1);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot2 += () => OnSlotSelected(2);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot3 += () => OnSlotSelected(3);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot4 += () => OnSlotSelected(4);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot5 += () => OnSlotSelected(5);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot6 += () => OnSlotSelected(6);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot7 += () => OnSlotSelected(7);
 
             inventoryMaster.EventSelectSlot += OnSlotSelected;
 
@@ -59,26 +38,13 @@ namespace U3.Player.Inventory
 
         private void OnDisable()
         {
-            selectSlot1.action.performed -= context => OnSlotSelected(1);
-            selectSlot1.action.Disable();
-
-            selectSlot2.action.performed -= context => OnSlotSelected(2);
-            selectSlot2.action.Disable();
-
-            selectSlot3.action.performed -= context => OnSlotSelected(3);
-            selectSlot3.action.Disable();
-
-            selectSlot4.action.performed -= context => OnSlotSelected(4);
-            selectSlot4.action.Disable();
-
-            selectSlot5.action.performed -= context => OnSlotSelected(5);
-            selectSlot5.action.Disable();
-
-            selectSlot6.action.performed -= context => OnSlotSelected(6);
-            selectSlot6.action.Disable();
-
-            selectSlot7.action.performed -= context => OnSlotSelected(7);
-            selectSlot7.action.Disable();
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot1 -= () => OnSlotSelected(1);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot2 -= () => OnSlotSelected(2);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot3 -= () => OnSlotSelected(3);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot4 -= () => OnSlotSelected(4);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot5 -= () => OnSlotSelected(5);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot6 -= () => OnSlotSelected(6);
+            PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot7 -= () => OnSlotSelected(7);
 
             inventoryMaster.EventSelectSlot -= OnSlotSelected;
 

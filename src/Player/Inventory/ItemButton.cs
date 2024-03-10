@@ -24,7 +24,8 @@ namespace U3.Player.Inventory
             InventoryItem = inventoryItem;
             UIEventsMaster = uIEventsMaster;
 
-            itemName.text = InventoryItem.Item.name;
+            itemName.text = InventoryItem.ItemMaster.ItemSettings.ToItemName != "" 
+                ? InventoryItem.ItemMaster.ItemSettings.ToItemName : InventoryItem.Item.name;
             initialBackgroundColor = background.color;
 
             if (TryGetComponent(out DraggableItem draggabeItem))

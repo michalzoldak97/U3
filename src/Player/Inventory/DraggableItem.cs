@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace U3.Player.Inventory
 {
-    public class DraggableItem : MonoBehaviour, IUIScreenStateDependent, IInitializePotentialDragHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class DraggableItem : MonoBehaviour, IUIScreenStateDependent, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         private IItemButton itemButton;
         private IInventoryUIEventsMaster uIEventsMaster;
@@ -16,11 +16,6 @@ namespace U3.Player.Inventory
 
             itemButton = GetComponent<ItemButton>();
             rTransform = GetComponent<RectTransform>();
-        }
-
-        public void OnInitializePotentialDrag(PointerEventData eventData)
-        {
-            Debug.Log("OnInitializePotentialDrag");
         }
 
         public void OnBeginDrag(PointerEventData eventData)

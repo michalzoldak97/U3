@@ -34,8 +34,6 @@ namespace U3.Player.Inventory
 
         private void UpdateBackpack()
         {
-            Debug.Log("updatin the backpack");
-
             foreach (Transform itemButton in itemsParent)
             {
                 Destroy(itemButton.gameObject);

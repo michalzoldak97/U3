@@ -12,7 +12,7 @@ namespace U3.Input
         public static event Action<InputActionMap> ActionMapChange;
 
         private static readonly PlayerInputActions playerInputActions = new();
-        private static readonly HumanoidInputActions humanoidInputActions = new();
+        private readonly static HumanoidInputActions humanoidInputActions = HumanoidInputActionsFactory.GetInputActions("test");
 
         public static void ToggleActionMap(InputActionMap actionMapToSet)
         {
@@ -30,7 +30,6 @@ namespace U3.Input
         public static void Init()
         {
             ToggleActionMap(playerInputActions.Humanoid);
-            // create new humanoid actions, but allow to create test ones
             humanoidInputActions.SetInputActions(playerInputActions);
         }
     }

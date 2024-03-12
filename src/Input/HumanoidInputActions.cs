@@ -5,9 +5,29 @@ namespace U3.Input
 {
     public class HumanoidInputActions
     {
-        public virtual float MouseX => playerInputActions.Humanoid.MouseX.ReadValue<float>();
-        public virtual float MouseY => playerInputActions.Humanoid.MouseY.ReadValue<float>();
-        public virtual Vector2 Move => playerInputActions.Humanoid.Move.ReadValue<Vector2>();
+        public virtual float MouseX { 
+            get 
+            { 
+                return playerInputActions.Humanoid.MouseX.ReadValue<float>(); 
+            }
+            protected set { } 
+        }
+        public virtual float MouseY
+        {
+            get
+            {
+                return playerInputActions.Humanoid.MouseY.ReadValue<float>();
+            }
+            protected set { }
+        }
+        public virtual Vector2 Move
+        {
+            get
+            {
+                return playerInputActions.Humanoid.Move.ReadValue<Vector2>();
+            }
+            protected set { }
+        }
 
         public delegate void HumanoidInputActionsEventHandler();
         public event HumanoidInputActionsEventHandler EventRunStart;

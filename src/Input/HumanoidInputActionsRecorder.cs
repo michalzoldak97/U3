@@ -8,6 +8,7 @@ namespace U3.Input
     [System.Serializable]
     internal struct KeyboardInput
     {
+        [SerializeField] public int Index;
         [SerializeField] public Vector2 Move;
         [SerializeField] public bool RunStart;
         [SerializeField] public bool RunFinish;
@@ -31,6 +32,7 @@ namespace U3.Input
     [System.Serializable]
     internal struct MouseInput
     {
+        [SerializeField] public int Index;
         [SerializeField] public float MouseX;
         [SerializeField] public float MouseY;
     }
@@ -122,6 +124,7 @@ namespace U3.Input
             keyboardInput.Move = PlayerInputManager.HumanoidInputActions.Move;
             keyboardInputs.Add(keyboardInput);
             ResetKeyboardInputs();
+            keyboardInput.Index++;
         }
 
         private void RecordMouse()
@@ -129,6 +132,7 @@ namespace U3.Input
             mouseInput.MouseX = PlayerInputManager.HumanoidInputActions.MouseX;
             mouseInput.MouseY = PlayerInputManager.HumanoidInputActions.MouseY;
             mouseInputs.Add(mouseInput);
+            mouseInput.Index++;
         }
 
         private void FixedUpdate()

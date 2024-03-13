@@ -5,6 +5,7 @@ namespace U3.Input
 {
     public class HumanoidInputActions
     {
+        public virtual void SetMouseX(float toSet) { }
         public virtual float MouseX { 
             get 
             { 
@@ -12,6 +13,8 @@ namespace U3.Input
             }
             protected set { } 
         }
+
+        public virtual void SetMouseY(float toSet) { }
         public virtual float MouseY
         {
             get
@@ -20,6 +23,8 @@ namespace U3.Input
             }
             protected set { }
         }
+
+        public virtual void SetMove(Vector2 toSet) { }
         public virtual Vector2 Move
         {
             get
@@ -49,7 +54,7 @@ namespace U3.Input
         public event HumanoidInputActionsEventHandler EventChangeActiveInventorySlot7;
 
         public virtual void CallEventRunStart(InputAction.CallbackContext ctx) => EventRunStart?.Invoke();
-        public virtual void CalEventRunFinish(InputAction.CallbackContext ctx) => EventRunFinish?.Invoke();
+        public virtual void CallEventRunFinish(InputAction.CallbackContext ctx) => EventRunFinish?.Invoke();
         public virtual void CallEventJump(InputAction.CallbackContext ctx) => EventJump?.Invoke();
         public virtual void CallEventItemInteract(InputAction.CallbackContext ctx) => EventItemInteract?.Invoke();
         public virtual void CallEventItemThrow(InputAction.CallbackContext ctx) => EventItemThrow?.Invoke();
@@ -95,7 +100,7 @@ namespace U3.Input
         private void SubscribeActions()
         {
             playerInputActions.Humanoid.RunStart.performed += CallEventRunStart;
-            playerInputActions.Humanoid.RunFinish.performed += CalEventRunFinish;
+            playerInputActions.Humanoid.RunFinish.performed += CallEventRunFinish;
             playerInputActions.Humanoid.Jump.performed += CallEventJump;
             playerInputActions.Humanoid.ItemInteract.performed += CallEventItemInteract;
             playerInputActions.Humanoid.ItemThrow.performed += CallEventItemThrow;

@@ -4,19 +4,19 @@ namespace U3.Input
 {
     public class PlayableHumanoidInputActions : HumanoidInputActions
     {
-        public void SetMouseX(float toSet)
+        public override void SetMouseX(float toSet)
         {
             MouseX = toSet;
         }
         public override float MouseX { get; protected set; }
 
-        public void SetMouseY(float toSet)
+        public override void SetMouseY(float toSet)
         {
             MouseY = toSet;
         }
         public override float MouseY { get; protected set; }
 
-        public void SetMove(Vector2 toSet)
+        public override void SetMove(Vector2 toSet)
         {
             Move = toSet;
         }

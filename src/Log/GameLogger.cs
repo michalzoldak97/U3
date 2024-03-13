@@ -14,7 +14,7 @@ namespace U3.Log
         };
         public static void Log(GameLog gameLog)
         {
-            if (!GameConfig.EnableLogs)
+            if (!GameConfig.GameConfigSettings.EnableLogs)
                 return;
 
             if (gameLog.LogType == LogType.Error)

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace U3.Item
 {
-    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ItemSettings", order = 1)]
+    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ItemSettings", order = 2)]
     public class ItemSettings : ScriptableObject
     {
         public bool KeepObjActive;

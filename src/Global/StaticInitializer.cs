@@ -5,10 +5,9 @@ namespace U3.Global
 {
     public class StaticInitializer : MonoBehaviour
     {
-        private void Awake()
+        public void Initialize()
         {
-            ActionMapManager.Init();
-            Config.GameConfig.Init();
+            PlayerInputManager.Init();
         }
     }
 }

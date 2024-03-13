@@ -1,9 +1,7 @@
 using U3.Input;
-using U3.Inventory;
 using U3.Item;
 using U3.Log;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace U3.Player.Inventory
 {
@@ -60,8 +58,7 @@ namespace U3.Player.Inventory
         {
             SetInit();
 
-            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.performed += CallItemInteraction;
-            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.Enable();
+            PlayerInputManager.HumanoidInputActions.EventItemInteract += CallItemInteraction;
 
             inventoryMaster.EventItemRemoved += UpdateItemStatusOnInventoryChanged;
             inventoryMaster.EventInventoryCleared += UpdateItemStatusOnInventoryChanged;
@@ -70,15 +67,14 @@ namespace U3.Player.Inventory
 
         private void OnDisable()
         {
-            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.performed -= CallItemInteraction;
-            ActionMapManager.PlayerInputActions.Humanoid.ItemInteract.Disable();
+            PlayerInputManager.HumanoidInputActions.EventItemInteract -= CallItemInteraction;
 
             inventoryMaster.EventItemRemoved -= UpdateItemStatusOnInventoryChanged;
             inventoryMaster.EventInventoryCleared -= UpdateItemStatusOnInventoryChanged;
             inventoryMaster.EventReloadBackpack -= UpdateItemStatusOnInventoryChanged;
         }
 
-        private void CallItemInteraction(InputAction.CallbackContext obj)
+        private void CallItemInteraction()
         {
             if (!isItemInRange || !isItemAvailable || !inventoryMaster.PlayerMaster.IsInventoryItemInteractionEnabled)
                 return;

@@ -1,7 +1,6 @@
 using U3.Input;
 using U3.Player.Controller;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace U3.Player
 {
@@ -29,18 +28,18 @@ namespace U3.Player
         {
             SetInit();
 
-            ActionMapManager.PlayerInputActions.Humanoid.Jump.performed += PlayJumpSound;
+            PlayerInputManager.HumanoidInputActions.EventJump += PlayJumpSound;
             moveManager.EventLand += PlayLandSound;
             moveManager.EventStep += PlayFootstepSound;
         }
         private void OnDisable()
         {
-            ActionMapManager.PlayerInputActions.Humanoid.Jump.performed -= PlayJumpSound;
+            PlayerInputManager.HumanoidInputActions.EventJump -= PlayJumpSound;
             moveManager.EventLand -= PlayLandSound;
             moveManager.EventStep -= PlayFootstepSound;
         }
 
-        private void PlayJumpSound(InputAction.CallbackContext obj)
+        private void PlayJumpSound()
         {
             m_audioSource.PlayOneShot(playerMaster.PlayerSettings.Sound.JumpSound);
         }

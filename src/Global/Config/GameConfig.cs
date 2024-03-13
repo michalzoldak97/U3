@@ -2,11 +2,8 @@ namespace U3.Global.Config
 {
     public static class GameConfig
     {
-        public static bool EnableLogs { get; private set; }
+        public static GameConfigSettings GameConfigSettings { get; private set; }
 
-        public static void Init()
-        {
-            EnableLogs = true;
-        }
+        public static void SetGameConfigSettings(GameConfigSettings toSet) => GameConfigSettings = toSet;
     }
 }

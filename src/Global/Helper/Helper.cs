@@ -1,4 +1,3 @@
-using NUnit.Framework.Internal;
 using System.Collections.Generic;
 using System.Reflection;
 using U3.Log;
@@ -6,6 +5,11 @@ using UnityEngine;
 
 namespace U3.Global.Helper
 {
+    [System.Serializable]
+    internal class JSONWrapper<T>
+    {
+        public T[] Items;
+    }
     public static class Helper
     {
         public static T[] FetchAllComponents<T>(GameObject obj) where T : Component
@@ -65,5 +69,9 @@ namespace U3.Global.Helper
             }
             return true;
         }
+
+        public static string ArrayToJSON<T>(T[] arr) => JsonUtility.ToJson(new JSONWrapper<T> { Items = arr });
+
+        public static T[] JSONToArray<T>(string json) => JsonUtility.FromJson<JSONWrapper<T>>(json).Items;
     }
 }

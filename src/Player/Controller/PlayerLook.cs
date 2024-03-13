@@ -1,6 +1,5 @@
 using U3.Input;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace U3.Player.Controller
 {
@@ -11,10 +10,8 @@ namespace U3.Player.Controller
         private Vector3 up;
         private Vector3 left;
         private Transform m_Transform, fpsCamera;
-        private InputAction lookX;
-        private InputAction lookY;
 
-        private void SetInit()
+        private void OnEnable()
         {
             PlayerMaster playerMaster = GetComponent<PlayerMaster>();
 
@@ -25,24 +22,11 @@ namespace U3.Player.Controller
             left = Vector3.left;
             m_Transform = transform;
             fpsCamera = playerMaster.FPSCamera;
-            lookX = ActionMapManager.PlayerInputActions.Humanoid.MouseX;
-            lookY = ActionMapManager.PlayerInputActions.Humanoid.MouseY;
-        }
-        private void OnEnable()
-        {
-            SetInit();
-            lookX.Enable();
-            lookY.Enable();
-        }
-        private void OnDisable()
-        {
-            lookX.Disable();
-            lookY.Disable();
         }
         private void Look()
         {
-            float mouseX = lookX.ReadValue<float>();
-            float mouseY = lookY.ReadValue<float>();
+            float mouseX = PlayerInputManager.HumanoidInputActions.MouseX;
+            float mouseY = PlayerInputManager.HumanoidInputActions.MouseY;
 
             if (mouseX != .0f)
                 m_Transform.Rotate(up, mouseX * sensitivityXY.x);

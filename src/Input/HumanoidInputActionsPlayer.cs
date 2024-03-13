@@ -104,7 +104,7 @@ namespace U3.Input
         private void RunMouseData(MouseInput mouseInput)
         {
             PlayerInputManager.HumanoidInputActions.SetMouseX(mouseInput.MouseX);
-            PlayerInputManager.HumanoidInputActions.SetMouseX(mouseInput.MouseY);
+            PlayerInputManager.HumanoidInputActions.SetMouseY(mouseInput.MouseY);
         }
 
         private void PlayMouse()

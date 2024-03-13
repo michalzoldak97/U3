@@ -12,7 +12,7 @@ namespace U3.Input
         public static event Action<InputActionMap> ActionMapChange;
 
         private static readonly PlayerInputActions playerInputActions = new();
-        private readonly static HumanoidInputActions humanoidInputActions = HumanoidInputActionsFactory.GetInputActions("test");
+        private readonly static HumanoidInputActions humanoidInputActions = HumanoidInputActionsFactory.GetInputActions("default");
 
         public static void ToggleActionMap(InputActionMap actionMapToSet)
         {

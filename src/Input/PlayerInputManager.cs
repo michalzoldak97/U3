@@ -1,4 +1,5 @@
 using System;
+using U3.Global.Config;
 using U3.Log;
 using UnityEngine.InputSystem;
 
@@ -12,7 +13,7 @@ namespace U3.Input
         public static event Action<InputActionMap> ActionMapChange;
 
         private static readonly PlayerInputActions playerInputActions = new();
-        private readonly static HumanoidInputActions humanoidInputActions = HumanoidInputActionsFactory.GetInputActions("default");
+        private readonly static HumanoidInputActions humanoidInputActions = HumanoidInputActionsFactory.GetInputActions(GameConfig.GameConfigSettings.InputActionCode);
 
         public static void ToggleActionMap(InputActionMap actionMapToSet)
         {

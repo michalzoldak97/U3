@@ -1,7 +1,6 @@
-﻿using U3.Global.Config;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace U3.Global
+namespace U3.Global.Config
 {
     public class InEditorConfigLoader : MonoBehaviour
     {

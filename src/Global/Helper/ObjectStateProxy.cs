@@ -1,3 +1,4 @@
+using U3.Log;
 using UnityEngine;
 
 namespace U3.Global.Helper
@@ -6,7 +7,7 @@ namespace U3.Global.Helper
   {
      private bool isChangeByMethod = true;
 
-     public virtual void ChangeObjectState(toState bool)
+     public virtual void ChangeObjectState(bool toState)
      {
        isChangeByMethod = true;
        gameObject.SetActive(toState);
@@ -16,7 +17,8 @@ namespace U3.Global.Helper
      {
        if (!isChangeByMethod)
        {
-          GameLogger.Log(new GameLog(LogType.Warning, "action map is already active"));
+          GameLogger.Log(new GameLog(Log.LogType.Error,
+              $"Attempt to modify state of the {gameObject.name} outside of the state proxy"));
           return;
        }
        isChangeByMethod = false;
@@ -27,7 +29,7 @@ namespace U3.Global.Helper
        CheckIsChangeByMethod();
      }
 
-     protected virtual OnDisable()
+     protected virtual void OnDisable()
      {
        CheckIsChangeByMethod();
      }

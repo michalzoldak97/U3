@@ -1,3 +1,16 @@
-// is object state proxy
-// camera manager enables / disables it via proxy
-// has an array of codes that should be disabled / enabled with the object
+using UnityEngine;
+using U3.Global.Helper;
+
+namespace U3.Global.Rendering
+{
+    public class SceneCamera : ObjectStateProxy
+    {
+        [SerializeField] private string cameraCode;
+        [SerializeField] private string[] rendererFeaturesToActivateCodes;
+        [SerializeField] private string[] rendererFeaturesToDeactivateCodes;
+
+        public string CameraCode => cameraCode;
+        public string[] RendererFeaturesToActivateCodes => rendererFeaturesToActivateCodes;
+        public string[] RendererFeaturesToDeactivateCodes => rendererFeaturesToDeactivateCodes;
+    }
+}

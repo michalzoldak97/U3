@@ -5,7 +5,7 @@ namespace U3.Global.Helper
 {
   public class ObjectStateProxy : MonoBehaviour
   {
-     private bool isChangeByMethod = true;
+     protected bool isChangeByMethod = true;
 
      public virtual void ChangeObjectState(bool toState)
      {

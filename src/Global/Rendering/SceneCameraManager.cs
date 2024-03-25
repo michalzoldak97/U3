@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using U3.Log;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace U3.Global.Rendering
         public static SceneCameraManager instance;
 
         [SerializeField] private ToggleableRenderrerFeature[] toggleableRenderrerFeatures;
+
         [SerializeField] private SceneCamera[] sceneCameras;
 
         private void ChangeCameraFeatures(SceneCamera sceneCamera, bool toState)
@@ -41,6 +41,7 @@ namespace U3.Global.Rendering
         {
             DisableSceneCameras();
             ChangeCameraFeatures(sceneCamera, true);
+            sceneCamera.ChangeObjectState(true);
         }
 
         public void EnableSceneCamera(string cameraCode)

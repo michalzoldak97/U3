@@ -58,11 +58,17 @@ namespace U3.Input
             if (keyboardInput.ToggleMiniMap)
                 PlayerInputManager.HumanoidInputActions.CallEventToggleMiniMap(new InputAction.CallbackContext());
 
-            if (keyboardInput.Aim)
-                PlayerInputManager.HumanoidInputActions.CallEventAim(new InputAction.CallbackContext());
+            if (keyboardInput.AimDown)
+                PlayerInputManager.HumanoidInputActions.CallEventAimDown(new InputAction.CallbackContext());
 
-            if (keyboardInput.Shoot)
-                PlayerInputManager.HumanoidInputActions.CallEventShoot(new InputAction.CallbackContext());
+            if (keyboardInput.AimUp)
+                PlayerInputManager.HumanoidInputActions.CallEventAimUp(new InputAction.CallbackContext());
+
+            if (keyboardInput.FireDown)
+                PlayerInputManager.HumanoidInputActions.CallEventFireDown(new InputAction.CallbackContext());
+
+            if (keyboardInput.FireUp)
+                PlayerInputManager.HumanoidInputActions.CallEventFireUp(new InputAction.CallbackContext());
 
             if (keyboardInput.Reload)
                 PlayerInputManager.HumanoidInputActions.CallEventReload(new InputAction.CallbackContext());

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using U3.Global.Rendering;
 using U3.Input;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace U3.Player.UI
 {
     public class PlayerUIScreensManager : MonoBehaviour
     {
+        private bool isMiniMapOn; // TODO: create mini map screen
+
         private readonly Dictionary<UIScreenType, IUIScreen> screens = new();
 
         private PlayerMaster playerMaster;
@@ -15,10 +18,12 @@ namespace U3.Player.UI
             playerMaster = GetComponent<PlayerMaster>();
 
             PlayerInputManager.HumanoidInputActions.EventToggleInventory += ToggleInventory;
+            PlayerInputManager.HumanoidInputActions.EventToggleMiniMap += ToggleMiniMap;
         }
         private void OnDisable()
         {
             PlayerInputManager.HumanoidInputActions.EventToggleInventory -= ToggleInventory;
+            PlayerInputManager.HumanoidInputActions.EventToggleMiniMap -= ToggleMiniMap;
         }
 
         private void InformScreenDisabled(GameObject uiScreenObject)
@@ -69,6 +74,13 @@ namespace U3.Player.UI
             playerMaster.CallEventTogglePlayerControl(false, Controller.PlayerControlType.Look);
 
             EnableScreen(UIScreenType.Inventory);
+        }
+
+        private void ToggleMiniMap()
+        {
+            string camCode = isMiniMapOn ? "FPSPlayer" : "3rdCamera";
+            SceneCameraManager.instance.EnableSceneCamera(camCode);
+            isMiniMapOn = !isMiniMapOn;
         }
 
         private void FetchScreens()

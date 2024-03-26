@@ -41,6 +41,7 @@ namespace U3.Input
         public event HumanoidInputActionsEventHandler EventItemInteract;
         public event HumanoidInputActionsEventHandler EventItemThrow;
         public event HumanoidInputActionsEventHandler EventToggleInventory;
+        public event HumanoidInputActionsEventHandler EventToggleMiniMap;
         public event HumanoidInputActionsEventHandler EventAim;
         public event HumanoidInputActionsEventHandler EventShoot;
         public event HumanoidInputActionsEventHandler EventReload;
@@ -53,23 +54,24 @@ namespace U3.Input
         public event HumanoidInputActionsEventHandler EventChangeActiveInventorySlot6;
         public event HumanoidInputActionsEventHandler EventChangeActiveInventorySlot7;
 
-        public virtual void CallEventRunStart(InputAction.CallbackContext ctx) => EventRunStart?.Invoke();
-        public virtual void CallEventRunFinish(InputAction.CallbackContext ctx) => EventRunFinish?.Invoke();
-        public virtual void CallEventJump(InputAction.CallbackContext ctx) => EventJump?.Invoke();
-        public virtual void CallEventItemInteract(InputAction.CallbackContext ctx) => EventItemInteract?.Invoke();
-        public virtual void CallEventItemThrow(InputAction.CallbackContext ctx) => EventItemThrow?.Invoke();
-        public virtual void CallEventToggleInventory(InputAction.CallbackContext ctx) => EventToggleInventory?.Invoke();
-        public virtual void CallEventAim(InputAction.CallbackContext ctx) => EventAim?.Invoke();
-        public virtual void CallEventShoot(InputAction.CallbackContext ctx) => EventShoot?.Invoke();
-        public virtual void CallEventReload(InputAction.CallbackContext ctx) => EventReload?.Invoke();
-        public virtual void CallEventChangeWeaponMode(InputAction.CallbackContext ctx) => EventChangeWeaponMode?.Invoke();
-        public virtual void CallEventChangeActiveInventorySlot1(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot1?.Invoke();
-        public virtual void CallEventChangeActiveInventorySlot2(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot2?.Invoke();
-        public virtual void CallEventChangeActiveInventorySlot3(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot3?.Invoke();
-        public virtual void CallEventChangeActiveInventorySlot4(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot4?.Invoke();
-        public virtual void CallEventChangeActiveInventorySlot5(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot5?.Invoke();
-        public virtual void CallEventChangeActiveInventorySlot6(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot6?.Invoke();
-        public virtual void CallEventChangeActiveInventorySlot7(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot7?.Invoke();
+        public void CallEventRunStart(InputAction.CallbackContext ctx) => EventRunStart?.Invoke();
+        public void CallEventRunFinish(InputAction.CallbackContext ctx) => EventRunFinish?.Invoke();
+        public void CallEventJump(InputAction.CallbackContext ctx) => EventJump?.Invoke();
+        public void CallEventItemInteract(InputAction.CallbackContext ctx) => EventItemInteract?.Invoke();
+        public void CallEventItemThrow(InputAction.CallbackContext ctx) => EventItemThrow?.Invoke();
+        public void CallEventToggleInventory(InputAction.CallbackContext ctx) => EventToggleInventory?.Invoke();
+        public void CallEventToggleMiniMap(InputAction.CallbackContext ctx) => EventToggleMiniMap?.Invoke();
+        public void CallEventAim(InputAction.CallbackContext ctx) => EventAim?.Invoke();
+        public void CallEventShoot(InputAction.CallbackContext ctx) => EventShoot?.Invoke();
+        public void CallEventReload(InputAction.CallbackContext ctx) => EventReload?.Invoke();
+        public void CallEventChangeWeaponMode(InputAction.CallbackContext ctx) => EventChangeWeaponMode?.Invoke();
+        public void CallEventChangeActiveInventorySlot1(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot1?.Invoke();
+        public void CallEventChangeActiveInventorySlot2(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot2?.Invoke();
+        public void CallEventChangeActiveInventorySlot3(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot3?.Invoke();
+        public void CallEventChangeActiveInventorySlot4(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot4?.Invoke();
+        public void CallEventChangeActiveInventorySlot5(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot5?.Invoke();
+        public void CallEventChangeActiveInventorySlot6(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot6?.Invoke();
+        public void CallEventChangeActiveInventorySlot7(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot7?.Invoke();
 
         private PlayerInputActions playerInputActions;
 
@@ -84,6 +86,7 @@ namespace U3.Input
             playerInputActions.Humanoid.ItemInteract.Enable();
             playerInputActions.Humanoid.ItemThrow.Enable();
             playerInputActions.Humanoid.ToggleInventory.Enable();
+            playerInputActions.Humanoid.ToggleMiniMap.Enable();
             playerInputActions.Humanoid.Aim.Enable();
             playerInputActions.Humanoid.Shoot.Enable();
             playerInputActions.Humanoid.Reload.Enable();
@@ -105,6 +108,7 @@ namespace U3.Input
             playerInputActions.Humanoid.ItemInteract.performed += CallEventItemInteract;
             playerInputActions.Humanoid.ItemThrow.performed += CallEventItemThrow;
             playerInputActions.Humanoid.ToggleInventory.performed += CallEventToggleInventory;
+            playerInputActions.Humanoid.ToggleMiniMap.performed += CallEventToggleMiniMap;
             playerInputActions.Humanoid.Aim.performed += CallEventAim;
             playerInputActions.Humanoid.Shoot.performed += CallEventShoot;
             playerInputActions.Humanoid.Reload.performed += CallEventReload;

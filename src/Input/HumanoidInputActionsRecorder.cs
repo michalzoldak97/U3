@@ -16,6 +16,7 @@ namespace U3.Input
         [SerializeField] public bool ItemInteract;
         [SerializeField] public bool ItemThrow;
         [SerializeField] public bool ToggleInventory;
+        [SerializeField] public bool ToggleMiniMap;
         [SerializeField] public bool Aim;
         [SerializeField] public bool Shoot;
         [SerializeField] public bool Reload;
@@ -59,6 +60,7 @@ namespace U3.Input
         public void SetItemInteract(bool toSet) => keyboardInput.ItemInteract = toSet;
         public void SetItemThrow(bool toSet) => keyboardInput.ItemThrow = toSet;
         public void SetToggleInventory(bool toSet) => keyboardInput.ToggleInventory = toSet;
+        public void SetToggleMiniMap(bool toSet) => keyboardInput.ToggleMiniMap = toSet;
         public void SetAim(bool toSet) => keyboardInput.Aim = toSet;
         public void SetShoot(bool toSet) => keyboardInput.Shoot = toSet;
         public void SetReload(bool toSet) => keyboardInput.Reload = toSet;
@@ -79,6 +81,7 @@ namespace U3.Input
             PlayerInputManager.HumanoidInputActions.EventItemInteract += () => SetItemInteract(true);
             PlayerInputManager.HumanoidInputActions.EventItemThrow += () => SetItemThrow(true);
             PlayerInputManager.HumanoidInputActions.EventToggleInventory += () => SetToggleInventory(true);
+            PlayerInputManager.HumanoidInputActions.EventToggleMiniMap += () => SetToggleMiniMap(true);
             PlayerInputManager.HumanoidInputActions.EventAim += () => SetAim(true);
             PlayerInputManager.HumanoidInputActions.EventShoot += () => SetShoot(true);
             PlayerInputManager.HumanoidInputActions.EventReload += () => SetReload(true);
@@ -106,6 +109,7 @@ namespace U3.Input
             SetItemInteract(false);
             SetItemThrow(false);
             SetToggleInventory(false);
+            SetToggleMiniMap(false);
             SetAim(false);
             SetShoot(false);
             SetReload(false);

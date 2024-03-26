@@ -55,6 +55,9 @@ namespace U3.Input
             if (keyboardInput.ToggleInventory)
                 PlayerInputManager.HumanoidInputActions.CallEventToggleInventory(new InputAction.CallbackContext());
 
+            if (keyboardInput.ToggleMiniMap)
+                PlayerInputManager.HumanoidInputActions.CallEventToggleMiniMap(new InputAction.CallbackContext());
+
             if (keyboardInput.Aim)
                 PlayerInputManager.HumanoidInputActions.CallEventAim(new InputAction.CallbackContext());
 

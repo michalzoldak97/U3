@@ -31,7 +31,7 @@ namespace U3.Global.Helper
 
         protected virtual void OnDisable()
         {
-            if (ApplicationState.IsQuitting)
+            if (ApplicationState.IsSceneSwitching || ApplicationState.IsQuitting)
                 return;
 
             CheckIsChangeByMethod();

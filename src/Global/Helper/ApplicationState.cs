@@ -12,14 +12,14 @@ namespace U3.Global.Helper
 
         public static bool IsQuitting { get; private set; }
 
-        public static bool IsSceneUnloading { get; private set; }
+        public static bool IsSceneSwitching { get; set; }
 
 #if UNITY_EDITOR
         [InitializeOnEnterPlayMode]
         private static void EnterPlayMode(EnterPlayModeOptions options)
         {
             IsQuitting = false;
-            IsSceneUnloading = false;
+            IsSceneSwitching = false;
         }
 #endif
 
@@ -27,10 +27,10 @@ namespace U3.Global.Helper
         private static void RunOnStart()
         {
             IsQuitting = false;
-            IsSceneUnloading = false;
+            IsSceneSwitching = false;
 
             Application.quitting += Quit;
-            SceneManager.activeSceneChanged += UnloadScene;
+            SceneManager.sceneLoaded += SceneSwitchFinished;
         }
 
         private static void Quit()
@@ -38,9 +38,9 @@ namespace U3.Global.Helper
             IsQuitting = true;
         }
 
-        private static void UnloadScene(Scene a, Scene b)
+        private static void SceneSwitchFinished(Scene _, LoadSceneMode mode)
         {
-            IsSceneUnloading = true;
+            IsSceneSwitching = false;
         }
 
         #endregion

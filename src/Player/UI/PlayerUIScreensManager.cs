@@ -79,7 +79,7 @@ namespace U3.Player.UI
         private void ToggleMiniMap()
         {
             string camCode = isMiniMapOn ? "FPSPlayer" : "3rdCamera";
-            SceneCameraManager.instance.EnableSceneCamera(camCode);
+            SceneCameraManager.Instance.EnableSceneCamera(camCode);
             isMiniMapOn = !isMiniMapOn;
         }
 

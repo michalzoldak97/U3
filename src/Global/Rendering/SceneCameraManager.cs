@@ -5,7 +5,7 @@ namespace U3.Global.Rendering
 {
     public class SceneCameraManager : MonoBehaviour
     {
-        public static SceneCameraManager instance;
+        public static SceneCameraManager Instance;
 
         [SerializeField] private ToggleableRenderrerFeature[] toggleableRenderrerFeatures;
 
@@ -60,8 +60,8 @@ namespace U3.Global.Rendering
 
         private void Awake()
         {
-            if (instance == null)
-                instance = this;
+            if (Instance == null)
+                Instance = this;
         }
     }
 }

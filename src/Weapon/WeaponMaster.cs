@@ -6,6 +6,8 @@ namespace U3.Weapon
 {
     public class WeaponMaster : MonoBehaviour, IItemInputProvider
     {
+        public bool IsLoaded { get; set; }
+        public bool IsShooting { get; set; }
         public ItemMaster ItemMaster { get; private set; }
 
         public delegate void WeaponFireInputEventHandler(FireInputOrigin inputOrigin);

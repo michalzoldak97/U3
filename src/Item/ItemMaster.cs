@@ -6,7 +6,7 @@ namespace U3.Item
     {
         [SerializeField] private ItemSettings itemSettings;
 
-        public ItemSettings ItemSettings { get { return itemSettings; } private set { } }
+        public ItemSettings ItemSettings => itemSettings;
 
         public delegate void ItemInteractionEventHandler(Transform origin);
         public event ItemInteractionEventHandler EventInteractionCalled;

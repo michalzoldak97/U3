@@ -2,7 +2,7 @@
 {
     public readonly struct FireInputOrigin
     {
-        int ID { get; }
+        public int ID { get; }
         public string Name { get; }
         // TODO: public TeamID { get; }
 

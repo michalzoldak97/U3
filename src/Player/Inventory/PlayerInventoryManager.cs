@@ -19,13 +19,13 @@ namespace U3.Player.Inventory
         protected override void OnEnable()
         {
             base.OnEnable();
-            PlayerInputManager.HumanoidInputActions.EventItemThrow += OnItemThrow;
+            PlayerInputManager.UIInputActions.EventItemThrow += OnItemThrow;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            PlayerInputManager.HumanoidInputActions.EventItemThrow -= OnItemThrow;
+            PlayerInputManager.UIInputActions.EventItemThrow -= OnItemThrow;
         }
 
         private void OnItemThrow()

@@ -5,6 +5,7 @@ namespace U3.Input
 {
     public class HumanoidInputActions
     {
+        private PlayerInputActions playerInputActions;
         public virtual void SetMouseX(float toSet) { }
         public virtual float MouseX { 
             get 
@@ -39,7 +40,6 @@ namespace U3.Input
         public event HumanoidInputActionsEventHandler EventRunFinish;
         public event HumanoidInputActionsEventHandler EventJump;
         public event HumanoidInputActionsEventHandler EventItemInteract;
-        public event HumanoidInputActionsEventHandler EventItemThrow;
         public event HumanoidInputActionsEventHandler EventToggleInventory;
         public event HumanoidInputActionsEventHandler EventToggleMiniMap;
         public event HumanoidInputActionsEventHandler EventAimDown;
@@ -60,7 +60,6 @@ namespace U3.Input
         public void CallEventRunFinish(InputAction.CallbackContext ctx) => EventRunFinish?.Invoke();
         public void CallEventJump(InputAction.CallbackContext ctx) => EventJump?.Invoke();
         public void CallEventItemInteract(InputAction.CallbackContext ctx) => EventItemInteract?.Invoke();
-        public void CallEventItemThrow(InputAction.CallbackContext ctx) => EventItemThrow?.Invoke();
         public void CallEventToggleInventory(InputAction.CallbackContext ctx) => EventToggleInventory?.Invoke();
         public void CallEventToggleMiniMap(InputAction.CallbackContext ctx) => EventToggleMiniMap?.Invoke();
         public void CallEventAimDown(InputAction.CallbackContext ctx) => EventAimDown?.Invoke();
@@ -77,8 +76,6 @@ namespace U3.Input
         public void CallEventChangeActiveInventorySlot6(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot6?.Invoke();
         public void CallEventChangeActiveInventorySlot7(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot7?.Invoke();
 
-        private PlayerInputActions playerInputActions;
-
         private void EnableActions()
         {
             playerInputActions.Humanoid.MouseX.Enable();
@@ -88,7 +85,6 @@ namespace U3.Input
             playerInputActions.Humanoid.RunFinish.Enable();
             playerInputActions.Humanoid.Jump.Enable();
             playerInputActions.Humanoid.ItemInteract.Enable();
-            playerInputActions.Humanoid.ItemThrow.Enable();
             playerInputActions.Humanoid.ToggleInventory.Enable();
             playerInputActions.Humanoid.ToggleMiniMap.Enable();
             playerInputActions.Humanoid.AimDown.Enable();
@@ -112,7 +108,6 @@ namespace U3.Input
             playerInputActions.Humanoid.RunFinish.performed += CallEventRunFinish;
             playerInputActions.Humanoid.Jump.performed += CallEventJump;
             playerInputActions.Humanoid.ItemInteract.performed += CallEventItemInteract;
-            playerInputActions.Humanoid.ItemThrow.performed += CallEventItemThrow;
             playerInputActions.Humanoid.ToggleInventory.performed += CallEventToggleInventory;
             playerInputActions.Humanoid.ToggleMiniMap.performed += CallEventToggleMiniMap;
             playerInputActions.Humanoid.AimDown.performed += CallEventAimDown;

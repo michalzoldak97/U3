@@ -14,7 +14,6 @@ namespace U3.Input
         [SerializeField] public bool RunFinish;
         [SerializeField] public bool Jump;
         [SerializeField] public bool ItemInteract;
-        [SerializeField] public bool ItemThrow;
         [SerializeField] public bool ToggleInventory;
         [SerializeField] public bool ToggleMiniMap;
         [SerializeField] public bool AimDown;
@@ -60,7 +59,6 @@ namespace U3.Input
         public void SetRunFinish(bool toSet) => keyboardInput.RunFinish = toSet;
         public void SetJump(bool toSet) => keyboardInput.Jump = toSet;
         public void SetItemInteract(bool toSet) => keyboardInput.ItemInteract = toSet;
-        public void SetItemThrow(bool toSet) => keyboardInput.ItemThrow = toSet;
         public void SetToggleInventory(bool toSet) => keyboardInput.ToggleInventory = toSet;
         public void SetToggleMiniMap(bool toSet) => keyboardInput.ToggleMiniMap = toSet;
         public void SetAimDown(bool toSet) => keyboardInput.AimDown = toSet;
@@ -83,7 +81,6 @@ namespace U3.Input
             PlayerInputManager.HumanoidInputActions.EventRunFinish += () => SetRunFinish(true);
             PlayerInputManager.HumanoidInputActions.EventJump += () => SetJump(true);
             PlayerInputManager.HumanoidInputActions.EventItemInteract += () => SetItemInteract(true);
-            PlayerInputManager.HumanoidInputActions.EventItemThrow += () => SetItemThrow(true);
             PlayerInputManager.HumanoidInputActions.EventToggleInventory += () => SetToggleInventory(true);
             PlayerInputManager.HumanoidInputActions.EventToggleMiniMap += () => SetToggleMiniMap(true);
             PlayerInputManager.HumanoidInputActions.EventAimDown += () => SetAimDown(true);
@@ -113,7 +110,6 @@ namespace U3.Input
             SetRunFinish(false);
             SetJump(false);
             SetItemInteract(false);
-            SetItemThrow(false);
             SetToggleInventory(false);
             SetToggleMiniMap(false);
             SetAimDown(false);

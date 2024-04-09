@@ -1,6 +1,5 @@
 using System;
 using U3.Global.Config;
-using U3.Log;
 using UnityEngine.InputSystem;
 
 namespace U3.Input
@@ -8,21 +7,17 @@ namespace U3.Input
     public static class PlayerInputManager
     {
         public static HumanoidInputActions HumanoidInputActions => humanoidInputActions;
+        public static UIInputActions UIInputActions => uIInputActions;
 
         public static PlayerInputActions PlayerInputActions => playerInputActions;
         public static event Action<InputActionMap> ActionMapChange;
 
         private static readonly PlayerInputActions playerInputActions = new();
         private readonly static HumanoidInputActions humanoidInputActions = HumanoidInputActionsFactory.GetInputActions(GameConfig.GameConfigSettings.InputActionCode);
+        private readonly static UIInputActions uIInputActions = new();
 
         public static void ToggleActionMap(InputActionMap actionMapToSet)
         {
-            if (actionMapToSet.enabled)
-            {
-                GameLogger.Log(new GameLog(LogType.Warning, "action map is already active"));
-                return;
-            }
-
             playerInputActions.Disable();
             ActionMapChange?.Invoke(actionMapToSet);
             actionMapToSet.Enable();
@@ -32,6 +27,7 @@ namespace U3.Input
         {
             ToggleActionMap(playerInputActions.Humanoid);
             humanoidInputActions.SetInputActions(playerInputActions);
+            uIInputActions.SetInputActions(playerInputActions);
         }
     }
 }

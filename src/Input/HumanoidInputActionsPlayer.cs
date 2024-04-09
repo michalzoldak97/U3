@@ -49,9 +49,6 @@ namespace U3.Input
             if (keyboardInput.ItemInteract)
                 PlayerInputManager.HumanoidInputActions.CallEventItemInteract(new InputAction.CallbackContext());
 
-            if (keyboardInput.ItemThrow)
-                PlayerInputManager.HumanoidInputActions.CallEventItemThrow(new InputAction.CallbackContext());
-
             if (keyboardInput.ToggleInventory)
                 PlayerInputManager.HumanoidInputActions.CallEventToggleInventory(new InputAction.CallbackContext());
 

@@ -19,11 +19,17 @@ namespace U3.Player.UI
 
             PlayerInputManager.HumanoidInputActions.EventToggleInventory += ToggleInventory;
             PlayerInputManager.HumanoidInputActions.EventToggleMiniMap += ToggleMiniMap;
+
+            PlayerInputManager.UIInputActions.EventToggleInventory += ToggleInventory;
+            PlayerInputManager.UIInputActions.EventToggleMiniMap += ToggleMiniMap;
         }
         private void OnDisable()
         {
             PlayerInputManager.HumanoidInputActions.EventToggleInventory -= ToggleInventory;
             PlayerInputManager.HumanoidInputActions.EventToggleMiniMap -= ToggleMiniMap;
+
+            PlayerInputManager.UIInputActions.EventToggleInventory -= ToggleInventory;
+            PlayerInputManager.UIInputActions.EventToggleMiniMap -= ToggleMiniMap;
         }
 
         private void InformScreenDisabled(GameObject uiScreenObject)
@@ -68,12 +74,16 @@ namespace U3.Player.UI
 
                 playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Look);
 
+                PlayerInputManager.ToggleActionMap(PlayerInputManager.PlayerInputActions.Humanoid);
+
                 return;
             }
 
             playerMaster.CallEventTogglePlayerControl(false, Controller.PlayerControlType.Look);
 
             EnableScreen(UIScreenType.Inventory);
+
+            PlayerInputManager.ToggleActionMap(PlayerInputManager.PlayerInputActions.UI);
         }
 
         private void ToggleMiniMap()

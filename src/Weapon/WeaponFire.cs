@@ -32,8 +32,27 @@ namespace U3.Weapon
             weaponMaster.EventFireUpCalled -= OnFireStop;
         }
 
+        public bool IsShootingBlocked()
+        {
+            if (weaponMaster.IsShooting || weaponMaster.IsReloading)
+                return true;
+
+            if (!weaponMaster.IsLoaded)
+            {
+                weaponMaster.CallEventFireCalledOnUnloaded();
+                return true;
+            }
+
+            return false;
+        }
+
         private void OnFireStart(FireInputOrigin inputOrigin)
         {
+            if (IsShootingBlocked())
+                return;
+
+
+
             Debug.Log($"Fire called by {inputOrigin.Name} with id {inputOrigin.ID} on weapon {gameObject.name} with id {transform.GetInstanceID()}");
         }
 

@@ -6,8 +6,14 @@ namespace U3.Weapon
 {
     public class WeaponMaster : MonoBehaviour, IItemInputProvider
     {
+        [SerializeField] WeaponSettings weaponSettings;
+
         public bool IsLoaded { get; set; }
         public bool IsShooting { get; set; }
+        public bool IsReloading { get; set; }
+
+        public WeaponSettings WeaponSettings => weaponSettings;
+
         public ItemMaster ItemMaster { get; private set; }
 
         public delegate void WeaponFireInputEventHandler(FireInputOrigin inputOrigin);
@@ -24,11 +30,16 @@ namespace U3.Weapon
 
         public event WeaponReloadInputEventHandler EventReloadCalled;
 
+        public delegate void WeaponEventsHandler();
+
+        public event WeaponEventsHandler EventFireCalledOnUnloaded;
+
         public void CallEventFireDownCalled(FireInputOrigin inputOrigin) => EventFireDownCalled?.Invoke(inputOrigin);
         public void CallEventFireUpCalled(FireInputOrigin inputOrigin) => EventFireUpCalled?.Invoke(inputOrigin);
         public void CallEventAimDownCalled() => EventAimDownCalled?.Invoke();
         public void CallEventAimUpCalled() => EventAimUpCalled?.Invoke();
         public void CallEventReloadCalled(IAmmoStore ammoStore) => EventReloadCalled?.Invoke(ammoStore);
+        public void CallEventFireCalledOnUnloaded() => EventFireCalledOnUnloaded?.Invoke();
 
         private void Awake()
         {

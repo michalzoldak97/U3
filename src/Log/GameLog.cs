@@ -10,7 +10,7 @@ namespace U3.Log
         public string LineFilePath { get; }
         public string Message { get; }
 
-        public string GetFullMessage() => $"{Message} at line {LineNumber}, member {LineName}, file {LineFilePath}";
+        public string GetFullMessage() => $"{DateTime.UtcNow} | {Message} at line {LineNumber}, member {LineName}, file {LineFilePath}";
 
         public GameLog (LogType logType,
             string message,

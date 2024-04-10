@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using U3.Global.Rendering;
-using U3.Input;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using PlayerInputManager = U3.Input.PlayerInputManager;
 
 namespace U3.Player.UI
 {
@@ -89,8 +90,14 @@ namespace U3.Player.UI
         private void ToggleMiniMap()
         {
             string camCode = isMiniMapOn ? "FPSPlayer" : "3rdCamera";
+            InputActionMap inputActionsToSet = isMiniMapOn ? PlayerInputManager.PlayerInputActions.Humanoid : PlayerInputManager.PlayerInputActions.UI;
+
             SceneCameraManager.Instance.EnableSceneCamera(camCode);
+            PlayerInputManager.ToggleActionMap(inputActionsToSet);
             isMiniMapOn = !isMiniMapOn;
+
+            /*ApplicationState.IsSceneSwitching = true; TODO: remove dev code
+            SceneManager.LoadSceneAsync(1);*/
         }
 
         private void FetchScreens()

@@ -9,5 +9,6 @@ namespace U3.Item
         public void CallEventAimDownCalled();
         public void CallEventAimUpCalled();
         public void CallEventReloadCalled(IAmmoStore ammoStore);
+        public void CallEventInputInterrupted();
     }
 }

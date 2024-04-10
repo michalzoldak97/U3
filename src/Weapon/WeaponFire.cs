@@ -1,45 +1,45 @@
+using U3.Global;
 using U3.Item;
 using UnityEngine;
 
 namespace U3.Weapon
 {
-    public class WeaponFire : MonoBehaviour
+    public class WeaponFire : Vassal<WeaponMaster>
     {
         // on fire
         // if shooting do nothing
         // if reloading do nothing
         // if not loaded do click and wait
         // on disable reset states -> weapon mamager
-        private WeaponMaster weaponMaster;
-
-        private void SetInit()
+        
+        public override void OnMasterEnabled(WeaponMaster weaponMaster)
         {
-            if (weaponMaster == null)
-                weaponMaster = GetComponent<WeaponMaster>();
+            base.OnMasterEnabled(weaponMaster);
+
+            Master.EventFireDownCalled += OnFireStart;
+            Master.EventFireUpCalled += OnFireStop;
+
+            Master.EventInputInterrupted += () => OnFireStop(new FireInputOrigin());
         }
 
-        private void OnEnable()
+        public override void OnMasterDisabled()
         {
-            SetInit();
+            base.OnMasterDisabled();
 
-            weaponMaster.EventFireDownCalled += OnFireStart;
-            weaponMaster.EventFireUpCalled += OnFireStop;
-        }
+            Master.EventFireDownCalled -= OnFireStart;
+            Master.EventFireUpCalled -= OnFireStop;
 
-        private void OnDisable()
-        {
-            weaponMaster.EventFireDownCalled -= OnFireStart;
-            weaponMaster.EventFireUpCalled -= OnFireStop;
+            Master.EventInputInterrupted -= () => OnFireStop(new FireInputOrigin());
         }
 
         public bool IsShootingBlocked()
         {
-            if (weaponMaster.IsShooting || weaponMaster.IsReloading)
+            if (Master.IsShooting || Master.IsReloading)
                 return true;
 
-            if (!weaponMaster.IsLoaded)
+            if (!Master.IsLoaded)
             {
-                weaponMaster.CallEventFireCalledOnUnloaded();
+                Master.CallEventFireCalledOnUnloaded();
                 return true;
             }
 
@@ -48,17 +48,18 @@ namespace U3.Weapon
 
         private void OnFireStart(FireInputOrigin inputOrigin)
         {
+            Debug.Log($"Fire called by {inputOrigin.Name} with id {inputOrigin.ID} on weapon {gameObject.name} with id {transform.GetInstanceID()} is shooting {Master.IsShooting}");
+
             if (IsShootingBlocked())
                 return;
-
-
-
-            Debug.Log($"Fire called by {inputOrigin.Name} with id {inputOrigin.ID} on weapon {gameObject.name} with id {transform.GetInstanceID()}");
         }
 
         private void OnFireStop(FireInputOrigin inputOrigin)
         {
-            Debug.Log($"Fire STOP called by {inputOrigin.Name} with id {inputOrigin.ID} on weapon {gameObject.name} with id {transform.GetInstanceID()}");
+            Debug.Log($"Fire STOP called by {inputOrigin.Name} with id {inputOrigin.ID} on weapon {gameObject.name} with id {transform.GetInstanceID()} is shooting {Master.IsShooting}");
+
+            if (!Master.IsShooting)
+                return;
         }
     }
 }

@@ -6,6 +6,7 @@ namespace U3.Item
     {
         [SerializeField] private ItemSettings itemSettings;
 
+        public bool IsSelectedOnInventory { get; private set; }
         public ItemSettings ItemSettings => itemSettings;
 
         public delegate void ItemInteractionEventHandler(Transform origin);
@@ -27,9 +28,17 @@ namespace U3.Item
 
         public void CallEventThrow(Transform origin) => EventThrow?.Invoke(origin);
 
-        public void CallEventSelected() => EventSelected?.Invoke();
+        public void CallEventSelected()
+        {
+            EventSelected?.Invoke();
+            IsSelectedOnInventory = true;
+        }
 
-        public void CallEventDeselected() => EventDeselected?.Invoke();
+        public void CallEventDeselected()
+        {
+            EventDeselected?.Invoke();
+            IsSelectedOnInventory = false;
+        }
 
         public void CallEventAddedToInventory() => EventAddedToInventory?.Invoke();
 

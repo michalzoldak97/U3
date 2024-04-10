@@ -1,3 +1,4 @@
+using U3.Global;
 using U3.Item;
 using U3.Log;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace U3.Weapon
         public bool IsLoaded { get; set; }
         public bool IsShooting { get; set; }
         public bool IsReloading { get; set; }
+
+        public FireMode FireMode { get; set; }
 
         public WeaponSettings WeaponSettings => weaponSettings;
 
@@ -30,9 +33,10 @@ namespace U3.Weapon
 
         public event WeaponReloadInputEventHandler EventReloadCalled;
 
-        public delegate void WeaponEventsHandler();
+        public delegate void WeaponGeneralEventHandler();
 
-        public event WeaponEventsHandler EventFireCalledOnUnloaded;
+        public event WeaponGeneralEventHandler EventFireCalledOnUnloaded;
+        public event WeaponGeneralEventHandler EventInputInterrupted;
 
         public void CallEventFireDownCalled(FireInputOrigin inputOrigin) => EventFireDownCalled?.Invoke(inputOrigin);
         public void CallEventFireUpCalled(FireInputOrigin inputOrigin) => EventFireUpCalled?.Invoke(inputOrigin);
@@ -40,6 +44,7 @@ namespace U3.Weapon
         public void CallEventAimUpCalled() => EventAimUpCalled?.Invoke();
         public void CallEventReloadCalled(IAmmoStore ammoStore) => EventReloadCalled?.Invoke(ammoStore);
         public void CallEventFireCalledOnUnloaded() => EventFireCalledOnUnloaded?.Invoke();
+        public void CallEventInputInterrupted() => EventInputInterrupted?.Invoke();
 
         private void Awake()
         {
@@ -48,6 +53,22 @@ namespace U3.Weapon
             else
                 GameLogger.Log(new GameLog(Log.LogType.Error,
                     $"The weapon {gameObject.name} is missing mandatory component: ItemMaster"));
+        }
+
+        private void OnEnable()
+        {
+            foreach (Vassal<WeaponMaster> vassal in GetComponents<Vassal<WeaponMaster>>())
+            {
+                vassal.OnMasterEnabled(this);
+            }
+        }
+
+        private void OnDisable()
+        {
+            foreach (Vassal<WeaponMaster> vassal in GetComponents<Vassal<WeaponMaster>>())
+            {
+                vassal.OnMasterDisabled();
+            }
         }
     }
 }

@@ -6,7 +6,8 @@ namespace U3.Weapon
     public struct GunSettings
     {
         public int FireRate;
-        public GunFireMode FireMode;
+        public FireMode DeafaultFireMode;
+        public FireMode[] AvailableFireModes;
     }
 
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/WeaponSettings", order = 3)]

@@ -1,29 +1,28 @@
+using U3.Global;
 using UnityEngine;
 
 namespace U3.Weapon
 {
-    public class WeaponAim : MonoBehaviour
+    public class WeaponAim : Vassal<WeaponMaster>
     {
-        private WeaponMaster weaponMaster;
-
-        private void SetInit()
+        public override void OnMasterEnabled(WeaponMaster weaponMaster)
         {
-            if (weaponMaster == null)
-                weaponMaster = GetComponent<WeaponMaster>();
+            base.OnMasterEnabled(weaponMaster);
+
+            Master.EventAimDownCalled += OnAimStart;
+            Master.EventAimUpCalled += OnAimStop;
+
+            Master.EventInputInterrupted += OnAimStop;
         }
 
-        private void OnEnable()
+        public override void OnMasterDisabled()
         {
-            SetInit();
+            base.OnMasterDisabled();
 
-            weaponMaster.EventAimDownCalled += OnAimStart;
-            weaponMaster.EventAimUpCalled += OnAimStop;
-        }
+            Master.EventAimDownCalled -= OnAimStart;
+            Master.EventAimUpCalled -= OnAimStop;
 
-        private void OnDisable()
-        {
-            weaponMaster.EventAimDownCalled -= OnAimStart;
-            weaponMaster.EventAimUpCalled -= OnAimStop;
+            Master.EventInputInterrupted -= OnAimStop;
         }
 
         private void OnAimStart()

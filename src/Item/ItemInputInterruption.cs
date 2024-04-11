@@ -20,18 +20,21 @@ namespace U3.Item
         {
             SetInit();
 
-            if (!itemMaster.IsSelectedOnInventory)
-                return;
-
-            SceneManager.sceneLoaded += (Scene s, LoadSceneMode l) => inputProvider.CallEventInputInterrupted();
+            SceneManager.sceneLoaded += (Scene s, LoadSceneMode l) => CallItemInterruption();
         }
 
         protected virtual void OnDisable()
         {
+            SceneManager.sceneLoaded -= (Scene s, LoadSceneMode l) => CallItemInterruption();
+        }
+
+        protected void CallItemInterruption()
+        {
             if (!itemMaster.IsSelectedOnInventory)
                 return;
 
-            SceneManager.sceneLoaded -= (Scene s, LoadSceneMode l) => inputProvider.CallEventInputInterrupted();
+            Debug.Log("Calling item interruption");
+            inputProvider.CallEventInputInterrupted();
         }
     }
 }

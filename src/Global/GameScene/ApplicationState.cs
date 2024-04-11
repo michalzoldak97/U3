@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
-namespace U3.Global.Helper
+namespace U3.Global.GameScene
 {
     public static class ApplicationState
     {

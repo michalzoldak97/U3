@@ -1,7 +1,7 @@
 using U3.Log;
 using UnityEngine;
 
-namespace U3.Global.Helper
+namespace U3.Global.GameScene
 {
     public class ObjectStateProxy : MonoBehaviour
     {

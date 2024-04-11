@@ -3,7 +3,7 @@ using System.Reflection;
 using U3.Log;
 using UnityEngine;
 
-namespace U3.Global.Helper
+namespace U3.Core.Helper
 {
     [System.Serializable]
     internal class JSONWrapper<T>

@@ -1,4 +1,4 @@
-using U3.Global;
+using U3.Core;
 using UnityEngine;
 
 namespace U3.Weapon

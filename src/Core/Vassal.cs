@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace U3.Global
+namespace U3.Core
 {
     public class Vassal<T> : MonoBehaviour
     {

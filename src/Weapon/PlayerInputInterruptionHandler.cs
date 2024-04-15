@@ -1,5 +1,4 @@
 ﻿using U3.Item;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace U3.Weapon
@@ -10,16 +9,12 @@ namespace U3.Weapon
         {
             base.OnEnable();
 
-            Debug.Log("Subscribing");
-
             Input.PlayerInputManager.ActionMapChange += (InputActionMap actionMap) => CallItemInterruption();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-
-            Debug.Log("Unsubscribing");
 
             Input.PlayerInputManager.ActionMapChange -= (InputActionMap actionMap) => CallItemInterruption();
         }

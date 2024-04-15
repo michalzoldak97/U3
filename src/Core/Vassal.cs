@@ -8,9 +8,11 @@ namespace U3.Core
 
         public virtual void OnMasterEnabled(T master)
         {
-            Master ??= master;
+            if (Master == null)
+                Master = master;
         }
 
         public virtual void OnMasterDisabled() { }
+
     }
 }

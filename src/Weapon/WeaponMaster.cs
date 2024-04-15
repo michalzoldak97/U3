@@ -38,13 +38,21 @@ namespace U3.Weapon
         public event WeaponGeneralEventHandler EventFireCalledOnUnloaded;
         public event WeaponGeneralEventHandler EventInputInterrupted;
 
+        public delegate void WeaponFireModeEventHandler(FireMode fireMode);
+        public event WeaponFireModeEventHandler EventFireModeChanged;
+
         public void CallEventFireDownCalled(FireInputOrigin inputOrigin) => EventFireDownCalled?.Invoke(inputOrigin);
         public void CallEventFireUpCalled(FireInputOrigin inputOrigin) => EventFireUpCalled?.Invoke(inputOrigin);
+
         public void CallEventAimDownCalled() => EventAimDownCalled?.Invoke();
         public void CallEventAimUpCalled() => EventAimUpCalled?.Invoke();
+
         public void CallEventReloadCalled(IAmmoStore ammoStore) => EventReloadCalled?.Invoke(ammoStore);
+
         public void CallEventFireCalledOnUnloaded() => EventFireCalledOnUnloaded?.Invoke();
         public void CallEventInputInterrupted() => EventInputInterrupted?.Invoke();
+
+        public void CallEventFireModeChanged(FireMode toFireMode) => EventFireModeChanged?.Invoke(toFireMode);
 
         private void Awake()
         {

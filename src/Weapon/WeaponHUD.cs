@@ -1,5 +1,7 @@
+using System.Collections;
 using TMPro;
 using U3.Core;
+using U3.Item;
 using UnityEngine;
 
 namespace U3.Weapon
@@ -9,25 +11,28 @@ namespace U3.Weapon
         [SerializeField] private GameObject hudUI;
 
         [SerializeField] private TMP_Text fireModeText;
+        [SerializeField] private TMP_Text currentAmmoText;
+
+        private readonly WaitForEndOfFrame waitForEndOfFrame = new();
 
         public override void OnMasterEnabled(WeaponMaster weaponMaster)
         {
             base.OnMasterEnabled(weaponMaster);
 
-            Master.ItemMaster.EventSelected += () => ToggleItemUI(true);
-            Master.ItemMaster.EventDeselected += () => ToggleItemUI(false);
+            Master.ItemMaster.EventSelected += OnSelect;
+            Master.ItemMaster.EventDeselected += ToggleOnDeselect;
 
             Master.EventFireModeChanged += SetFireModeText;
+            Master.EventWeaponFired += OnWeaponFireEvent;
         }
 
-        public override void OnMasterDisabled()
+        private void OnDisable()
         {
-            base.OnMasterDisabled();
-
-            Master.ItemMaster.EventSelected -= () => ToggleItemUI(true);
-            Master.ItemMaster.EventDeselected -= () => ToggleItemUI(false);
+            Master.ItemMaster.EventSelected -= OnSelect;
+            Master.ItemMaster.EventDeselected -= ToggleOnDeselect;
 
             Master.EventFireModeChanged -= SetFireModeText;
+            Master.EventWeaponFired -= OnWeaponFireEvent;
         }
 
         private void ToggleItemUI(bool toActive)
@@ -38,6 +43,34 @@ namespace U3.Weapon
         private void SetFireModeText(FireMode fireMode)
         {
             fireModeText.text = fireMode.ToString();
+        }
+
+        private IEnumerator ChangeAmmoText()
+        {
+            yield return waitForEndOfFrame;
+
+            currentAmmoText.text = $"{Master.AmmoInMag.ToString()}/{Master.AmmoStore.GetAmmo(Master.AmmoCode)}";
+        }
+
+        private void TriggerChangeAmmoText()
+        {
+            StartCoroutine(ChangeAmmoText());
+        }
+
+        private void OnSelect()
+        {
+            ToggleItemUI(true);
+            TriggerChangeAmmoText();
+        }
+
+        private void ToggleOnDeselect()
+        {
+            ToggleItemUI(false);
+        }
+
+        private void OnWeaponFireEvent(FireInputOrigin _)
+        {
+            TriggerChangeAmmoText();
         }
 
         private void Start()

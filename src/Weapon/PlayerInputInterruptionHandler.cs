@@ -9,14 +9,19 @@ namespace U3.Weapon
         {
             base.OnEnable();
 
-            Input.PlayerInputManager.ActionMapChange += (InputActionMap actionMap) => CallItemInterruption();
+            Input.PlayerInputManager.ActionMapChange += OnActionMapChangeInterruption;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
 
-            Input.PlayerInputManager.ActionMapChange -= (InputActionMap actionMap) => CallItemInterruption();
+            Input.PlayerInputManager.ActionMapChange -= OnActionMapChangeInterruption;
+        }
+
+        private void OnActionMapChangeInterruption(InputActionMap actionMap)
+        {
+            CallItemInterruption();
         }
     }
 }

@@ -2,7 +2,10 @@
 {
     public interface IAmmoStore
     {
-        public int GetAmmo(int requestedAmount, string ammoCode);
+        public int GetAmmo(string ammoCode);
+
+        public int RetrieveAmmo(int amount, string ammoCode);
+
         public int AddAmmo(int amount, string ammoCode);
     }
 }

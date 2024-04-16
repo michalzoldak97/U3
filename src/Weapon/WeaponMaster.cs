@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace U3.Weapon
 {
-    public class WeaponMaster : MonoBehaviour, IItemInputProvider
+    public class WeaponMaster : MonoBehaviour, IItemInputProvider, IWeaponAmmoConsumer
     {
         [SerializeField] WeaponSettings weaponSettings;
 
@@ -15,14 +15,21 @@ namespace U3.Weapon
 
         public FireMode FireMode { get; set; }
 
+        public uint AmmoInMag { get; set; }
+        public string AmmoCode { get; set; }
+
         public WeaponSettings WeaponSettings => weaponSettings;
 
         public ItemMaster ItemMaster { get; private set; }
+
+        public IAmmoStore AmmoStore { get; private set; }
 
         public delegate void WeaponFireInputEventHandler(FireInputOrigin inputOrigin);
 
         public event WeaponFireInputEventHandler EventFireDownCalled;
         public event WeaponFireInputEventHandler EventFireUpCalled;
+        public event WeaponFireInputEventHandler EventFire;
+        public event WeaponFireInputEventHandler EventWeaponFired;
 
         public delegate void WeaponAimInputEventHandler();
 
@@ -37,12 +44,15 @@ namespace U3.Weapon
 
         public event WeaponGeneralEventHandler EventFireCalledOnUnloaded;
         public event WeaponGeneralEventHandler EventInputInterrupted;
+        public event WeaponGeneralEventHandler EventAmmoFinished;
 
         public delegate void WeaponFireModeEventHandler(FireMode fireMode);
         public event WeaponFireModeEventHandler EventFireModeChanged;
 
         public void CallEventFireDownCalled(FireInputOrigin inputOrigin) => EventFireDownCalled?.Invoke(inputOrigin);
         public void CallEventFireUpCalled(FireInputOrigin inputOrigin) => EventFireUpCalled?.Invoke(inputOrigin);
+        public void CallEventFire(FireInputOrigin inputOrigin) => EventFire?.Invoke(inputOrigin);
+        public void CallEventWeaponFired(FireInputOrigin inputOrigin) => EventWeaponFired?.Invoke(inputOrigin);
 
         public void CallEventAimDownCalled() => EventAimDownCalled?.Invoke();
         public void CallEventAimUpCalled() => EventAimUpCalled?.Invoke();
@@ -51,6 +61,7 @@ namespace U3.Weapon
 
         public void CallEventFireCalledOnUnloaded() => EventFireCalledOnUnloaded?.Invoke();
         public void CallEventInputInterrupted() => EventInputInterrupted?.Invoke();
+        public void CallEventAmmoFinished() => EventAmmoFinished?.Invoke();
 
         public void CallEventFireModeChanged(FireMode toFireMode) => EventFireModeChanged?.Invoke(toFireMode);
 
@@ -78,5 +89,7 @@ namespace U3.Weapon
                 vassal.OnMasterDisabled();
             }
         }
+
+        public void SetAmmoStore(IAmmoStore ammoStore) => AmmoStore = ammoStore;
     }
 }

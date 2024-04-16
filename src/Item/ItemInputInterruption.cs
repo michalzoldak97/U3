@@ -20,12 +20,12 @@ namespace U3.Item
         {
             SetInit();
 
-            SceneManager.sceneLoaded += (Scene s, LoadSceneMode l) => CallItemInterruption();
+            SceneManager.sceneLoaded += OnSceneLoadInterruption;
         }
 
         protected virtual void OnDisable()
         {
-            SceneManager.sceneLoaded -= (Scene s, LoadSceneMode l) => CallItemInterruption();
+            SceneManager.sceneLoaded -= OnSceneLoadInterruption;
         }
 
         protected void CallItemInterruption()
@@ -33,8 +33,12 @@ namespace U3.Item
             if (!itemMaster.IsSelectedOnInventory)
                 return;
 
-            Debug.Log("Calling item interruption");
             inputProvider.CallEventInputInterrupted();
+        }
+
+        private void OnSceneLoadInterruption(Scene s, LoadSceneMode l)
+        {
+            CallItemInterruption();
         }
     }
 }

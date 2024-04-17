@@ -16,11 +16,13 @@ namespace U3.Weapon
         {
             base.OnMasterEnabled(weaponMaster);
             Master.EventWeaponFired += SubstractAmmoOnShoot;
+            Master.EventReloadFinnished += SetWeaponLoaded;
         }
 
         private void OnDisable()
         {
             Master.EventWeaponFired -= SubstractAmmoOnShoot;
+            Master.EventReloadFinnished -= SetWeaponLoaded;
         }
 
         private void SubstractAmmoOnShoot(FireInputOrigin _)

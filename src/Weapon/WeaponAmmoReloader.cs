@@ -39,12 +39,10 @@ namespace U3.Weapon
             if (!Master.IsReloading)
                 yield break;
 
-            int requiredAmmoAmount = Master.WeaponSettings.MagazineSize - Master.AmmoInMag;
-            requiredAmmoAmount = ammoStore.GetAmmo(Master.AmmoCode) > requiredAmmoAmount ? requiredAmmoAmount : ammoStore.GetAmmo(Master.AmmoCode);
+            Master.AmmoInMag += ammoStore.RetrieveAmmo(Master.WeaponSettings.MagazineSize - Master.AmmoInMag, Master.AmmoCode);
 
-            ammoStore.RetrieveAmmo(requiredAmmoAmount, Master.AmmoCode);
-            Master.AmmoInMag += requiredAmmoAmount;
 
+            Master.IsReloading = false;
             Master.CallEventReloadFinnished();
         }
 

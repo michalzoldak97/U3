@@ -1,7 +1,13 @@
+using U3.Weapon;
 using UnityEngine;
 
 namespace U3.Player
 {
+    [System.Serializable]
+    public class PlayerWeaponAmmoSetting
+    {
+        public WeaponAmmoData[] PlayerWeaponAmmo;
+    }
     [System.Serializable]
     public class InventorySlotSetting
     {
@@ -59,5 +65,6 @@ namespace U3.Player
         public ControllerSettings Controller;
         public SoundSettings Sound;
         public InventorySettings Inventory;
+        public PlayerWeaponAmmoSetting Ammo;
     }
 }

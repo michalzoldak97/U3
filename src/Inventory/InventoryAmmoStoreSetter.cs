@@ -13,21 +13,21 @@ namespace U3.Inventory
             m_ammoStore = GetComponent<IAmmoStore>();
             inventoryMaster = GetComponent<InventoryMaster>();
 
-            inventoryMaster.EventItemSelected += (Transform item) => SetAmmoStore(m_ammoStore);
+            inventoryMaster.EventItemSelected += SetAmmoStore;
         }
 
         private void OnDisable()
         {
-            inventoryMaster.EventItemSelected -= (Transform item) => SetAmmoStore(m_ammoStore);
+            inventoryMaster.EventItemSelected -= SetAmmoStore;
         }
 
-        private void SetAmmoStore(IAmmoStore ammoStore)
+        private void SetAmmoStore(Transform _)
         {
             if (inventoryMaster.SelectedItem == null)
                 return;
 
             if (inventoryMaster.SelectedItem.TryGetComponent(out IWeaponAmmoConsumer ammoConsumer))
-                ammoConsumer.SetAmmoStore(ammoStore);
+                ammoConsumer.SetAmmoStore(m_ammoStore);
         }
     }
 }

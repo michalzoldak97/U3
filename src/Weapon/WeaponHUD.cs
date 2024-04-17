@@ -11,7 +11,8 @@ namespace U3.Weapon
         [SerializeField] private GameObject hudUI;
 
         [SerializeField] private TMP_Text fireModeText;
-        [SerializeField] private TMP_Text currentAmmoText;
+        [SerializeField] private TMP_Text currentAmmoAmountText;
+        [SerializeField] private TMP_Text currentAmmoNameText;
 
         private readonly WaitForEndOfFrame waitForEndOfFrame = new();
 
@@ -51,7 +52,10 @@ namespace U3.Weapon
         {
             yield return waitForEndOfFrame;
 
-            currentAmmoText.text = $"{Master.AmmoInMag}/{Master.AmmoStore.GetAmmo(Master.AmmoCode)}";
+            WeaponAmmoData ammoData = Master.AmmoStore.GetAmmo(Master.AmmoCode);
+
+            currentAmmoAmountText.text = $"{Master.AmmoInMag}/{ammoData.Amount}";
+            currentAmmoNameText.text = $"{ammoData.Name}";
         }
 
         private void TriggerChangeAmmoText()

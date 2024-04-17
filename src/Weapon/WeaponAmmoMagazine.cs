@@ -5,7 +5,7 @@ namespace U3.Weapon
 {
     public class WeaponAmmoMagazine : Vassal<WeaponMaster>
     {
-        private uint ammoConsumption;
+        private int ammoConsumption;
 
         public override void OnMasterEnabled(WeaponMaster weaponMaster)
         {

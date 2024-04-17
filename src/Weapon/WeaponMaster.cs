@@ -11,11 +11,12 @@ namespace U3.Weapon
 
         public bool IsLoaded { get; set; }
         public bool IsShooting { get; set; }
+        public bool IsShootingBurst { get; set; }
         public bool IsReloading { get; set; }
 
         public FireMode FireMode { get; set; }
 
-        public uint AmmoInMag { get; set; }
+        public int AmmoInMag { get; set; }
         public string AmmoCode { get; set; }
 
         public WeaponSettings WeaponSettings => weaponSettings;

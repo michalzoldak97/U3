@@ -7,6 +7,11 @@ namespace U3.Weapon
     {
         private int ammoConsumption;
 
+        private void OnEnable()
+        {
+            SetWeaponLoaded();
+        }
+
         public override void OnMasterEnabled(WeaponMaster weaponMaster)
         {
             base.OnMasterEnabled(weaponMaster);

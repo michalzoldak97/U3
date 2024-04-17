@@ -18,6 +18,7 @@ namespace U3.Weapon
         public int MagazineSize;
         public int InitialAmmo;
         public int ShootAmmoConsumption = 1;
+        public float ReloadDurationSeconds = 3.0f;
         public string DefaultAmmoCode;
         public string[] AvailableAmmoCodes;
         public GunSettings GunSettings;

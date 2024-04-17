@@ -63,7 +63,7 @@ namespace U3.Weapon
 
             for (int i = 0; i < shoots; i++)
             {
-                if (Master.IsShootingBurst && Master.IsLoaded && !Master.IsReloading)
+                if (Master.IsShootingBurst && Master.IsLoaded)
                     Master.CallEventFire(inputOrigin);
                 else if (!Master.IsLoaded)
                 {
@@ -82,7 +82,7 @@ namespace U3.Weapon
         private IEnumerator ShootAuto(FireInputOrigin inputOrigin)
         {
             Master.IsShooting = true;
-            while (Master.IsShooting && !Master.IsReloading)
+            while (Master.IsShooting)
             {
                 if (!Master.IsLoaded)
                 {

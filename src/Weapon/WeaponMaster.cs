@@ -45,7 +45,8 @@ namespace U3.Weapon
 
         public event WeaponGeneralEventHandler EventFireCalledOnUnloaded;
         public event WeaponGeneralEventHandler EventInputInterrupted;
-        public event WeaponGeneralEventHandler EventAmmoFinished;
+        public event WeaponGeneralEventHandler EventReloadStarted;
+        public event WeaponGeneralEventHandler EventReloadFinnished;
 
         public delegate void WeaponFireModeEventHandler(FireMode fireMode);
         public event WeaponFireModeEventHandler EventFireModeChanged;
@@ -62,7 +63,8 @@ namespace U3.Weapon
 
         public void CallEventFireCalledOnUnloaded() => EventFireCalledOnUnloaded?.Invoke();
         public void CallEventInputInterrupted() => EventInputInterrupted?.Invoke();
-        public void CallEventAmmoFinished() => EventAmmoFinished?.Invoke();
+        public void CallEventReloadStarted() => EventReloadStarted?.Invoke();
+        public void CallEventReloadFinnished() => EventReloadFinnished?.Invoke();
 
         public void CallEventFireModeChanged(FireMode toFireMode) => EventFireModeChanged?.Invoke(toFireMode);
 

@@ -24,6 +24,7 @@ namespace U3.Weapon
 
             Master.EventFireModeChanged += SetFireModeText;
             Master.EventWeaponFired += OnWeaponFireEvent;
+            Master.EventReloadFinnished += TriggerChangeAmmoText;
         }
 
         private void OnDisable()
@@ -33,6 +34,7 @@ namespace U3.Weapon
 
             Master.EventFireModeChanged -= SetFireModeText;
             Master.EventWeaponFired -= OnWeaponFireEvent;
+            Master.EventReloadFinnished -= TriggerChangeAmmoText;
         }
 
         private void ToggleItemUI(bool toActive)
@@ -49,7 +51,7 @@ namespace U3.Weapon
         {
             yield return waitForEndOfFrame;
 
-            currentAmmoText.text = $"{Master.AmmoInMag.ToString()}/{Master.AmmoStore.GetAmmo(Master.AmmoCode)}";
+            currentAmmoText.text = $"{Master.AmmoInMag}/{Master.AmmoStore.GetAmmo(Master.AmmoCode)}";
         }
 
         private void TriggerChangeAmmoText()

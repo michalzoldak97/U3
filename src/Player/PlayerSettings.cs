@@ -58,7 +58,6 @@ namespace U3.Player
         public Vector2 HeadBobSpeed;
         public Vector2 HeadBobMagnitude;
         public Vector2 HeadBobMultiplayer;
-        public Vector3 HeadAimPosition;
     }
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerSettings", order = 1)]
     public class PlayerSettings : ScriptableObject

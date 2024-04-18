@@ -15,6 +15,7 @@ namespace U3.Item
         public string ItemDescription;
         public Vector3 OnParentPosition;
         public Vector3 OnParentRotation;
+        public Vector3 ItemParentAimPosition;
         public Sprite ItemIcon;
         public GameObject InventoryUIPrefab;
         public GameObject InventoryUIDetailsPrefab;

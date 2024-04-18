@@ -10,7 +10,6 @@ namespace U3.Player.Controller
     {
         private bool isAiming;
         private Vector2 cameraXYPos;
-        private Vector3 headAimPosition;
         private Transform fpsCamera;
 
         private PlayerMaster playerMaster;
@@ -21,7 +20,6 @@ namespace U3.Player.Controller
             inventoryMaster = GetComponent<InventoryMaster>();
 
             playerMaster = GetComponent<PlayerMaster>();
-            headAimPosition = playerMaster.PlayerSettings.Controller.HeadAimPosition;
             fpsCamera = playerMaster.FPSCamera;
             cameraXYPos = new Vector2(fpsCamera.localPosition.x, fpsCamera.localPosition.y);
         }
@@ -65,10 +63,10 @@ namespace U3.Player.Controller
         {
             if (!isAiming &&
                 inventoryMaster.SelectedItem != null &&
-                inventoryMaster.SelectedItem.TryGetComponent(out IAimable _))
+                inventoryMaster.SelectedItem.TryGetComponent(out IAimable aimingItem))
             {
                 playerMaster.CallEventTogglePlayerControl(false, PlayerControlType.HeadBob);
-                fpsCamera.localPosition = headAimPosition;
+                fpsCamera.localPosition = aimingItem.ItemParentAimPosition;
                 isAiming = true;
             }
             else

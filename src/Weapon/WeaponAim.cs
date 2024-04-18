@@ -1,11 +1,14 @@
 using U3.Item;
 using U3.Core;
+using UnityEngine;
 
 namespace U3.Weapon
 {
     public class WeaponAim : Vassal<WeaponMaster>, IAimable
     {
         private bool isAiming;
+
+        public Vector3 ItemParentAimPosition => Master.ItemMaster.ItemSettings.ItemParentAimPosition;
 
         public override void OnMasterEnabled(WeaponMaster weaponMaster)
         {
@@ -31,24 +34,18 @@ namespace U3.Weapon
             OnAimStop();
         }
 
-        private void OnAimStart()
+        private void SetAimPosition(bool aimStateToSet, Vector3 toPos)
         {
-            if (isAiming)
+            if (isAiming == aimStateToSet)
                 return;
 
-            transform.localPosition = Master.WeaponSettings.WeaponAimPosition;
+            transform.localPosition = toPos;
 
-            isAiming = true;
+            isAiming = aimStateToSet;
         }
 
-        private void OnAimStop()
-        {
-            if (!isAiming)
-                return;
+        private void OnAimStart() => SetAimPosition(true, Master.WeaponSettings.WeaponAimPosition);
 
-            transform.localPosition = Master.ItemMaster.ItemSettings.OnParentPosition;
-
-            isAiming = false;
-        }
+        private void OnAimStop() => SetAimPosition(false, Master.ItemMaster.ItemSettings.OnParentPosition);
     }
 }

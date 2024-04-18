@@ -1,10 +1,12 @@
+using U3.Item;
 using U3.Core;
-using UnityEngine;
 
 namespace U3.Weapon
 {
-    public class WeaponAim : Vassal<WeaponMaster>
+    public class WeaponAim : Vassal<WeaponMaster>, IAimable
     {
+        private bool isAiming;
+
         public override void OnMasterEnabled(WeaponMaster weaponMaster)
         {
             base.OnMasterEnabled(weaponMaster);
@@ -13,9 +15,10 @@ namespace U3.Weapon
             Master.EventAimUpCalled += OnAimStop;
 
             Master.EventInputInterrupted += OnAimStop;
+            Master.ItemMaster.EventDeselected += OnAimStop;
         }
 
-        public override void OnMasterDisabled()
+        private void OnDisable()
         {
             base.OnMasterDisabled();
 
@@ -23,16 +26,29 @@ namespace U3.Weapon
             Master.EventAimUpCalled -= OnAimStop;
 
             Master.EventInputInterrupted -= OnAimStop;
+            Master.ItemMaster.EventDeselected -= OnAimStop;
+
+            OnAimStop();
         }
 
         private void OnAimStart()
         {
-            Debug.Log($"Aim called  on weapon {gameObject.name} with id {transform.GetInstanceID()}");
+            if (isAiming)
+                return;
+
+            transform.localPosition = Master.WeaponSettings.WeaponAimPosition;
+
+            isAiming = true;
         }
 
         private void OnAimStop()
         {
-            Debug.Log($"Aim STOP called on weapon {gameObject.name} with id {transform.GetInstanceID()}");
+            if (!isAiming)
+                return;
+
+            transform.localPosition = Master.ItemMaster.ItemSettings.OnParentPosition;
+
+            isAiming = false;
         }
     }
 }

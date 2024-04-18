@@ -1,5 +1,5 @@
 ﻿using U3.Inventory;
-using U3.Weapon;
+using U3.Item;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -34,6 +34,7 @@ namespace U3.Player.Controller
             Input.PlayerInputManager.HumanoidInputActions.EventAimUp += ResetFPSCameraPosition;
             Input.PlayerInputManager.ActionMapChange += ResetFPSCameraPosition;
             SceneManager.sceneLoaded += ResetFPSCameraPosition;
+            inventoryMaster.EventItemDeselected += ResetFPSCameraPosition;
         }
 
         private void OnDisable()
@@ -42,6 +43,7 @@ namespace U3.Player.Controller
             Input.PlayerInputManager.HumanoidInputActions.EventAimUp -= ResetFPSCameraPosition;
             Input.PlayerInputManager.ActionMapChange -= ResetFPSCameraPosition;
             SceneManager.sceneLoaded -= ResetFPSCameraPosition;
+            inventoryMaster.EventItemDeselected -= ResetFPSCameraPosition;
         }
 
         private void StopAim()
@@ -57,11 +59,13 @@ namespace U3.Player.Controller
         private void ResetFPSCameraPosition() => StopAim();
         private void ResetFPSCameraPosition(InputActionMap _) => StopAim();
         private void ResetFPSCameraPosition(Scene s, LoadSceneMode l) => StopAim();
+        private void ResetFPSCameraPosition(Transform _) => StopAim();
 
         private void OnAimAttempt()
         {
-            if (inventoryMaster.SelectedItem != null &&
-                inventoryMaster.SelectedItem.TryGetComponent(out WeaponAim _))
+            if (!isAiming &&
+                inventoryMaster.SelectedItem != null &&
+                inventoryMaster.SelectedItem.TryGetComponent(out IAimable _))
             {
                 playerMaster.CallEventTogglePlayerControl(false, PlayerControlType.HeadBob);
                 fpsCamera.localPosition = headAimPosition;

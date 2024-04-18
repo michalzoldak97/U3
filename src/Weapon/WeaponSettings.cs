@@ -21,6 +21,7 @@ namespace U3.Weapon
         public float ReloadDurationSeconds = 3.0f;
         public string DefaultAmmoCode;
         public string[] AvailableAmmoCodes;
+        public Vector3 WeaponAimPosition;
         public GunSettings GunSettings;
     }
 }

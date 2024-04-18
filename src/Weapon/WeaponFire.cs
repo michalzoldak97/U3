@@ -97,8 +97,6 @@ namespace U3.Weapon
 
         private void OnFireStart(FireInputOrigin inputOrigin)
         {
-            Debug.Log($"Fire called by {inputOrigin.Name} with id {inputOrigin.ID} on weapon {gameObject.name} with id {transform.GetInstanceID()} is shooting {Master.IsShooting}");
-
             if (IsShootingBlocked())
                 return;
 
@@ -119,8 +117,6 @@ namespace U3.Weapon
 
         private void OnFireStop(FireInputOrigin inputOrigin)
         {
-            Debug.Log($"Fire STOP called by {inputOrigin.Name} with id {inputOrigin.ID} on weapon {gameObject.name} with id {transform.GetInstanceID()} is shooting {Master.IsShooting}");
-
             if (!Master.IsShooting || Master.IsShootingBurst)
                 return;
 

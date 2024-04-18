@@ -19,7 +19,7 @@ namespace U3.Weapon
             Input.PlayerInputManager.ActionMapChange -= OnActionMapChangeInterruption;
         }
 
-        private void OnActionMapChangeInterruption(InputActionMap actionMap)
+        private void OnActionMapChangeInterruption(InputActionMap _)
         {
             CallItemInterruption();
         }

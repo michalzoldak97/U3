@@ -5,6 +5,7 @@ namespace U3.Player.Controller
         Move,
         Look,
         HeadBob,
+        Aim,
         Cursor
     }
 }

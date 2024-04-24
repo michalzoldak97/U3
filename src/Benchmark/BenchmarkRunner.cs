@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using U3.Benchmark.Data;
+using U3.Benchmark.Pool;
 using UnityEngine;
 
 namespace U3.Benchmark
 {
     public class BenchmarkRunner : MonoBehaviour
     {
+        [SerializeField] private TMPro.TMP_Text resultText;
         [SerializeField] private int runsCount = 100;
+
+        private bool isRunning;
 
         private const int runCyclesCount = 40;
 
@@ -69,6 +72,11 @@ namespace U3.Benchmark
         /// </summary>
         public void StartBenchmark()
         {
+            if (isRunning)
+                return;
+
+            isRunning = true;
+
             Dictionary<string, double[]> results = new();
             StringBuilder resultsText = new();
 
@@ -88,6 +96,7 @@ namespace U3.Benchmark
             }
 
             UnityEngine.Debug.Log(resultsText.ToString());
+            resultText.text = resultsText.ToString();
         }
 
         /// <summary>
@@ -95,10 +104,11 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_GenerateSequenceEnum benchOne = new();
-            Bench_GenerateSequenceLoop benchTwo = new();
+            Bench_SingletonProvider benchOne = new();
+            Bench_CashedSingletonProvider benchTwo = new();
+            Bench_StaticPoolProvider benchThree = new();
 
-            benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne };
+            benchmarkSerie = new Benchmark[] { benchOne, benchTwo, benchThree };
 
             foreach (Benchmark benchmark in benchmarkSerie)
             {

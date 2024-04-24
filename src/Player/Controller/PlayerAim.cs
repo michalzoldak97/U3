@@ -80,8 +80,6 @@ namespace U3.Player.Controller
                 fpsCamera.fieldOfView = aimingItem.ItemParentAimFOV;
                 isAiming = true;
             }
-            else
-                return;
         }
     }
 }

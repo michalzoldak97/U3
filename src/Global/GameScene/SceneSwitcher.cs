@@ -1,5 +1,4 @@
-﻿using U3.Core.Helper;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace U3.Global.GameScene

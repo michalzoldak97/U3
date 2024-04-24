@@ -104,11 +104,10 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_SingletonProvider benchOne = new();
-            Bench_CashedSingletonProvider benchTwo = new();
-            Bench_StaticPoolProvider benchThree = new();
+            Bench_GetPoolObjectByCopy benchOne = new();
+            Bench_GetPoolObjectByInt benchTwo = new();
 
-            benchmarkSerie = new Benchmark[] { benchOne, benchTwo, benchThree };
+            benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne, benchTwo, benchOne };
 
             foreach (Benchmark benchmark in benchmarkSerie)
             {

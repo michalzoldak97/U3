@@ -9,6 +9,7 @@ namespace U3.Item
         public bool KeepColliderActive;
         public int ThrowForce;
         public ItemType ItemType;
+        public float ItemParentAimFOV;
         public string ToItemName;
         public string ToLayerName;
         public string GUITextToDisplay;

@@ -53,11 +53,13 @@ namespace U3.Player
         public float GravityMultiplayer;
         public float InertiaCoefficient;
         public float LookClamp;
+        public float FPSCameraFOV;
         public Vector2 LookSensitivity;
         public Vector2 StepSpeed;
         public Vector2 HeadBobSpeed;
         public Vector2 HeadBobMagnitude;
         public Vector2 HeadBobMultiplayer;
+        public Vector2 FPSCameraPos;
     }
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerSettings", order = 1)]
     public class PlayerSettings : ScriptableObject

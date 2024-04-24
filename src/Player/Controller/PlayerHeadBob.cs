@@ -12,13 +12,14 @@ namespace U3.Player.Controller
         private Vector3 cameraPosToSet = Vector3.zero;
         private Transform fpsCamera;
         private PlayerMoveManager moveManager;
+        private PlayerMaster playerMaster;
 
         private void SetInit()
         {
-            PlayerMaster playerMaster = GetComponent<PlayerMaster>();
+            playerMaster = GetComponent<PlayerMaster>();
 
             fpsCamera = playerMaster.FPSCamera;
-            cameraXYPos = new Vector2(fpsCamera.localPosition.x, fpsCamera.localPosition.y);
+            cameraXYPos = playerMaster.PlayerSettings.Controller.FPSCameraPos;
 
             ControllerSettings controllerSettings = playerMaster.PlayerSettings.Controller;
             headBobSpeed = controllerSettings.HeadBobSpeed;
@@ -55,10 +56,10 @@ namespace U3.Player.Controller
             fpsCamera.localPosition = cameraPosToSet;
         }
 
-        private void ResetDefaultCameraPos(int dummy)
+        private void ResetDefaultCameraPos(int _)
         {
-            cameraPosToSet.x = cameraXYPos.x;
-            cameraPosToSet.y = cameraXYPos.y;
+            cameraPosToSet.x = playerMaster.PlayerSettings.Controller.FPSCameraPos.x;
+            cameraPosToSet.y = playerMaster.PlayerSettings.Controller.FPSCameraPos.y;
             cameraPosToSet.z = fpsCamera.localPosition.z;
 
             fpsCamera.localPosition = cameraPosToSet;

@@ -17,14 +17,8 @@ namespace U3.Player
         public delegate void PlayerControlTggleEventHandler(bool toActiveState, PlayerControlType controlType);
         public event PlayerControlTggleEventHandler EventTogglePlayerControl;
 
-        public void CallEventTogglePlayerControl(bool toActiveState, PlayerControlType controlType)
-        {
-            EventTogglePlayerControl?.Invoke(toActiveState, controlType);
-        }
+        public void CallEventTogglePlayerControl(bool toActiveState, PlayerControlType controlType) => EventTogglePlayerControl?.Invoke(toActiveState, controlType);
 
-        public void UpdateInventorySettings()
-        {
-            playerAPI.CallEventPlayerSettingsUpdate();
-        }
+        public void UpdateInventorySettings() => playerAPI.CallEventPlayerSettingsUpdate();
     }
 }

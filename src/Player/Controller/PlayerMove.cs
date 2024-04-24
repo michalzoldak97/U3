@@ -35,12 +35,16 @@ namespace U3.Player.Controller
             PlayerInputManager.HumanoidInputActions.EventJump += HandleJump;
             PlayerInputManager.HumanoidInputActions.EventRunStart += StartRun;
             PlayerInputManager.HumanoidInputActions.EventRunFinish += StopRun;
+
+            moveManager.EventChangeMoveSpeed += SetSpeedVec;
         }
         private void OnDisable()
         {
             PlayerInputManager.HumanoidInputActions.EventJump -= HandleJump;
             PlayerInputManager.HumanoidInputActions.EventRunStart -= StartRun;
             PlayerInputManager.HumanoidInputActions.EventRunFinish -= StopRun;
+
+            moveManager.EventChangeMoveSpeed -= SetSpeedVec;
         }
 
         private void StartRun() => stateIdx = 1;
@@ -107,6 +111,8 @@ namespace U3.Player.Controller
 
             m_CharacterController.Move(moveDir * Time.fixedDeltaTime);
         }
+
+        private void SetSpeedVec(Vector3 toSet) => speedVec = toSet;
 
         private void FixedUpdate()
         {

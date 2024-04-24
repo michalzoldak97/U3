@@ -10,18 +10,23 @@ namespace U3.Player.Controller
     {
         private bool isAiming;
         private Vector2 cameraXYPos;
-        private Transform fpsCamera;
+        private Transform fpsCameraTransform;
+        private Camera fpsCamera;
 
         private PlayerMaster playerMaster;
         private InventoryMaster inventoryMaster;
+        private PlayerMoveManager moveManager;
 
         private void Setinit()
         {
             inventoryMaster = GetComponent<InventoryMaster>();
 
             playerMaster = GetComponent<PlayerMaster>();
-            fpsCamera = playerMaster.FPSCamera;
-            cameraXYPos = new Vector2(fpsCamera.localPosition.x, fpsCamera.localPosition.y);
+            fpsCameraTransform = playerMaster.FPSCamera;
+            fpsCamera = fpsCameraTransform.GetComponent<Camera>();
+            cameraXYPos = new Vector2(fpsCameraTransform.localPosition.x, fpsCameraTransform.localPosition.y);
+
+            moveManager = GetComponent<PlayerMoveManager>();
         }
 
         private void OnEnable()
@@ -49,7 +54,10 @@ namespace U3.Player.Controller
             if (!isAiming)
                 return;
 
-            fpsCamera.localPosition = cameraXYPos;
+            fpsCamera.fieldOfView = playerMaster.PlayerSettings.Controller.FPSCameraFOV;
+            fpsCameraTransform.localPosition = cameraXYPos;
+            ControllerSettings cs = playerMaster.PlayerSettings.Controller;
+            moveManager.CallEventChangeMoveSpeed(new Vector3(cs.WalkSpeed, cs.RunSpeed, cs.JumpSpeed));
             playerMaster.CallEventTogglePlayerControl(true, PlayerControlType.HeadBob);
             isAiming = false;
         }
@@ -66,7 +74,10 @@ namespace U3.Player.Controller
                 inventoryMaster.SelectedItem.TryGetComponent(out IAimable aimingItem))
             {
                 playerMaster.CallEventTogglePlayerControl(false, PlayerControlType.HeadBob);
-                fpsCamera.localPosition = aimingItem.ItemParentAimPosition;
+                ControllerSettings cs = playerMaster.PlayerSettings.Controller;
+                moveManager.CallEventChangeMoveSpeed(new Vector3(cs.WalkSpeed, cs.WalkSpeed, cs.JumpSpeed));
+                fpsCameraTransform.localPosition = aimingItem.ItemParentAimPosition;
+                fpsCamera.fieldOfView = aimingItem.ItemParentAimFOV;
                 isAiming = true;
             }
             else

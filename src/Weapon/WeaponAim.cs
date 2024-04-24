@@ -8,6 +8,8 @@ namespace U3.Weapon
     {
         private bool isAiming;
 
+        public float ItemParentAimFOV => Master.ItemMaster.ItemSettings.ItemParentAimFOV;
+
         public Vector3 ItemParentAimPosition => Master.ItemMaster.ItemSettings.ItemParentAimPosition;
 
         public override void OnMasterEnabled(WeaponMaster weaponMaster)

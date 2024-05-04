@@ -21,17 +21,6 @@ namespace U3.Benchmark.Pool
             }
         }
 
-        private Vector3 DoSthElse()
-        {
-            Vector3 res = new(.678f, 1245f, 5464768.4f);
-
-            res.x = Mathf.Sqrt(res.x);
-            res.y = Mathf.Sqrt(res.y);
-            res.z = Mathf.Sqrt(res.z);
-
-            return res;
-        }
-
         public override void RunBenchmark()
         {
             int randomIDX = Random.Range(0, listLen);

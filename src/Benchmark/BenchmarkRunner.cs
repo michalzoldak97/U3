@@ -104,8 +104,8 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_ListStruct benchOne = new();
-            Bench_ListValueTuple benchTwo = new();
+            Bench_GetStateByTryGetValue benchOne = new();
+            Bench_GetStateByIteration benchTwo = new();
 
             benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne, benchTwo, benchOne };
 

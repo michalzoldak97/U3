@@ -1,29 +1,78 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace U3.ObjectPool
 {
     internal class InstantiatingObjectPool : IObjectPool
     {
-        private readonly GameObject[] pooledObjects;
+        private int curentIndex;
+        private int maxIndex;
 
-        public bool AddObject(GameObject obj)
+        private readonly List<PooledObject> pooledObjects;
+        private readonly ObjectPoolSetting m_poolSetting;
+
+        private PooledObject GetNext()
         {
-            throw new System.NotImplementedException();
+            PooledObject obj = pooledObjects[curentIndex];
+            curentIndex++;
+
+            obj.Obj.SetActive(false);
+            return obj;
         }
 
-        public GameObject GetObject()
+        private void ExpandPoolByCount()
         {
-            throw new System.NotImplementedException();
+            for (int i = 0; i < m_poolSetting.InstantiatingPoolSetting.ExpandCount; i++)
+            {
+                PooledObject newObj = PooledObjectFactory.New(m_poolSetting);
+                pooledObjects.Add(newObj);
+                newObj.Obj.SetActive(false);
+                maxIndex++;
+            }
+        }
+
+        private PooledObject OnPoolSaturated()
+        {
+            if (maxIndex >= m_poolSetting.InstantiatingPoolSetting.ExpandSizeLimit)
+                return PooledObjectFactory.New(m_poolSetting);
+
+            ExpandPoolByCount();
+            return GetNext();
+        }
+
+        public PooledObject GetObject()
+        {
+            if (curentIndex >= maxIndex)
+                return OnPoolSaturated();
+
+            return GetNext();
+        }
+
+        public bool AddObject(PooledObject obj)
+        {
+            return false;
+            if (maxIndex >= m_poolSetting.InstantiatingPoolSetting.ExpandSizeLimit)
+                return false;
+            // TODO: fast lookup
+            /*
+             * if (structDictionary.TryGetValue(someValue, out var result))
+            {
+                // 'result' contains the Struct where Two is true
+            }
+             */
+
         }
 
         public InstantiatingObjectPool(ObjectPoolSetting poolSetting)
         {
-            pooledObjects = new GameObject[poolSetting.StartSize];
+            pooledObjects = new (poolSetting.StartSize + poolSetting.InstantiatingPoolSetting.OverheadBufferCount);
             for (int i = 0; i < poolSetting.StartSize; i++)
             {
-                pooledObjects[i] = Object.Instantiate(poolSetting.Object);
-                pooledObjects[i].SetActive(false);
+                pooledObjects[i] = PooledObjectFactory.New(poolSetting);
+                pooledObjects[i].Obj.SetActive(false);
             }
+
+            maxIndex = poolSetting.StartSize - 1;
+            m_poolSetting = poolSetting;
         }
     }
 }

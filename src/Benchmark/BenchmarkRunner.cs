@@ -104,8 +104,8 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_GetPoolObjectByCopy benchOne = new();
-            Bench_GetPoolObjectByInt benchTwo = new();
+            Bench_ListStruct benchOne = new();
+            Bench_ListValueTuple benchTwo = new();
 
             benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne, benchTwo, benchOne };
 

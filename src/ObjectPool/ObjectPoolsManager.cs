@@ -11,9 +11,9 @@ namespace U3.ObjectPool
 
         private readonly Dictionary<string, IObjectPool> objectPools = new();
 
-        public GameObject GetObject(string code) => objectPools[code].GetObject();
+        public PooledObject GetObject(string code) => objectPools[code].GetObject();
 
-        public bool AddObject(string code, GameObject obj) => objectPools[code].AddObject(obj);
+        public bool AddObject(string code, PooledObject obj) => objectPools[code].AddObject(obj);
 
         private void InitializePools()
         {
@@ -22,6 +22,8 @@ namespace U3.ObjectPool
                 objectPools[poolSetting.Code] = ObjectPoolFactory.New(poolSetting);
             }
         }
+
+        // TODO: (API) wipe out pools and reconstruct for the specific scene situation (guns available, bots weapons...)
 
         private void Awake()
         {

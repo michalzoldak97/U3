@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-namespace U3.ObjectPool
+﻿namespace U3.ObjectPool
 {
-    public interface IObjectPool
+    internal interface IObjectPool
     {
-        public GameObject GetObject();
+        public PooledObject GetObject();
 
-        public bool AddObject(GameObject obj);
+        public bool AddObject(PooledObject obj);
     }
 }

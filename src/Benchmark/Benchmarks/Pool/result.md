@@ -11,3 +11,5 @@
 |  Static          |  370    |  1    |
 | Singleton        |  368    |  0.99 |
 | Cached Singleton |  367    |  0.99 |
+
+Struct and ValueTuple have equal performance in accessing items

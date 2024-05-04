@@ -3,6 +3,13 @@
 namespace U3.Weapon
 {
     [System.Serializable]
+    public class HitEffectSetting
+    {
+        public LayerMask HitEffectLayers;
+        public string HitEffectCode;
+    }
+
+    [System.Serializable]
     public struct GunSettings
     {
         public int FireRate;
@@ -23,5 +30,6 @@ namespace U3.Weapon
         public string[] AvailableAmmoCodes;
         public Vector3 WeaponAimPosition;
         public GunSettings GunSettings;
+        public HitEffectSetting[] HitEffectSettings;
     }
 }

@@ -1,39 +1,52 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace U3.ObjectPool
 {
     internal class InstantiatingObjectPool : IObjectPool
     {
-        private int curentIndex;
-        private int maxIndex;
-
+        private bool isCountLimitReached;
+        private int currentCount;
+        private readonly int expandCount, expandCountLimit;
+        private readonly HashSet<int> availableObjIndexes;
         private readonly List<PooledObject> pooledObjects;
         private readonly ObjectPoolSetting m_poolSetting;
 
+        private void AddNewObject(int index)
+        {
+            PooledObject newObj = PooledObjectFactory.New(m_poolSetting, index);
+            pooledObjects.Add(newObj);
+            availableObjIndexes.Add(index);
+            newObj.Obj.SetActive(false);
+            currentCount++;
+        }
+
         private PooledObject GetNext()
         {
-            PooledObject obj = pooledObjects[curentIndex];
-            curentIndex++;
-
-            obj.Obj.SetActive(false);
-            return obj;
+            int indexToReturn = availableObjIndexes.First();
+            availableObjIndexes.Remove(indexToReturn);
+            return pooledObjects[indexToReturn];
         }
 
         private void ExpandPoolByCount()
         {
-            for (int i = 0; i < m_poolSetting.InstantiatingPoolSetting.ExpandCount; i++)
+            int startCount = currentCount;
+            for (int i = startCount; i < (startCount + expandCount); i++)
             {
-                PooledObject newObj = PooledObjectFactory.New(m_poolSetting);
-                pooledObjects.Add(newObj);
-                newObj.Obj.SetActive(false);
-                maxIndex++;
+                AddNewObject(i);
             }
         }
 
         private PooledObject OnPoolSaturated()
         {
-            if (maxIndex >= m_poolSetting.InstantiatingPoolSetting.ExpandSizeLimit)
-                return PooledObjectFactory.New(m_poolSetting);
+            if (isCountLimitReached)
+                return PooledObjectFactory.New(m_poolSetting, isFromPool: false);
+
+            if (currentCount + expandCount >= expandCountLimit)
+            {
+                isCountLimitReached = true;
+                return PooledObjectFactory.New(m_poolSetting, isFromPool: false);
+            }
 
             ExpandPoolByCount();
             return GetNext();
@@ -41,7 +54,7 @@ namespace U3.ObjectPool
 
         public PooledObject GetObject()
         {
-            if (curentIndex >= maxIndex)
+            if (availableObjIndexes.Count < 1)
                 return OnPoolSaturated();
 
             return GetNext();
@@ -49,30 +62,28 @@ namespace U3.ObjectPool
 
         public bool AddObject(PooledObject obj)
         {
-            return false;
-            if (maxIndex >= m_poolSetting.InstantiatingPoolSetting.ExpandSizeLimit)
+            if (!obj.IsFromPool)
                 return false;
-            // TODO: fast lookup
-            /*
-             * if (structDictionary.TryGetValue(someValue, out var result))
-            {
-                // 'result' contains the Struct where Two is true
-            }
-             */
 
+            availableObjIndexes.Add(obj.PoolIndex);
+            obj.Obj.SetActive(false);
+            return true;
         }
 
         public InstantiatingObjectPool(ObjectPoolSetting poolSetting)
         {
-            pooledObjects = new (poolSetting.StartSize + poolSetting.InstantiatingPoolSetting.OverheadBufferCount);
+            expandCount = poolSetting.InstantiatingPoolSetting.ExpandCount;
+            expandCountLimit = poolSetting.InstantiatingPoolSetting.ExpandCountLimit;
+            m_poolSetting = poolSetting;
+
+            int maxCount = poolSetting.StartSize + poolSetting.InstantiatingPoolSetting.OverheadBufferCount;
+            availableObjIndexes = new HashSet<int>(maxCount);
+            pooledObjects = new (maxCount);
+
             for (int i = 0; i < poolSetting.StartSize; i++)
             {
-                pooledObjects[i] = PooledObjectFactory.New(poolSetting);
-                pooledObjects[i].Obj.SetActive(false);
+                AddNewObject(i);
             }
-
-            maxIndex = poolSetting.StartSize - 1;
-            m_poolSetting = poolSetting;
         }
     }
 }

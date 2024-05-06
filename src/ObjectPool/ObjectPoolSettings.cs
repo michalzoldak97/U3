@@ -7,7 +7,7 @@ namespace U3.ObjectPool
     {
         public bool AllowExpand;
         public int ExpandCount;
-        public int ExpandSizeLimit;
+        public int ExpandCountLimit;
         public int OverheadBufferCount;
     }
 

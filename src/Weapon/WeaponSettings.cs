@@ -17,6 +17,8 @@ namespace U3.Weapon
         public int ShootsInBurst;
         public FireMode DeafaultFireMode;
         public FireMode[] AvailableFireModes;
+        public GunShootType DefaultGunShootType;
+        public GunShootType[] AvailableGunShootTypes;
     }
 
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/WeaponSettings", order = 3)]

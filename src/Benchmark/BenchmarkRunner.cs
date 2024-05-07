@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using U3.Benchmark.Pool;
+using U3.Benchmark.Weapon;
 using UnityEngine;
 
 namespace U3.Benchmark
@@ -104,8 +104,10 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_GetStateByTryGetValue benchOne = new();
-            Bench_GetStateByIteration benchTwo = new();
+            UnityEngine.Debug.Log("Hello");
+
+            Bench_SwitchMode benchOne = new();
+            Bench_IfMode benchTwo = new();
 
             benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne, benchTwo, benchOne };
 

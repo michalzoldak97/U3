@@ -16,6 +16,8 @@ namespace U3.Weapon
 
         public FireMode FireMode { get; set; }
 
+        public GunShootType GunShootType { get; set; }
+
         public int AmmoInMag { get; set; }
         public string AmmoCode { get; set; }
 

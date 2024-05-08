@@ -6,6 +6,7 @@ namespace U3.ObjectPool
     public class PooledObject
     {
         public bool IsFromPool { get; }
+        public int ObjIndex { get; }
         public int PoolIndex { get; }
         public Transform ObjTransform { get; }
         public Rigidbody ObjRigidbody { get; }
@@ -14,6 +15,7 @@ namespace U3.ObjectPool
         public PooledObject(GameObject obj, string poolCode, int poolIndex, bool isFromPool)
         {
             IsFromPool = isFromPool;
+            ObjIndex = obj.GetInstanceID();
             PoolIndex = poolIndex;
             Obj = obj;
             ObjTransform = obj.transform;

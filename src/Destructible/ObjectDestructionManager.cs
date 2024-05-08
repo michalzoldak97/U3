@@ -7,6 +7,7 @@ namespace U3.Destructible
     {
         public static void DestroyObject(GameObject obj)
         {
+            // try get damagable master call destroy event
             obj.SetActive(false);
             Object.Destroy(obj, GameConfig.GameConfigSettings.DefaultDestructionDelay);
         }

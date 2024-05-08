@@ -25,11 +25,11 @@ namespace U3.Weapon
 
         private void TestSpawnObject(FireInputOrigin _)
         {
-            PooledObject obj = effectPool.GetObject("test");
+            /*PooledObject obj = effectPool.GetObject("test");
             obj.ObjTransform.position = transform.position;
             obj.Obj.SetActive(true);
             obj.ObjRigidbody.velocity = new Vector3(0f, 0f, 0f);
-            obj.ObjRigidbody.AddForce(transform.forward * 20f, ForceMode.Impulse);
+            obj.ObjRigidbody.AddForce(transform.forward * 20f, ForceMode.Impulse);*/
         }
     }
 }

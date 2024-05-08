@@ -3,6 +3,14 @@
 namespace U3.Weapon
 {
     [System.Serializable]
+    public struct AmmoSettings
+    {
+        public ForceMode ShootForceMode;
+        public float ShootForce;
+        public string DefaultAmmoCode;
+    }
+
+    [System.Serializable]
     public class HitEffectSetting
     {
         public LayerMask HitEffectLayers;
@@ -17,8 +25,6 @@ namespace U3.Weapon
         public int ShootsInBurst;
         public FireMode DeafaultFireMode;
         public FireMode[] AvailableFireModes;
-        public GunShootType DefaultGunShootType;
-        public GunShootType[] AvailableGunShootTypes;
     }
 
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/WeaponSettings", order = 3)]
@@ -28,8 +34,8 @@ namespace U3.Weapon
         public int InitialAmmo;
         public int ShootAmmoConsumption = 1;
         public float ReloadDurationSeconds = 3.0f;
-        public string DefaultAmmoCode;
-        public string[] AvailableAmmoCodes;
+        public float ShootStartOffset;
+        public AmmoSettings AmmoSettings;
         public Vector3 WeaponAimPosition;
         public GunSettings GunSettings;
         public HitEffectSetting[] HitEffectSettings;

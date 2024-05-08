@@ -16,7 +16,7 @@ namespace U3.Weapon
 
         private void Start()
         {
-            Master.AmmoCode = Master.WeaponSettings.DefaultAmmoCode;
+            Master.AmmoCode = Master.WeaponSettings.AmmoSettings.DefaultAmmoCode;
         }
     }
 }

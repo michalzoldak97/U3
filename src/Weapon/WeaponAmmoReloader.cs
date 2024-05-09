@@ -39,7 +39,7 @@ namespace U3.Weapon
             if (!Master.IsReloading)
                 yield break;
 
-            Master.AmmoInMag += ammoStore.RetrieveAmmo(Master.WeaponSettings.MagazineSize - Master.AmmoInMag, Master.AmmoCode);
+            Master.AmmoInMag += ammoStore.RetrieveAmmo(Master.WeaponSettings.AmmoSettings.MagazineSize - Master.AmmoInMag, Master.AmmoCode);
 
 
             Master.IsReloading = false;

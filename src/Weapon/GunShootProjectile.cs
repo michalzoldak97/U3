@@ -6,11 +6,11 @@ namespace U3.Weapon
 {
     public class GunShootProjectile : GunShoot
     {
+        protected ObjectPoolsManager poolsManager;
         private ForceMode shootForceMode;
         private float shootForce;
         private float startOffset;
         private Transform m_Transform;
-        private ObjectPoolsManager poolsManager;
         protected virtual PooledObject GetProjectile()
         {
             return poolsManager.GetObject(Master.AmmoCode);
@@ -29,7 +29,7 @@ namespace U3.Weapon
             projectile.ObjRigidbody.AddForce(m_Transform.forward * shootForce, shootForceMode);
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             shootForceMode = Master.WeaponSettings.AmmoSettings.ShootForceMode;
             shootForce = Master.WeaponSettings.AmmoSettings.ShootForce;

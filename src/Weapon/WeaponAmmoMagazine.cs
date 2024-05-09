@@ -43,8 +43,8 @@ namespace U3.Weapon
 
         private void Start()
         {
-            Master.AmmoInMag = Master.WeaponSettings.InitialAmmo <= Master.WeaponSettings.MagazineSize ? Master.WeaponSettings.InitialAmmo : Master.WeaponSettings.MagazineSize;
-            ammoConsumption = Master.WeaponSettings.ShootAmmoConsumption;
+            Master.AmmoInMag = Master.WeaponSettings.AmmoSettings.InitialAmmo <= Master.WeaponSettings.AmmoSettings.MagazineSize ? Master.WeaponSettings.AmmoSettings.InitialAmmo : Master.WeaponSettings.AmmoSettings.MagazineSize;
+            ammoConsumption = Master.WeaponSettings.AmmoSettings.ShootAmmoConsumption > 1 ? Master.WeaponSettings.AmmoSettings.ShootAmmoConsumption : 1;
 
             SetWeaponLoaded();
         }

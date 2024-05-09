@@ -5,9 +5,13 @@ namespace U3.Weapon
     [System.Serializable]
     public struct AmmoSettings
     {
+        public int MagazineSize;
+        public int InitialAmmo;
+        public int ShootAmmoConsumption;
         public ForceMode ShootForceMode;
         public float ShootForce;
         public string DefaultAmmoCode;
+        public string[] AmmoBeltSequenceCodes;
     }
 
     [System.Serializable]
@@ -30,9 +34,6 @@ namespace U3.Weapon
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/WeaponSettings", order = 3)]
     public class WeaponSettings : ScriptableObject
     {
-        public int MagazineSize;
-        public int InitialAmmo;
-        public int ShootAmmoConsumption = 1;
         public float ReloadDurationSeconds = 3.0f;
         public float ShootStartOffset;
         public AmmoSettings AmmoSettings;

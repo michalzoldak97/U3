@@ -3,7 +3,7 @@
 namespace U3.Weapon
 {
     [System.Serializable]
-    public struct AmmoSettings
+    public struct AmmoSetting
     {
         public int MagazineSize;
         public int InitialAmmo;
@@ -22,7 +22,7 @@ namespace U3.Weapon
     }
 
     [System.Serializable]
-    public struct GunSettings
+    public struct GunSetting
     {
         public int FireRate;
         public int BurstFireRate;
@@ -36,9 +36,9 @@ namespace U3.Weapon
     {
         public float ReloadDurationSeconds = 3.0f;
         public float ShootStartOffset;
-        public AmmoSettings AmmoSettings;
+        public AmmoSetting AmmoSettings;
         public Vector3 WeaponAimPosition;
-        public GunSettings GunSettings;
+        public GunSetting GunSettings;
         public HitEffectSetting[] HitEffectSettings;
     }
 }

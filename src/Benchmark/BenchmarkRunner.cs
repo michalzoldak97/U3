@@ -104,10 +104,8 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            UnityEngine.Debug.Log("Hello");
-
-            Bench_SwitchMode benchOne = new();
-            Bench_IfMode benchTwo = new();
+            Bench_DictKeyTransform benchOne = new();
+            Bench_DictKeyInt benchTwo = new();
 
             benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne, benchTwo, benchOne };
 

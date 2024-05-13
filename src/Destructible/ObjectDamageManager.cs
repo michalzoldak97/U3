@@ -1,7 +1,41 @@
-﻿namespace U3.Destructible
+﻿using System.Collections.Generic;
+using U3.Log;
+using UnityEngine;
+
+namespace U3.Destructible
 {
     public static class ObjectDamageManager
     {
-        // has a dict of damagable objects <instance id, damagable master>
+        private static readonly Dictionary<Transform, IDamageReciever> damagableObjects = new();
+
+        public static void RegisterDamagable(Transform objTransform, IDamageReciever dmgReciever)
+        {
+            if (damagableObjects.ContainsKey(objTransform))
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to add already existing dmg reciever {objTransform}"));
+                return;
+            }
+
+            damagableObjects.Add(objTransform, dmgReciever);
+        }
+
+        public static void UnregisterDamagable(Transform objTransform)
+        {
+            if (!damagableObjects.ContainsKey(objTransform))
+                return; // no log because preferring ContainsKey over TryGetComponent for pooled objects
+
+            damagableObjects.Remove(objTransform);
+        }
+
+        public static void InflictDamage(Transform objTransform, DamageData dmgData)
+        {
+            if (!damagableObjects.ContainsKey(objTransform))
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to damege not existing dmg reciever {objTransform}"));
+                return;
+            }
+
+            damagableObjects[objTransform].CallEventReceiveDamage(dmgData);
+        }
     }
 }

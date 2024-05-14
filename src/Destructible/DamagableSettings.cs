@@ -7,6 +7,7 @@ namespace U3.Destructible
     {
         public float InitialHealth;
         public float Armor;
+        public float DamageMultiplayer;
     }
 
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DamagableSettings", order = 5)]

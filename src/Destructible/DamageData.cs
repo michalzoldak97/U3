@@ -7,6 +7,7 @@
         public DamageImpactType ImpactType;
         public DamageElementType ElementType;
         public float Damage;
+        public float RealDamage;
         public float Penetration;
     }
 }

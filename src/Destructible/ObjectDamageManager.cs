@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace U3.Destructible
 {
+
     public static class ObjectDamageManager
     {
         private static readonly Dictionary<Transform, IDamageReciever> damagableObjects = new();
+        private static readonly Dictionary<int, DamageData> damageInflicted = new();
 
         public static void RegisterDamagable(Transform objTransform, IDamageReciever dmgReciever)
         {
@@ -36,6 +38,18 @@ namespace U3.Destructible
             }
 
             damagableObjects[objTransform].CallEventReceiveDamage(dmgData);
+        }
+
+        public static void RegisterDamage(int InstanceID, DamageData dmgData)
+        {
+            if (damageInflicted.ContainsKey(InstanceID))
+            {
+                DamageData newDmg = damageInflicted[InstanceID];
+                newDmg.RealDamage += dmgData.RealDamage;
+                damageInflicted[InstanceID] = newDmg;
+            }
+            else
+                damageInflicted[InstanceID] = dmgData;
         }
     }
 }

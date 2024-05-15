@@ -9,7 +9,8 @@ namespace U3.Weapon
 
         private void OnEnable()
         {
-            SetWeaponLoaded();
+            if (Master != null)
+                SetWeaponLoaded();
         }
 
         public override void OnMasterEnabled(WeaponMaster weaponMaster)

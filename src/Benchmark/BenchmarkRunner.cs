@@ -104,10 +104,13 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            Bench_DictKeyTransform benchOne = new();
-            Bench_DictKeyInt benchTwo = new();
+            UnityEngine.Debug.Log("Hello");
 
-            benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne, benchTwo, benchOne };
+            Bench_LayerCheckDict benchOne = new();
+            Bench_LayerCheckBitTwo benchTwo = new();
+            Bench_LayerCheckBitOne benchThree = new();
+
+            benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchThree, benchTwo, benchThree, benchOne, benchTwo, benchOne, benchThree };
 
             foreach (Benchmark benchmark in benchmarkSerie)
             {

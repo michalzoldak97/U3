@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using U3.Core;
+using UnityEngine;
 
 namespace U3.Destructible
 {
@@ -22,6 +23,22 @@ namespace U3.Destructible
         private void Awake()
         {
             ObjectDamageManager.RegisterDamagable(transform, this);
+        }
+
+        private void OnEnable()
+        {
+            foreach (Vassal<DamagableMaster> vassal in GetComponents<Vassal<DamagableMaster>>())
+            {
+                vassal.OnMasterEnabled(this);
+            }
+        }
+
+        private void OnDisable()
+        {
+            foreach (Vassal<DamagableMaster> vassal in GetComponents<Vassal<DamagableMaster>>())
+            {
+                vassal.OnMasterDisabled();
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ namespace U3.Destructible
     public static class ObjectDamageManager
     {
         private static readonly Dictionary<Transform, IDamageReciever> damagableObjects = new();
+        private static readonly Dictionary<int, DamageData> damageInflictors = new();
         private static readonly Dictionary<int, DamageData> damageInflicted = new();
 
         public static void RegisterDamagable(Transform objTransform, IDamageReciever dmgReciever)
@@ -29,27 +30,65 @@ namespace U3.Destructible
             damagableObjects.Remove(objTransform);
         }
 
+        public static void RegisterDamageInflictor(int instanceID, DamageData dmgData)
+        {
+            if (damageInflictors.ContainsKey(instanceID))
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to register existing dmg inflictor {instanceID}"));
+                return;
+            }
+
+            damageInflictors[instanceID] = dmgData;
+        }
+
+        public static void UpdateDamageInflictorOrigin(int instanceID, int originInstanceID, int originTeamID)
+        {
+            if (!damageInflictors.ContainsKey(instanceID))
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to access not existing dmg inflictor {instanceID}"));
+                return;
+            }
+
+            DamageData inflictorDmgData = damageInflictors[instanceID];
+            inflictorDmgData.InflictorID = originInstanceID;
+            inflictorDmgData.InflictorTeamID = originTeamID;
+
+            damageInflictors[instanceID] = inflictorDmgData;
+        }
+
+        public static DamageData GetDamageInflictorData(int instanceID)
+        {
+            if (!damageInflictors.ContainsKey(instanceID))
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Error, $"trying to access not existing dmg inflictor {instanceID}"));
+                return new DamageData();
+            }
+
+            return damageInflictors[instanceID];
+        }
+
         public static void InflictDamage(Transform objTransform, DamageData dmgData)
         {
             if (!damagableObjects.ContainsKey(objTransform))
             {
-                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to damege not existing dmg reciever {objTransform}"));
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to damage not existing dmg reciever {objTransform}"));
                 return;
             }
 
+            Debug.Log($"object {objTransform} is damaged with dmg {dmgData.RealDamage} and penetration {dmgData.Penetration}");
             damagableObjects[objTransform].CallEventReceiveDamage(dmgData);
         }
 
-        public static void RegisterDamage(int InstanceID, DamageData dmgData)
+        public static void RegisterDamage(int instanceID, DamageData dmgData)
         {
-            if (damageInflicted.ContainsKey(InstanceID))
+            if (damageInflicted.ContainsKey(instanceID))
             {
-                DamageData newDmg = damageInflicted[InstanceID];
+                DamageData newDmg = damageInflicted[instanceID];
                 newDmg.RealDamage += dmgData.RealDamage;
-                damageInflicted[InstanceID] = newDmg;
+                damageInflicted[instanceID] = newDmg;
             }
             else
-                damageInflicted[InstanceID] = dmgData;
+                damageInflicted[instanceID] = dmgData;
         }
     }
 }

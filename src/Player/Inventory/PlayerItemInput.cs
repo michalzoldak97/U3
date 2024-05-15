@@ -16,7 +16,7 @@ namespace U3.Player.Inventory
         {
             int id = transform.GetInstanceID();
             string name = transform.name;
-            m_inputOrigin = new FireInputOrigin(id, name);
+            m_inputOrigin = new FireInputOrigin(id, 0, name); // TODO: pass real team id
         }
 
         private void OnEnable()

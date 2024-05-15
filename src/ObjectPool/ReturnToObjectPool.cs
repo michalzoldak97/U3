@@ -8,7 +8,7 @@ namespace U3.ObjectPool
         public string PoolCode { get; set; }
         public PooledObject PooledObject { get; set; }
 
-        protected void ReturnToPool()
+        public void ReturnToPool()
         {
             bool isObjAccepted = ObjectPoolsManager.Instance.AddObject(PoolCode, PooledObject);
 

@@ -27,6 +27,11 @@ namespace U3.Destructible
             };
         }
 
+        protected void SpawnHitEffect(Collision col)
+        {
+            // CallGlobalEffectSpawner()
+        }
+
         private void Awake()
         {
             instanceID = gameObject.GetInstanceID();

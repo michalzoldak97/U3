@@ -6,6 +6,8 @@ namespace U3.Weapon
 {
     public class GunProjectile : DamageInflictor
     {
+        private int layersToDamage;
+        private int layersToHit;
         private Rigidbody rb;
         private ReturnToObjectPool poolReturner;
 
@@ -29,12 +31,23 @@ namespace U3.Weapon
 
         private void OnCollisionEnter(Collision col)
         {
-            ApplyProjectileDamage(col);
+            int colLayer = col.gameObject.layer;
+
+            if ((layersToDamage & (1 << colLayer)) != 0)
+            {
+                ApplyProjectileDamage(col);
+                SpawnHitEffect(col);
+            }
+            else if ((layersToHit & (1 << colLayer)) != 0)
+                SpawnHitEffect(col);
+
             poolReturner.ReturnToPool();
         }
 
         private void Start()
         {
+            layersToDamage = dmgSettings.LayersToDamage.value;
+            layersToHit = dmgSettings.LayersToHit.value;
             rb = GetComponent<Rigidbody>();
             poolReturner = GetComponent<ReturnToObjectPool>();
         }

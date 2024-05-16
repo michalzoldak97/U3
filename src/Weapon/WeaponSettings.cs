@@ -34,10 +34,11 @@ namespace U3.Weapon
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/WeaponSettings", order = 3)]
     public class WeaponSettings : ScriptableObject
     {
+        public int ShootgunShootsCount;
         public float ReloadDurationSeconds = 3.0f;
-        public float ShootStartOffset;
         public AmmoSetting AmmoSettings;
         public Vector3 WeaponAimPosition;
+        public Vector3 ShootStartPosition;
         public GunSetting GunSettings;
         public HitEffectSetting[] HitEffectSettings;
     }

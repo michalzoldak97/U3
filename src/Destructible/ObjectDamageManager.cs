@@ -41,6 +41,17 @@ namespace U3.Destructible
             damageInflictors[instanceID] = dmgData;
         }
 
+        public static void UnregisterDamageInflictor(int instanceID)
+        {
+            if (!damageInflictors.ContainsKey(instanceID))
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to unregister not existing dmg inflictor {instanceID}"));
+                return;
+            }
+
+            damageInflictors.Remove(instanceID);
+        }
+
         public static void UpdateDamageInflictorOrigin(int instanceID, int originInstanceID, int originTeamID)
         {
             if (!damageInflictors.ContainsKey(instanceID))

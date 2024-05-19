@@ -35,12 +35,16 @@ namespace U3.Weapon
     public class WeaponSettings : ScriptableObject
     {
         public int ShootgunShootsCount;
+        public LayerMask LayersToHit;
+        public LayerMask LayersToDamage;
         public float ReloadDurationSeconds = 3.0f;
+        public float FireRange;
         public AmmoSetting AmmoSettings;
         public Vector2 Recoil;
         public Vector3 WeaponAimPosition;
         public Vector3 ShootStartPosition;
         public GunSetting GunSettings;
+        public DamageInflictorSettings RaycastDamageSettings;
         public HitEffectSetting[] HitEffectSettings;
     }
 }

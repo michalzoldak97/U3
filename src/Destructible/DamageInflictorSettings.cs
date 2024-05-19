@@ -13,5 +13,6 @@ namespace U3.Destructible
         public float Damage;
         public float PenetrationCoeff;
         public float BaseVelocity;
+        public Vector2 DamageEquation;
     }
 }

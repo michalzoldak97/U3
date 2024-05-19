@@ -36,7 +36,7 @@ namespace U3.Weapon
             ShootProjectile(inputOrigin);
         }
 
-        protected virtual void Start()
+        protected override void Start()
         {
             shootForceMode = Master.WeaponSettings.AmmoSettings.ShootForceMode;
             shootForce = Master.WeaponSettings.AmmoSettings.ShootForce;

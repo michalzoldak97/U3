@@ -12,7 +12,7 @@ namespace U3.Destructible
         {
             DamageData dmgDataToPass = ObjectDamageManager.GetDamageInflictorData(instanceID);
             dmgDataToPass.RealDamage = realDamage;
-            dmgDataToPass.Penetration = realPenetration;
+            dmgDataToPass.RealPenetration = realPenetration;
 
             ObjectDamageManager.InflictDamage(toDmg, dmgDataToPass);
         }
@@ -23,7 +23,7 @@ namespace U3.Destructible
             {
                 ImpactType = dmgSettings.ImpactType,
                 ElementType = dmgSettings.ElementType,
-                Damage = dmgSettings.Damage
+                RealDamage = dmgSettings.Damage
             };
         }
 

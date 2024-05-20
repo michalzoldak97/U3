@@ -18,10 +18,10 @@ namespace U3.Destructible
         private void HandleDamage(DamageData dmgData)
         {
             if (dmgData.ImpactType != DamageImpactType.ProjectileImpact ||
-                dmgData.Penetration < Master.DamagableSettings.HealthSetting.Armor)
+                dmgData.RealPenetration < Master.DamagableSettings.HealthSetting.Armor)
                 return;
 
-            dmgData.RealDamage = dmgData.Damage < Master.Health ? dmgData.Damage : Master.Health;
+            dmgData.RealDamage = dmgData.RealDamage < Master.Health ? dmgData.RealDamage : Master.Health;
             Master.CallEventChangeHealth(dmgData);
         }
     }

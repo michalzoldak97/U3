@@ -2,6 +2,7 @@
 using U3.Item;
 using U3.ObjectPool;
 using UnityEngine;
+
 namespace U3.Weapon
 {
     public class GunShootProjectile : GunShoot

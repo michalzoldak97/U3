@@ -29,10 +29,10 @@ namespace U3.Destructible
             float maxDmg = 0;
             foreach (KeyValuePair<int, DamageData> dmgData in frameExplosionDamages)
             {
-                if (dmgData.Value.Damage > maxDmg)
+                if (dmgData.Value.RealDamage > maxDmg)
                 {
                     maxDmgID = dmgData.Value.InflictorID;
-                    maxDmg = dmgData.Value.Damage;
+                    maxDmg = dmgData.Value.RealDamage;
                 }
             }
 
@@ -44,7 +44,7 @@ namespace U3.Destructible
             yield return waitForEndOfFrame;
 
             DamageData dmgToApply = frameExplosionDamages[GetMaxDamage()];
-            dmgToApply.RealDamage = dmgToApply.Damage < Master.Health ? dmgToApply.Damage : Master.Health;
+            dmgToApply.RealDamage = dmgToApply.RealDamage < Master.Health ? dmgToApply.RealDamage : Master.Health;
             Master.CallEventChangeHealth(dmgToApply);
 
             frameExplosionDamages.Clear();
@@ -56,7 +56,7 @@ namespace U3.Destructible
             if (frameExplosionDamages.ContainsKey(dmgData.InflictorID))
             {
                 DamageData currDmgData = frameExplosionDamages[dmgData.InflictorID];
-                currDmgData.Damage += dmgData.Damage;
+                currDmgData.RealDamage += dmgData.RealDamage;
                 frameExplosionDamages[dmgData.InflictorID] = currDmgData;
             }
             else
@@ -66,7 +66,7 @@ namespace U3.Destructible
         private void RegisterExplosionDamage(DamageData dmgData)
         {
             if (dmgData.ImpactType != DamageImpactType.ExplosionImpact ||
-                dmgData.Penetration < Master.DamagableSettings.HealthSetting.Armor)
+                dmgData.RealPenetration < Master.DamagableSettings.HealthSetting.Armor)
                 return;
 
             if (!isExplosionDmgRegisteredInFrame)

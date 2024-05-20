@@ -86,7 +86,7 @@ namespace U3.Destructible
                 return;
             }
 
-            Debug.Log($"object {objTransform} is damaged with dmg {dmgData.RealDamage} and penetration {dmgData.Penetration}");
+            Debug.Log($"object {objTransform} is damaged with dmg {dmgData.RealDamage} and penetration {dmgData.RealPenetration}");
             damagableObjects[objTransform].CallEventReceiveDamage(dmgData);
         }
 

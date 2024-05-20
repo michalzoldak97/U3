@@ -1,4 +1,6 @@
-﻿using U3.Item;
+﻿using U3.Destructible;
+using U3.Item;
+using UnityEngine;
 
 namespace U3.Weapon
 {
@@ -12,7 +14,7 @@ namespace U3.Weapon
         private Vector2 penEquation;
         private Vector2 dmgEquation;
 
-        private void CalcPenetration(float dmg)
+        private float CalcPenetration(float dmg)
         {
             if (penEquation.x == 0)
                 return 1f;
@@ -21,19 +23,19 @@ namespace U3.Weapon
             return Random.Range(pen - penEquation.y, pen + penEquation.y);
         }
 
-        private float CalcDamage(RaycastHit hit)
+        private float CalcDamage(Transform hitTransform)
         {
-            float dist = (myTransform.position - hit.transform.position).magnitude;
+            float dist = (m_Transform.position - hitTransform.position).magnitude;
             if (dist < 1)
                 dist = 1;
 
-            return dist * funcCoeff + funcInter
+            return dist * dmgEquation.x + dmgEquation.y;
         }
 
-        private void ApplyDamage(FireInputOrigin inputOrigin, RaycastHit hit)
+        private void ApplyDamage(FireInputOrigin inputOrigin, Transform hitTransform)
         {
-            float dmg = CalcDamage(hit);
-            ObjectDamageManager.InflictDamage(hit.transform, new DamageData()
+            float dmg = CalcDamage(hitTransform);
+            ObjectDamageManager.InflictDamage(hitTransform, new DamageData()
                 {
                     InflictorID = inputOrigin.ID,
                     InflictorTeamID = inputOrigin.TeamID,
@@ -62,12 +64,14 @@ namespace U3.Weapon
 
                 if ((layersToDamage & (1 << hitLayer)) != 0)
                 {
-                    ApplyDamage(hit);
-                    SpawnHitEffect(col);
+                    ApplyDamage(inputOrigin, hit.transform);
+                    // SpawnHitEffect(col);
                 }
                 else if ((layersToHit & (1 << hitLayer)) != 0)
-                    SpawnHitEffect(col);
+                {
+                    // SpawnHitEffect(col);
                 }
+            }
         }
 
         protected override void ShootAction(FireInputOrigin inputOrigin)
@@ -80,7 +84,7 @@ namespace U3.Weapon
             layersToHit = Master.WeaponSettings.LayersToHit;
             layersToDamage = Master.WeaponSettings.LayersToDamage;
             range = Master.WeaponSettings.FireRange;
-            penCoeff = Master.WeaponSettings.RaycastDamageSettings.PenetrationCoeff;
+            penEquation = Master.WeaponSettings.RaycastDamageSettings.PenetrationEquation;
             dmgEquation = Master.WeaponSettings.RaycastDamageSettings.DamageEquation;
             impactType = Master.WeaponSettings.RaycastDamageSettings.ImpactType;
             elementType = Master.WeaponSettings.RaycastDamageSettings.ElementType;

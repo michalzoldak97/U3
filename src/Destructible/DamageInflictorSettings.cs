@@ -11,8 +11,8 @@ namespace U3.Destructible
         public DamageImpactType ImpactType;
         public DamageElementType ElementType;
         public float Damage;
-        public float PenetrationCoeff;
         public float BaseVelocity;
-        public Vector2 DamageEquation;
+        public Vector2 DamageEquation; // coeff, inter
+        public Vector2 PenetrationEquation; // %, var
     }
 }

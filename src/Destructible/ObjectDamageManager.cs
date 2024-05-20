@@ -52,7 +52,7 @@ namespace U3.Destructible
             damageInflictors.Remove(instanceID);
         }
 
-        public static void UpdateDamageInflictorOrigin(int instanceID, int originInstanceID, int originTeamID)
+        public static void UpdateDamageInflictorOrigin(int instanceID, int originInstanceID)
         {
             if (!damageInflictors.ContainsKey(instanceID))
             {
@@ -62,7 +62,6 @@ namespace U3.Destructible
 
             DamageData inflictorDmgData = damageInflictors[instanceID];
             inflictorDmgData.InflictorID = originInstanceID;
-            inflictorDmgData.InflictorTeamID = originTeamID;
 
             damageInflictors[instanceID] = inflictorDmgData;
         }

@@ -21,7 +21,7 @@ namespace U3.Benchmark.Utility
         private void Start()
         {
             weaponMasters = GetComponentsInChildren<WeaponMaster>();
-            StartCoroutine(ShootAllWeapons(new FireInputOrigin(gameObject.GetInstanceID(), 1, "all shotter")));
+            StartCoroutine(ShootAllWeapons(new FireInputOrigin(gameObject.GetInstanceID())));
         }
     }
 }

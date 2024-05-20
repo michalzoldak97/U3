@@ -19,7 +19,7 @@ namespace U3.Weapon
         protected virtual void ShootProjectile(FireInputOrigin inputOrigin)
         {
             PooledObject projectile = GetProjectile();
-            ObjectDamageManager.UpdateDamageInflictorOrigin(projectile.ObjInstanceID, inputOrigin.ID, inputOrigin.TeamID);
+            ObjectDamageManager.UpdateDamageInflictorOrigin(projectile.ObjInstanceID, inputOrigin.ID);
 
             projectile.ObjTransform.SetPositionAndRotation(m_Transform.position + startPos, m_Transform.rotation);
             projectile.Obj.SetActive(true);

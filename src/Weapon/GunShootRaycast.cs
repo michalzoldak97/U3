@@ -38,7 +38,6 @@ namespace U3.Weapon
             ObjectDamageManager.InflictDamage(hitTransform, new DamageData()
                 {
                     InflictorID = inputOrigin.ID,
-                    InflictorTeamID = inputOrigin.TeamID,
                     ImpactType = impactType,
                     ElementType = elementType,
                     RealDamage = dmg,

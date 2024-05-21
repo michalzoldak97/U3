@@ -20,16 +20,16 @@ namespace U3.Weapon
         {
             PooledObject projectile = GetProjectile();
             ObjectDamageManager.UpdateDamageInflictorOrigin(projectile.ObjInstanceID, inputOrigin.ID);
-
-            projectile.ObjTransform.SetPositionAndRotation(m_Transform.position + startPos, m_Transform.rotation);
+            projectile.ObjTransform.SetPositionAndRotation(m_Transform.TransformPoint(startPos), Quaternion.identity);
             projectile.Obj.SetActive(true);
             projectile.ObjRigidbody.angularVelocity = Vector3.zero;
             projectile.ObjRigidbody.velocity = Vector3.zero;
-            projectile.ObjRigidbody.AddForce(
-                m_Transform.TransformDirection(
+
+            Vector3 randVec = new Vector3(
                     Random.Range(-recoil.x, recoil.x),
                     Random.Range(-recoil.y, recoil.y),
-                    startPos.z) * shootForce, shootForceMode);
+                    0f);
+            projectile.ObjRigidbody.AddForce(shootForce * m_Transform.forward + randVec, shootForceMode);
         }
 
         protected override void ShootAction(FireInputOrigin inputOrigin)
@@ -39,6 +39,7 @@ namespace U3.Weapon
 
         protected override void Start()
         {
+            base.Start();
             shootForceMode = Master.WeaponSettings.AmmoSettings.ShootForceMode;
             shootForce = Master.WeaponSettings.AmmoSettings.ShootForce;
             poolsManager = ObjectPoolsManager.Instance; // TODO: reload in case of scene switch

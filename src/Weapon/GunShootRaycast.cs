@@ -80,6 +80,7 @@ namespace U3.Weapon
 
         protected override void Start()
         {
+            base.Start();
             layersToHit = Master.WeaponSettings.LayersToHit;
             layersToDamage = Master.WeaponSettings.LayersToDamage;
             range = Master.WeaponSettings.FireRange;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace U3.ObjectPool
 {
@@ -8,7 +7,7 @@ namespace U3.ObjectPool
         private bool isCountLimitReached;
         private int currentCount;
         private readonly int expandCount, expandCountLimit;
-        private readonly HashSet<int> availableObjIndexes;
+        private readonly List<int> availableObjIndexes;
         private readonly List<PooledObject> pooledObjects;
         private readonly ObjectPoolSetting m_poolSetting;
 
@@ -23,7 +22,7 @@ namespace U3.ObjectPool
 
         private PooledObject GetNext()
         {
-            int indexToReturn = availableObjIndexes.First();
+            int indexToReturn = availableObjIndexes[0];
             availableObjIndexes.Remove(indexToReturn);
             return pooledObjects[indexToReturn];
         }
@@ -77,7 +76,7 @@ namespace U3.ObjectPool
             m_poolSetting = poolSetting;
 
             int maxCount = poolSetting.StartSize + poolSetting.InstantiatingPoolSetting.OverheadBufferCount;
-            availableObjIndexes = new HashSet<int>(maxCount);
+            availableObjIndexes = new List<int>(maxCount);
             pooledObjects = new (maxCount);
 
             for (int i = 0; i < poolSetting.StartSize; i++)

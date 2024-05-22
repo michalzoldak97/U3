@@ -3,23 +3,23 @@ using UnityEngine;
 
 namespace U3.ObjectPool
 {
-    public class ObjectPoolsManager : MonoBehaviour
+    public class ObjectPoolsManager<T> : MonoBehaviour where T : Component
     {
         [SerializeField] private ObjectPoolSettings poolSettings;
 
-        public static ObjectPoolsManager Instance;
+        public static ObjectPoolsManager<T> Instance;
 
-        private readonly Dictionary<string, IObjectPool> objectPools = new();
+        private readonly Dictionary<string, IObjectPool<T>> objectPools = new();
 
-        public PooledObject GetObject(string code) => objectPools[code].GetObject();
+        public PooledObject<T> GetObject(string code) => objectPools[code].GetObject();
 
-        public bool AddObject(string code, PooledObject obj) => objectPools[code].AddObject(obj);
+        public bool AddObject(string code, PooledObject<T> obj) => objectPools[code].AddObject(obj);
 
         private void InitializePools()
         {
             foreach (ObjectPoolSetting poolSetting in poolSettings.ObjectPools)
             {
-                objectPools[poolSetting.Code] = ObjectPoolFactory.New(poolSetting);
+                objectPools[poolSetting.Code] = ObjectPoolFactory.New<T>(poolSetting);
             }
         }
 

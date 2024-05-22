@@ -61,12 +61,12 @@ namespace U3.Weapon
             {
                 int hitLayer = hit.transform.gameObject.layer;
 
-                if ((layersToDamage & (1 << hitLayer)) != 0)
+                if ((inputOrigin.LayersToDamage & (1 << hitLayer)) != 0)
                 {
                     ApplyDamage(inputOrigin, hit.transform);
                     // SpawnHitEffect(col);
                 }
-                else if ((layersToHit & (1 << hitLayer)) != 0)
+                else if ((inputOrigin.LayersToHit & (1 << hitLayer)) != 0)
                 {
                     // SpawnHitEffect(col);
                 }
@@ -81,8 +81,6 @@ namespace U3.Weapon
         protected override void Start()
         {
             base.Start();
-            layersToHit = Master.WeaponSettings.LayersToHit;
-            layersToDamage = Master.WeaponSettings.LayersToDamage;
             range = Master.WeaponSettings.FireRange;
             penEquation = Master.WeaponSettings.RaycastDamageSettings.PenetrationEquation;
             dmgEquation = Master.WeaponSettings.RaycastDamageSettings.DamageEquation;

@@ -6,8 +6,6 @@ namespace U3.Destructible
     public class DamageInflictorSettings : ScriptableObject
     {
         public int RicochetLimit;
-        public LayerMask LayersToDamage;
-        public LayerMask LayersToHit;
         public DamageImpactType ImpactType;
         public DamageElementType ElementType;
         public float Damage;

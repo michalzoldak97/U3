@@ -1,4 +1,5 @@
-﻿using U3.ObjectPool;
+﻿using U3.Destructible;
+using U3.ObjectPool;
 
 namespace U3.Weapon
 {
@@ -7,7 +8,7 @@ namespace U3.Weapon
         private int currentIndex;
         private string[] ammoSequence;
 
-        protected override PooledObject GetProjectile()
+        protected override PooledObject<DamageInflictor> GetProjectile()
         {
             int idx = currentIndex;
             currentIndex = currentIndex + 1 >= ammoSequence.Length ? 0 : currentIndex + 1;

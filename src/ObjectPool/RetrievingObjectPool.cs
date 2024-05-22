@@ -1,38 +1,40 @@
-﻿namespace U3.ObjectPool
+﻿using UnityEngine;
+
+namespace U3.ObjectPool
 {
-    internal class RetrievingObjectPool : IObjectPool
+    internal class RetrievingObjectPool<T> : IObjectPool<T> where T : Component
     {
         private int curentIndex;
         private readonly int maxIndex;
-        private readonly PooledObject[] pooledObjects;
+        private readonly PooledObject<T>[] pooledObjects;
 
-        private PooledObject RetrieveObject()
+        private PooledObject<T> RetrieveObject()
         {
             curentIndex = 0;
             pooledObjects[0].Obj.SetActive(false);
             return pooledObjects[0];
         }
 
-        public PooledObject GetObject()
+        public PooledObject<T> GetObject()
         {
             if (curentIndex >= maxIndex)
                 return RetrieveObject();
 
-            PooledObject obj = pooledObjects[curentIndex];
+            PooledObject<T> obj = pooledObjects[curentIndex];
             curentIndex++;
 
             obj.Obj.SetActive(false);
             return obj;
         }
 
-        public bool AddObject(PooledObject _) => true;
+        public bool AddObject(PooledObject<T> _) => true;
 
         public RetrievingObjectPool(ObjectPoolSetting poolSetting)
         {
-            pooledObjects = new PooledObject[poolSetting.StartSize];
+            pooledObjects = new PooledObject<T>[poolSetting.StartSize];
             for (int i = 0; i < poolSetting.StartSize; i++)
             {
-                pooledObjects[i] = PooledObjectFactory.New(poolSetting);
+                pooledObjects[i] = PooledObjectFactory.New<T>(poolSetting);
                 pooledObjects[i].Obj.SetActive(false);
             }
 

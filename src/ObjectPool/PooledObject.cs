@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace U3.ObjectPool
 {
-    public class PooledObject
+    public class PooledObject<T> where T : Component
     {
         public bool IsFromPool { get; }
         public int ObjInstanceID { get; }
@@ -11,6 +11,8 @@ namespace U3.ObjectPool
         public Transform ObjTransform { get; }
         public Rigidbody ObjRigidbody { get; }
         public GameObject Obj { get; }
+
+        public T ObjInterface { get; }
 
         public PooledObject(GameObject obj, string poolCode, int poolIndex, bool isFromPool)
         {
@@ -21,10 +23,15 @@ namespace U3.ObjectPool
             ObjTransform = obj.transform;
             ObjRigidbody = obj.GetComponent<Rigidbody>();
 
-            if (obj.TryGetComponent(out ReturnToObjectPool returnToPool))
+            if (obj.TryGetComponent(out T interfaceObject))
+                ObjInterface = interfaceObject;
+            else
+                GameLogger.Log(new GameLog(Log.LogType.Warning, $"pooled object {obj.name} is missing interface object"));
+
+            if (obj.TryGetComponent(out PooledObjectReturner returnToPool))
             {
                 returnToPool.PoolCode = poolCode;
-                returnToPool.PooledObject = this;
+                returnToPool.SetPooledOject(this);
             }
             else
             {

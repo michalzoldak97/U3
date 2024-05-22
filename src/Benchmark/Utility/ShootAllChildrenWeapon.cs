@@ -1,4 +1,5 @@
 using System.Collections;
+using U3.AI.Team;
 using U3.Item;
 using U3.Weapon;
 using UnityEngine;
@@ -21,7 +22,8 @@ namespace U3.Benchmark.Utility
         private void Start()
         {
             weaponMasters = GetComponentsInChildren<WeaponMaster>();
-            StartCoroutine(ShootAllWeapons(new FireInputOrigin(gameObject.GetInstanceID())));
+            TeamIdentifier teamSetting = GetComponent<TeamIdentifier>();
+            StartCoroutine(ShootAllWeapons(new FireInputOrigin(gameObject.GetInstanceID(), teamSetting.LayersToHit, teamSetting.LayersToDamage)));
         }
     }
 }

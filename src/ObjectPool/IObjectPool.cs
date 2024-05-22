@@ -1,9 +1,11 @@
-﻿namespace U3.ObjectPool
-{
-    internal interface IObjectPool
-    {
-        public PooledObject GetObject();
+﻿using UnityEngine;
 
-        public bool AddObject(PooledObject obj);
+namespace U3.ObjectPool
+{
+    internal interface IObjectPool<T> where T : Component
+    {
+        public PooledObject<T> GetObject();
+
+        public bool AddObject(PooledObject<T> obj);
     }
 }

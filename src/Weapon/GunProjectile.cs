@@ -6,10 +6,8 @@ namespace U3.Weapon
 {
     public class GunProjectile : DamageInflictor
     {
-        private int layersToDamage;
-        private int layersToHit;
         private Rigidbody rb;
-        private ReturnToObjectPool poolReturner;
+        private DamageInflictorReturner poolReturner;
 
         private float GetImpactVelocityMagnitude(Collision col)
         {
@@ -33,23 +31,21 @@ namespace U3.Weapon
         {
             int colLayer = col.gameObject.layer;
 
-            if ((layersToDamage & (1 << colLayer)) != 0)
+            if ((m_DmgData.LayersToDamage.value & (1 << colLayer)) != 0)
             {
                 ApplyProjectileDamage(col);
                 SpawnHitEffect(col);
             }
-            else if ((layersToHit & (1 << colLayer)) != 0)
+            else if ((m_DmgData.LayersToHit.value & (1 << colLayer)) != 0)
                 SpawnHitEffect(col);
 
-            poolReturner.ReturnToPool();
+            poolReturner.ReturnToPool<DamageInflictor>();
         }
 
         private void Start()
         {
-            layersToDamage = dmgSettings.LayersToDamage.value;
-            layersToHit = dmgSettings.LayersToHit.value;
             rb = GetComponent<Rigidbody>();
-            poolReturner = GetComponent<ReturnToObjectPool>();
+            poolReturner = GetComponent<DamageInflictorReturner>();
         }
     }
 }

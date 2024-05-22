@@ -1,26 +1,27 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace U3.ObjectPool
 {
-    internal class InstantiatingObjectPool : IObjectPool
+    internal class InstantiatingObjectPool<T> : IObjectPool<T> where T : Component
     {
         private bool isCountLimitReached;
         private int currentCount;
         private readonly int expandCount, expandCountLimit;
         private readonly List<int> availableObjIndexes;
-        private readonly List<PooledObject> pooledObjects;
+        private readonly List<PooledObject<T>> pooledObjects;
         private readonly ObjectPoolSetting m_poolSetting;
 
         private void AddNewObject(int index)
         {
-            PooledObject newObj = PooledObjectFactory.New(m_poolSetting, index);
+            PooledObject<T> newObj = PooledObjectFactory.New<T>(m_poolSetting, index);
             pooledObjects.Add(newObj);
             availableObjIndexes.Add(index);
             newObj.Obj.SetActive(false);
             currentCount++;
         }
 
-        private PooledObject GetNext()
+        private PooledObject<T> GetNext()
         {
             int indexToReturn = availableObjIndexes[0];
             availableObjIndexes.Remove(indexToReturn);
@@ -36,22 +37,22 @@ namespace U3.ObjectPool
             }
         }
 
-        private PooledObject OnPoolSaturated()
+        private PooledObject<T> OnPoolSaturated()
         {
             if (isCountLimitReached)
-                return PooledObjectFactory.New(m_poolSetting, isFromPool: false);
+                return PooledObjectFactory.New<T>(m_poolSetting, isFromPool: false);
 
             if (currentCount + expandCount >= expandCountLimit)
             {
                 isCountLimitReached = true;
-                return PooledObjectFactory.New(m_poolSetting, isFromPool: false);
+                return PooledObjectFactory.New<T>(m_poolSetting, isFromPool: false);
             }
 
             ExpandPoolByCount();
             return GetNext();
         }
 
-        public PooledObject GetObject()
+        public PooledObject<T> GetObject()
         {
             if (availableObjIndexes.Count < 1)
                 return OnPoolSaturated();
@@ -59,7 +60,7 @@ namespace U3.ObjectPool
             return GetNext();
         }
 
-        public bool AddObject(PooledObject obj)
+        public bool AddObject(PooledObject<T> obj)
         {
             if (!obj.IsFromPool)
                 return false;

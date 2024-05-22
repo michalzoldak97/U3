@@ -17,6 +17,7 @@ namespace U3.ObjectPool
         public int StartSize;
         public string Code;
         public GameObject Object;
+        public Component PoolObjectsType;
         public InstantiatingObjectPoolSetting InstantiatingPoolSetting;
     }
 

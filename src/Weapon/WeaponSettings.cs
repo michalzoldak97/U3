@@ -36,8 +36,6 @@ namespace U3.Weapon
     public class WeaponSettings : ScriptableObject
     {
         public int ShootgunShootsCount;
-        public LayerMask LayersToHit;
-        public LayerMask LayersToDamage;
         public float ReloadDurationSeconds = 3.0f;
         public float FireRange;
         public AmmoSetting AmmoSettings;

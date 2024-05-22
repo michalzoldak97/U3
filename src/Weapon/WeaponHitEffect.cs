@@ -1,20 +1,20 @@
 using U3.Core;
+using U3.Destructible;
 using U3.Item;
 using U3.ObjectPool;
-using UnityEngine;
 
 namespace U3.Weapon
 {
     public class WeaponHitEffect : Vassal<WeaponMaster>
     {
         // pool test
-        private ObjectPoolsManager effectPool;
+        private ObjectPoolsManager<DamageInflictor> effectPool;
 
         public override void OnMasterEnabled(WeaponMaster master)
         {
             base.OnMasterEnabled(master);
 
-            effectPool = ObjectPoolsManager.Instance;
+            effectPool = ObjectPoolsManager<DamageInflictor>.Instance;
             Master.EventWeaponFired += TestSpawnObject;
         }
 

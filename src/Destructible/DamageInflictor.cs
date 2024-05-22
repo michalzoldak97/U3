@@ -1,20 +1,35 @@
-﻿using UnityEngine;
+﻿using U3.ObjectPool;
+using UnityEngine;
 
 namespace U3.Destructible
 {
-    public class DamageInflictor : MonoBehaviour
+    public class DamageInflictor : MonoBehaviour, IPoolReturnable<DamageInflictor>
     {
-        [SerializeField] protected DamageInflictorSettings dmgSettings;
+        public string PoolCode { get; set; }
 
-        private int instanceID;
+        [SerializeField] protected DamageInflictorSettings dmgSettings;
+        protected DamageData m_DmgData;
+        private PooledObject<DamageInflictor> m_PooledObject;
+
+        public PooledObject<DamageInflictor> GetPooledObject() => m_PooledObject;
+        public void SetPooledObject(PooledObject<DamageInflictor> toSet)
+        {
+            m_PooledObject = toSet;
+        }
+
+        public void SetInflictorData(int inflictorID, LayerMask layersToHit, LayerMask layersToDamage)
+        {
+            m_DmgData.InflictorID = inflictorID;
+            m_DmgData.LayersToHit = layersToHit;
+            m_DmgData.LayersToDamage = layersToDamage;
+        }
 
         protected void InflictDamage(Transform toDmg,float realDamage, float realPenetration)
         {
-            DamageData dmgDataToPass = ObjectDamageManager.GetDamageInflictorData(instanceID);
-            dmgDataToPass.RealDamage = realDamage;
-            dmgDataToPass.RealPenetration = realPenetration;
+            m_DmgData.RealDamage = realDamage;
+            m_DmgData.RealPenetration = realPenetration;
 
-            ObjectDamageManager.InflictDamage(toDmg, dmgDataToPass);
+            ObjectDamageManager.InflictDamage(toDmg, m_DmgData);
         }
 
         private DamageData CreateDmgData()
@@ -34,8 +49,15 @@ namespace U3.Destructible
 
         private void Awake()
         {
-            instanceID = gameObject.GetInstanceID();
-            ObjectDamageManager.RegisterDamageInflictor(instanceID, CreateDmgData());
+            m_DmgData = CreateDmgData();
+        }
+
+        public void ReturnToPool()
+        {
+            bool isObjAccepted = ObjectPoolsManager<DamageInflictor>.Instance.AddObject(PoolCode, m_PooledObject);
+
+            if (!isObjAccepted)
+                ObjectDestructionManager.DestroyObject(gameObject);
         }
     }
 }

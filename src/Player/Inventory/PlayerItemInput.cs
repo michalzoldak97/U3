@@ -1,3 +1,4 @@
+using U3.AI.Team;
 using U3.Input;
 using U3.Inventory;
 using U3.Item;
@@ -14,7 +15,8 @@ namespace U3.Player.Inventory
 
         private void OnEnable()
         {
-            m_inputOrigin = new FireInputOrigin(gameObject.GetInstanceID());
+            TeamIdentifier teamSetting = GetComponent<TeamIdentifier>();
+            m_inputOrigin = new FireInputOrigin(gameObject.GetInstanceID(), teamSetting.LayersToHit, teamSetting.LayersToDamage);
 
             m_ammoStore = GetComponent<IAmmoStore>();
             inventoryMaster = GetComponent<InventoryMaster>();

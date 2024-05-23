@@ -1,5 +1,4 @@
 using U3.Core;
-using U3.Destructible;
 using U3.Item;
 using U3.ObjectPool;
 
@@ -8,13 +7,13 @@ namespace U3.Weapon
     public class WeaponHitEffect : Vassal<WeaponMaster>
     {
         // pool test
-        private ObjectPoolsManager<DamageInflictor> effectPool;
+        private ObjectPoolsManager effectPool;
 
         public override void OnMasterEnabled(WeaponMaster master)
         {
             base.OnMasterEnabled(master);
 
-            effectPool = ObjectPoolsManager<DamageInflictor>.Instance;
+            effectPool = ObjectPoolsManager.Instance;
             Master.EventWeaponFired += TestSpawnObject;
         }
 

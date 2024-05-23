@@ -16,7 +16,7 @@ namespace U3.ObjectPool
 
         protected override bool TryReturnToPool()
         {
-            return ObjectPoolsManager<DamageInflictor>.Instance.AddObject(PoolCode, m_PooledObject);
+            return ObjectPoolsManager.Instance.AddObject(PoolCode, m_PooledObject);
         }
     }
 }

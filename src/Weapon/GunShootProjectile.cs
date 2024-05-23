@@ -7,7 +7,7 @@ namespace U3.Weapon
 {
     public class GunShootProjectile : GunShoot
     {
-        protected ObjectPoolsManager<DamageInflictor> poolsManager;
+        protected ObjectPoolsManager poolsManager;
         private ForceMode shootForceMode;
         private float shootForce;
 
@@ -42,7 +42,7 @@ namespace U3.Weapon
             base.Start();
             shootForceMode = Master.WeaponSettings.AmmoSettings.ShootForceMode;
             shootForce = Master.WeaponSettings.AmmoSettings.ShootForce;
-            poolsManager = ObjectPoolsManager<DamageInflictor>.Instance; // TODO: reload in case of scene switch
+            poolsManager = ObjectPoolsManager.Instance; // TODO: reload in case of scene switch or keep mamager alive and adjust pools only
         }
     }
 }

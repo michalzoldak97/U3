@@ -54,7 +54,7 @@ namespace U3.Destructible
 
         public void ReturnToPool()
         {
-            bool isObjAccepted = ObjectPoolsManager<DamageInflictor>.Instance.AddObject(PoolCode, m_PooledObject);
+            bool isObjAccepted = ObjectPoolsManager.Instance.AddObject(PoolCode, m_PooledObject);
 
             if (!isObjAccepted)
                 ObjectDestructionManager.DestroyObject(gameObject);

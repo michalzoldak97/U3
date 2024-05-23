@@ -2,6 +2,12 @@
 
 namespace U3.ObjectPool
 {
+    public enum ObjectPoolType
+    {
+        DamageInflictor,
+        Effect
+    }
+
     [System.Serializable]
     public class InstantiatingObjectPoolSetting
     {
@@ -15,9 +21,9 @@ namespace U3.ObjectPool
     public class ObjectPoolSetting
     {
         public int StartSize;
+        public ObjectPoolType Type;
         public string Code;
         public GameObject Object;
-        public Component PoolObjectsType;
         public InstantiatingObjectPoolSetting InstantiatingPoolSetting;
     }
 

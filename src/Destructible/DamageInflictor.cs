@@ -27,7 +27,9 @@ namespace U3.Destructible
             {
                 ImpactType = dmgSettings.ImpactType,
                 ElementType = dmgSettings.ElementType,
-                RealDamage = dmgSettings.Damage
+                RealDamage = dmgSettings.Damage,
+                HitEffectScale = dmgSettings.HitEffectScale,
+                HitEffectSettingCode = dmgSettings.HitEffectSettingCode
             };
         }
 

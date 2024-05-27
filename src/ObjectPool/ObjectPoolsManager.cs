@@ -10,11 +10,13 @@ namespace U3.ObjectPool
 
         public static ObjectPoolsManager Instance;
 
-        private readonly Dictionary<string, IObjectPool<DamageInflictor>> objectPools = new();
+        private readonly Dictionary<string, IObjectPool<DamageInflictor>> dmgInflictorPools = new();
+        private readonly Dictionary<string, IObjectPool<Effect>> effectPools = new();
 
-        public PooledObject<DamageInflictor> GetObject(string code) => objectPools[code].GetObject();
+        public PooledObject<DamageInflictor> GetDamageInflictor(string code) => dmgInflictorPools[code].GetObject();
+        public PooledObject<Effect> GetEffect(string code) => effectPools[code].GetObject();
 
-        public bool AddObject(string code, PooledObject<DamageInflictor> obj) => objectPools[code].AddObject(obj);
+        public bool AddObject(string code, PooledObject<DamageInflictor> obj) => dmgInflictorPools[code].AddObject(obj);
 
         private void InitializePools()
         {
@@ -23,7 +25,10 @@ namespace U3.ObjectPool
                 switch (poolSetting.Type)
                 {
                     case ObjectPoolType.DamageInflictor:
-                        objectPools[poolSetting.Code] = ObjectPoolFactory.New<DamageInflictor>(poolSetting);
+                        dmgInflictorPools[poolSetting.Code] = ObjectPoolFactory.New<DamageInflictor>(poolSetting);
+                        break;
+                    case ObjectPoolType.Effect:
+                        effectPools[poolSetting.Code] = ObjectPoolFactory.New<Effect>(poolSetting);
                         break;
                     default:
                         break;

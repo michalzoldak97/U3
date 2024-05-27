@@ -13,7 +13,7 @@ namespace U3.Weapon
             int idx = currentIndex;
             currentIndex = currentIndex + 1 >= ammoSequence.Length ? 0 : currentIndex + 1;
 
-            return poolsManager.GetObject(ammoSequence[idx]);
+            return poolsManager.GetDamageInflictor(ammoSequence[idx]);
         }
 
         protected override void Start()

@@ -13,7 +13,7 @@ namespace U3.Weapon
 
         protected virtual PooledObject<DamageInflictor> GetProjectile()
         {
-            return poolsManager.GetObject(Master.AmmoCode);
+            return poolsManager.GetDamageInflictor(Master.AmmoCode);
         }
 
         protected virtual void ShootProjectile(FireInputOrigin inputOrigin)

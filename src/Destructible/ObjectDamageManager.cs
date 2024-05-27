@@ -8,7 +8,6 @@ namespace U3.Destructible
     public static class ObjectDamageManager
     {
         private static readonly Dictionary<Transform, IDamageReciever> damagableObjects = new();
-        private static readonly Dictionary<int, DamageData> damageInflictors = new();
         private static readonly Dictionary<int, DamageData> damageInflicted = new();
 
         public static void RegisterDamagable(Transform objTransform, IDamageReciever dmgReciever)
@@ -34,11 +33,11 @@ namespace U3.Destructible
         {
             if (!damagableObjects.ContainsKey(objTransform))
             {
-                GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to damage not existing dmg reciever {objTransform}"));
+                // GameLogger.Log(new GameLog(Log.LogType.Warning, $"trying to damage not existing dmg reciever {objTransform}"));
                 return;
             }
 
-            Debug.Log($"object {objTransform} is damaged with dmg {dmgData.RealDamage} and penetration {dmgData.RealPenetration}");
+            // Debug.Log($"object {objTransform} is damaged with dmg {dmgData.RealDamage} and penetration {dmgData.RealPenetration}");
             damagableObjects[objTransform].CallEventReceiveDamage(dmgData);
         }
 

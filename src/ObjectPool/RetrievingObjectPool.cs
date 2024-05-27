@@ -23,7 +23,7 @@ namespace U3.ObjectPool
             PooledObject<T> obj = pooledObjects[curentIndex];
             curentIndex++;
 
-            obj.Obj.SetActive(false);
+            pooledObjects[0].Obj.SetActive(false);
             return obj;
         }
 
@@ -35,7 +35,7 @@ namespace U3.ObjectPool
             for (int i = 0; i < poolSetting.StartSize; i++)
             {
                 pooledObjects[i] = PooledObjectFactory.New<T>(poolSetting);
-                pooledObjects[i].Obj.SetActive(false);
+                pooledObjects[0].Obj.SetActive(false);
             }
 
             maxIndex = poolSetting.StartSize - 1;

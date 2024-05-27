@@ -8,11 +8,16 @@ namespace U3.Weapon
     {
         private DamageImpactType impactType;
         private DamageElementType elementType;
-        private LayerMask layersToHit;
-        private LayerMask layersToDamage;
         private float range;
+        private float hitForce;
         private Vector2 penEquation;
         private Vector2 dmgEquation;
+
+        private void ApplyHitForce(Rigidbody rb)
+        {
+            if (hitForce != 0 && rb != null)
+                rb.AddForce(m_Transform.forward * hitForce, ForceMode.Impulse);
+        }
 
         private float CalcPenetration(float dmg)
         {
@@ -56,18 +61,21 @@ namespace U3.Weapon
                 ),
                 out RaycastHit hit,
                 range,
-                layersToHit
+                inputOrigin.LayersToHit
             ))
             {
-                int hitLayer = hit.transform.gameObject.layer;
+                Transform hitTransform = hit.transform;
+                int hitLayer = hitTransform.gameObject.layer;
 
-                if ((inputOrigin.LayersToDamage & (1 << hitLayer)) != 0)
+                if ((inputOrigin.LayersToDamage.value & (1 << hitLayer)) != 0)
                 {
-                    ApplyDamage(inputOrigin, hit.transform);
+                    ApplyDamage(inputOrigin, hitTransform);
+                    ApplyHitForce(hit.rigidbody);
                     // SpawnHitEffect(col);
                 }
-                else if ((inputOrigin.LayersToHit & (1 << hitLayer)) != 0)
+                else if ((inputOrigin.LayersToHit.value & (1 << hitLayer)) != 0)
                 {
+                    ApplyHitForce(hit.rigidbody);
                     // SpawnHitEffect(col);
                 }
             }
@@ -82,10 +90,11 @@ namespace U3.Weapon
         {
             base.Start();
             range = Master.WeaponSettings.FireRange;
-            penEquation = Master.WeaponSettings.RaycastDamageSettings.PenetrationEquation;
-            dmgEquation = Master.WeaponSettings.RaycastDamageSettings.DamageEquation;
-            impactType = Master.WeaponSettings.RaycastDamageSettings.ImpactType;
-            elementType = Master.WeaponSettings.RaycastDamageSettings.ElementType;
+            hitForce = Master.WeaponSettings.HitDamageSettings.HitForce;
+            penEquation = Master.WeaponSettings.HitDamageSettings.PenetrationEquation;
+            dmgEquation = Master.WeaponSettings.HitDamageSettings.DamageEquation;
+            impactType = Master.WeaponSettings.HitDamageSettings.ImpactType;
+            elementType = Master.WeaponSettings.HitDamageSettings.ElementType;
         }
     }
 }

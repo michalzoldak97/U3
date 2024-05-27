@@ -1,4 +1,5 @@
-﻿using U3.Log;
+﻿using System.Collections.Generic;
+using U3.Log;
 using UnityEngine;
 
 namespace U3.ObjectPool
@@ -11,7 +12,6 @@ namespace U3.ObjectPool
         public Transform ObjTransform { get; }
         public Rigidbody ObjRigidbody { get; }
         public GameObject Obj { get; }
-
         public T ObjInterface { get; }
 
         public PooledObject(GameObject obj, string poolCode, int poolIndex, bool isFromPool)

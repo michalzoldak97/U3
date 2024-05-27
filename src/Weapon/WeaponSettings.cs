@@ -43,7 +43,7 @@ namespace U3.Weapon
         public Vector3 WeaponAimPosition;
         public Vector3 ShootStartPosition;
         public GunSetting GunSettings;
-        public DamageInflictorSettings RaycastDamageSettings;
+        public DamageInflictorSettings HitDamageSettings;
         public HitEffectSetting[] HitEffectSettings;
     }
 }

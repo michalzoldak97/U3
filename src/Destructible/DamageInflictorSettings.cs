@@ -10,6 +10,7 @@ namespace U3.Destructible
         public DamageElementType ElementType;
         public float Damage;
         public float BaseVelocity;
+        public float HitForce;
         public Vector2 DamageEquation; // coeff, inter
         public Vector2 PenetrationEquation; // %, var
     }

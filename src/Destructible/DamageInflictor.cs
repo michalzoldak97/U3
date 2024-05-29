@@ -27,15 +27,13 @@ namespace U3.Destructible
             {
                 ImpactType = dmgSettings.ImpactType,
                 ElementType = dmgSettings.ElementType,
-                RealDamage = dmgSettings.Damage,
-                HitEffectScale = dmgSettings.HitEffectScale,
-                HitEffectSettingCode = dmgSettings.HitEffectSettingCode
+                RealDamage = dmgSettings.Damage
             };
         }
 
-        protected void SpawnHitEffect(Collision col)
+        protected void SpawnHitEffect(int hitLayer, Vector3 hitPoint, Vector3 hitNormal)
         {
-            // CallGlobalEffectSpawner()
+            DestructibleEffectManager.Instance.FireHitEffect(hitLayer, hitPoint, hitNormal, dmgSettings.HitEffectSettingCode);
         }
 
         private void Awake()

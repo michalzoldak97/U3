@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using U3.Benchmark.Weapon;
+using U3.Benchmark.Camera;
 using UnityEngine;
 
 namespace U3.Benchmark
@@ -104,13 +104,12 @@ namespace U3.Benchmark
         /// </summary>
         private void Start()
         {
-            UnityEngine.Debug.Log("Hello");
+            UnityEngine.Debug.Log("Hello potato");
 
-            Bench_LayerCheckDict benchOne = new();
-            Bench_LayerCheckBitTwo benchTwo = new();
-            Bench_LayerCheckBitOne benchThree = new();
+            Bench_WorldToScreen benchOne = new();
+            Bench_WorldToView benchTwo = new();
 
-            benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchThree, benchTwo, benchThree, benchOne, benchTwo, benchOne, benchThree };
+            benchmarkSerie = new Benchmark[] { benchTwo, benchOne, benchTwo, benchOne, benchTwo, benchOne };
 
             foreach (Benchmark benchmark in benchmarkSerie)
             {

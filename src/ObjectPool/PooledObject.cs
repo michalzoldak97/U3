@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using U3.Log;
+﻿using U3.Log;
 using UnityEngine;
 
 namespace U3.ObjectPool
@@ -33,10 +32,10 @@ namespace U3.ObjectPool
                 returnToPool.PoolCode = poolCode;
                 returnToPool.SetPooledOject(this);
             }
-            else
+            /*else
             {
                 GameLogger.Log(new GameLog(Log.LogType.Warning, $"pooled object {obj.name} is missing return to pool"));
-            }
+            }*/
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace U3.Benchmark
+namespace U3.Benchmark.Weapon
 {
     internal class Bench_DictKeyInt : Benchmark
     {

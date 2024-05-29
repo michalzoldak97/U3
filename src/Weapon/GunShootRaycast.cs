@@ -10,10 +10,8 @@ namespace U3.Weapon
         private DamageElementType elementType;
         private float range;
         private float hitForce;
-        private float hitEffectScale;
         private Vector2 penEquation;
         private Vector2 dmgEquation;
-        private string hitEffectSettingCode;
 
         private void ApplyHitForce(Rigidbody rb)
         {
@@ -48,9 +46,7 @@ namespace U3.Weapon
                     ImpactType = impactType,
                     ElementType = elementType,
                     RealDamage = dmg,
-                    RealPenetration = CalcPenetration(dmg),
-                    HitEffectScale = hitEffectScale,
-                    HitEffectSettingCode = hitEffectSettingCode
+                    RealPenetration = CalcPenetration(dmg)
                 });
         }
 
@@ -99,8 +95,6 @@ namespace U3.Weapon
             dmgEquation = Master.WeaponSettings.HitDamageSettings.DamageEquation;
             impactType = Master.WeaponSettings.HitDamageSettings.ImpactType;
             elementType = Master.WeaponSettings.HitDamageSettings.ElementType;
-            hitEffectScale = Master.WeaponSettings.HitDamageSettings.HitEffectScale;
-            hitEffectSettingCode = Master.WeaponSettings.HitDamageSettings.HitEffectSettingCode;
         }
     }
 }

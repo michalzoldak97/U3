@@ -9,6 +9,11 @@ namespace U3.Weapon
         private Rigidbody rb;
         private DamageInflictorReturner poolReturner;
 
+        private void CallHitEffect(int hitLayer, ContactPoint contact)
+        {
+            SpawnHitEffect(hitLayer, contact.point, contact.normal);
+        }
+
         private float GetImpactVelocityMagnitude(Collision col)
         {
             Vector3 impulse = col.impulse;
@@ -34,10 +39,12 @@ namespace U3.Weapon
             if ((m_DmgData.LayersToDamage.value & (1 << colLayer)) != 0)
             {
                 ApplyProjectileDamage(col);
-                SpawnHitEffect(col);
+                CallHitEffect(colLayer, col.GetContact(0));
             }
-            else if ((m_DmgData.LayersToHit.value & (1 << colLayer)) != 0)
-                SpawnHitEffect(col);
+            else if ((m_DmgData.LayersToHit.value & (1 << colLayer)) != 0) 
+            {
+                CallHitEffect(colLayer, col.GetContact(0));
+            }
 
             poolReturner.ReturnToPool<DamageInflictor>();
         }

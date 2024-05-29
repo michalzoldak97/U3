@@ -16,7 +16,8 @@ namespace U3.ObjectPool
         public PooledObject<DamageInflictor> GetDamageInflictor(string code) => dmgInflictorPools[code].GetObject();
         public PooledObject<Effect> GetEffect(string code) => effectPools[code].GetObject();
 
-        public bool AddObject(string code, PooledObject<DamageInflictor> obj) => dmgInflictorPools[code].AddObject(obj);
+        public bool AddDamageInflictor(string code, PooledObject<DamageInflictor> obj) => dmgInflictorPools[code].AddObject(obj);
+        public bool AddEffect(string code, PooledObject<Effect> obj) => effectPools[code].AddObject(obj);
 
         private void InitializePools()
         {

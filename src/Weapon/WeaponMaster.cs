@@ -53,6 +53,9 @@ namespace U3.Weapon
         public delegate void WeaponFireModeEventHandler(FireMode fireMode);
         public event WeaponFireModeEventHandler EventFireModeChanged;
 
+        public delegate void WeaponHitEffectEventHandler(Vector3 hitPoint, Vector3 hitNormal);
+        public event WeaponHitEffectEventHandler EventObjectHit;
+
         public void CallEventFireDownCalled(FireInputOrigin inputOrigin) => EventFireDownCalled?.Invoke(inputOrigin);
         public void CallEventFireUpCalled(FireInputOrigin inputOrigin) => EventFireUpCalled?.Invoke(inputOrigin);
         public void CallEventFire(FireInputOrigin inputOrigin) => EventFire?.Invoke(inputOrigin);
@@ -69,6 +72,8 @@ namespace U3.Weapon
         public void CallEventReloadFinnished() => EventReloadFinnished?.Invoke();
 
         public void CallEventFireModeChanged(FireMode toFireMode) => EventFireModeChanged?.Invoke(toFireMode);
+
+        public void CallEventObjectHit(Vector3 hitPoint, Vector3 hitNormal) => EventObjectHit?.Invoke(hitPoint, hitNormal);
 
         private void Awake()
         {

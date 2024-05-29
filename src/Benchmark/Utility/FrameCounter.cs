@@ -1,4 +1,5 @@
 using System.Collections;
+using U3.Destructible;
 using UnityEngine;
 
 namespace U3.Benchmark.Utility
@@ -18,6 +19,9 @@ namespace U3.Benchmark.Utility
             {
                 yield return waitSec;
                 Debug.Log($"Frame rate = {frameCountSec}");
+               /* Debug.Log($"Played in a second {DestructibleEffectManager.Instance.dbgEffectsPlayed} active in a second {DestructibleEffectManager.Instance.dbgEffectsActive / frameCountSec}");
+                DestructibleEffectManager.Instance.dbgEffectsPlayed = 0;
+                DestructibleEffectManager.Instance.dbgEffectsActive = 0;*/
                 frameCountSec = 0;
                 secElapsed++;
             }

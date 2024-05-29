@@ -11,7 +11,5 @@ namespace U3.Destructible
         public DamageElementType ElementType;
         public float RealDamage;
         public float RealPenetration;
-        public float HitEffectScale;
-        public string HitEffectSettingCode;
     }
 }

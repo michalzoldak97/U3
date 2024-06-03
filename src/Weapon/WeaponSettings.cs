@@ -16,13 +16,6 @@ namespace U3.Weapon
     }
 
     [System.Serializable]
-    public class HitEffectSetting
-    {
-        public LayerMask HitEffectLayers;
-        public string HitEffectCode;
-    }
-
-    [System.Serializable]
     public struct GunSetting
     {
         public int FireRate;
@@ -44,6 +37,5 @@ namespace U3.Weapon
         public Vector3 ShootStartPosition;
         public GunSetting GunSettings;
         public DamageInflictorSettings HitDamageSettings;
-        public HitEffectSetting[] HitEffectSettings;
     }
 }

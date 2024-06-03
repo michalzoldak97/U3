@@ -11,7 +11,6 @@ namespace U3.Destructible
         public float Damage;
         public float BaseVelocity;
         public float HitForce;
-        public float HitEffectScale;
         public Vector2 DamageEquation; // coeff, inter
         public Vector2 PenetrationEquation; // %, var
         public string HitEffectSettingCode;

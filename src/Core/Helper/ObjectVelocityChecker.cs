@@ -13,12 +13,12 @@ namespace U3.Core.Helper
 
         private IEnumerator PrintVelocities()
         {
-            Debug.Log($"Rigidbody velocity is: {rb.velocity} with magnitude {rb.velocity.magnitude} sqr with magnitude {rb.velocity.sqrMagnitude}");
+            Debug.Log($"Rigidbody velocity is: {rb.linearVelocity} with magnitude {rb.linearVelocity.magnitude} sqr with magnitude {rb.linearVelocity.sqrMagnitude}");
 
             for (int i = 0; i < checksCount; i++)
             {
                 yield return waitDelay;
-                Debug.Log($"Rigidbody velocity is: {rb.velocity} with magnitude {rb.velocity.magnitude} sqr with magnitude {rb.velocity.sqrMagnitude}");
+                Debug.Log($"Rigidbody velocity is: {rb.linearVelocity} with magnitude {rb.linearVelocity.magnitude} sqr with magnitude {rb.linearVelocity.sqrMagnitude}");
             }
         }
 

@@ -23,7 +23,7 @@ namespace U3.Weapon
             projectile.Obj.SetActive(true);
             projectile.ObjInterface.SetInflictorData(inputOrigin.ID, inputOrigin.LayersToHit, inputOrigin.LayersToDamage);
             projectile.ObjRigidbody.angularVelocity = Vector3.zero;
-            projectile.ObjRigidbody.velocity = Vector3.zero;
+            projectile.ObjRigidbody.linearVelocity = Vector3.zero;
 
             Vector3 randVec = new (
                     Random.Range(-recoil.x, recoil.x),

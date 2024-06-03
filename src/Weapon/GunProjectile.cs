@@ -21,7 +21,7 @@ namespace U3.Weapon
             if (Vector3.Dot(col.GetContact(0).normal, impulse) < 0)
                 impulse *= -1f;
 
-            return (rb.velocity - impulse / rb.mass).magnitude;
+            return (rb.linearVelocity - impulse / rb.mass).magnitude;
         }
 
         private void ApplyProjectileDamage(Collision col)

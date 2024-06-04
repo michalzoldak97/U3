@@ -5,6 +5,7 @@ namespace U3.Destructible
     [System.Serializable]
     public struct ExplosiveInflictorSetting
     {
+        public int TargetCapacity;
         public int SplinterNum;
         public float Radius;
         public float MinDamage;

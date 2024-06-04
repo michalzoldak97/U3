@@ -1,22 +1,25 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using U3.Core;
 
 namespace U3.Weapon.Explosive
 {
-    public class ExplosiveImpact : MonoBehaviour
+    public class ExplosiveImpact : Vassal<ExplosiveMaster>
     {
         private Transform m_Transform;
 
-        private float CalcDamage(float baseDmg, float minDmg, float radius, Vector3 hitPos)
+        private float GetDamage(float baseDmg, float minDmg, float radius, Vector3 hitPos)
         {
             float dist = Vector3.Distance(m_Transform.position, hitPos);
             float coeff = (minDmg - Mathf.Pow(radius, 3) - baseDmg) / radius;
             return radius * Mathf.Pow(dist, 2) + coeff * dist + baseDmg;
         }
 
-        private void ApplyDamage()
+        private void ApplyImpact()
         {
-            // on event apply for each collider
+            for (int i = 0; i < Master.ExplosionTargets.Count; i++)
+            {
+
+            }
         }
 
         private void Start()

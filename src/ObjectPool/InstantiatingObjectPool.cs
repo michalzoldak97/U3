@@ -39,8 +39,6 @@ namespace U3.ObjectPool
 
         private PooledObject<T> OnPoolSaturated()
         {
-            Debug.Log("Pool saturated");
-
             if (isCountLimitReached)
                 return PooledObjectFactory.New<T>(m_poolSetting, isFromPool: false);
 

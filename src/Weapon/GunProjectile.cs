@@ -26,7 +26,7 @@ namespace U3.Weapon
 
         private void ApplyProjectileDamage(Collision col)
         {
-            float dmg = (GetImpactVelocityMagnitude(col) / dmgSettings.BaseVelocity) * dmgSettings.Damage;
+            float dmg = (GetImpactVelocityMagnitude(col) / dmgSettings.ProjectileSetting.BaseVelocity) * dmgSettings.Damage;
             float pen = dmg * dmgSettings.PenetrationEquation.x;
 
             InflictDamage(col.transform, dmg, Random.Range(pen - dmgSettings.PenetrationEquation.y, pen + dmgSettings.PenetrationEquation.y));

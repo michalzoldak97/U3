@@ -12,6 +12,7 @@ namespace U3.Weapon
         private float hitForce;
         private Vector2 penEquation;
         private Vector2 dmgEquation;
+        private string hitEffectSettingCode;
 
         private void ApplyHitForce(Rigidbody rb)
         {
@@ -71,12 +72,12 @@ namespace U3.Weapon
                 {
                     ApplyDamage(inputOrigin, hitTransform);
                     ApplyHitForce(hit.rigidbody);
-                    // SpawnHitEffect(col);
+                    DestructibleEffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode);
                 }
                 else if ((inputOrigin.LayersToHit.value & (1 << hitLayer)) != 0)
                 {
                     ApplyHitForce(hit.rigidbody);
-                    // SpawnHitEffect(col);
+                    DestructibleEffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode);
                 }
             }
         }
@@ -90,11 +91,12 @@ namespace U3.Weapon
         {
             base.Start();
             range = Master.WeaponSettings.FireRange;
-            hitForce = Master.WeaponSettings.HitDamageSettings.HitForce;
+            hitForce = Master.WeaponSettings.HitDamageSettings.ImpactForce;
             penEquation = Master.WeaponSettings.HitDamageSettings.PenetrationEquation;
             dmgEquation = Master.WeaponSettings.HitDamageSettings.DamageEquation;
             impactType = Master.WeaponSettings.HitDamageSettings.ImpactType;
             elementType = Master.WeaponSettings.HitDamageSettings.ElementType;
+            hitEffectSettingCode = Master.WeaponSettings.HitDamageSettings.ProjectileSetting.HitEffectSettingCode;
         }
     }
 }

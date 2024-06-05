@@ -29,7 +29,7 @@ namespace U3.Weapon
             float dmg = (GetImpactVelocityMagnitude(col) / dmgSettings.ProjectileSetting.BaseVelocity) * dmgSettings.Damage;
             float pen = dmg * dmgSettings.PenetrationEquation.x;
 
-            InflictDamage(col.transform, dmg, Random.Range(pen - dmgSettings.PenetrationEquation.y, pen + dmgSettings.PenetrationEquation.y));
+            InflictDamage(col.transform, dmg, Random.Range(pen - pen * dmgSettings.PenetrationEquation.y, pen + pen * dmgSettings.PenetrationEquation.y));
         }
 
         private void OnCollisionEnter(Collision col)

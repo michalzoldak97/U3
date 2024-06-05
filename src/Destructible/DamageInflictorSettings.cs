@@ -31,7 +31,7 @@ namespace U3.Destructible
         public float Damage;
         public float ImpactForce;
         public Vector2 DamageEquation; // projectile: {coeff, inter}, HEAT/splinter: {val, var}
-        public Vector2 PenetrationEquation; // projectile: {%, var}, HEAT/splinter: {val, var}
+        public Vector2 PenetrationEquation; // projectile: {%, var}, explosive: {base, var} HEAT/splinter: {val, var}
         public ProjectileInfilictorSetting ProjectileSetting;
         public ExplosiveInflictorSetting ExplosiveSetting;
     }

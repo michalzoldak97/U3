@@ -5,6 +5,15 @@ using UnityEngine;
 
 namespace U3.Core.Helper
 {
+    public struct TransformVisibilityCheckData
+    {
+
+        public float range;
+        public LayerMask checkLayers;
+        public Vector3 origin;
+        public (bool checkClosest, bool checkCorners) checkPrecision;
+    }
+
     [System.Serializable]
     internal class JSONWrapper<T>
     {
@@ -73,5 +82,18 @@ namespace U3.Core.Helper
         public static string ArrayToJSON<T>(T[] arr) => JsonUtility.ToJson(new JSONWrapper<T> { Items = arr });
 
         public static T[] JSONToArray<T>(string json) => JsonUtility.FromJson<JSONWrapper<T>>(json).Items;
+
+        public static (bool, Vector3) IsTransformVisibleFromPoint(Transform target, TransformVisibilityCheckData checkData)
+        {
+            RaycastHit hit;
+            Debug.DrawRay(checkData.origin, (target.position - checkData.origin).normalized * checkData.range, Color.red, 10);
+            if (Physics.Raycast(checkData.origin, (target.position - checkData.origin).normalized, out hit, checkData.range, checkData.checkLayers))
+            {
+                if (hit.transform == target)
+                    return (true, hit.point);
+            }
+
+            return (false, Vector3.zero);
+        }
     }
 }

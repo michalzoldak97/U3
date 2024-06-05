@@ -12,7 +12,7 @@ namespace U3.Weapon.Explosive
 
         public DamageInflictorSettings DmgSettings => dmgSettings;
 
-        public List<Collider> ExplosionTargets { get; private set; }
+        public List<(Collider col, Vector3 hitPoint)> ExplosionTargets { get; private set; }
 
         public delegate void ExplosiveEventHandler(FireInputOrigin origin);
 
@@ -27,6 +27,11 @@ namespace U3.Weapon.Explosive
         public void Explode(FireInputOrigin origin)
         {
             CallEventFetchTargets(origin);
+
+            foreach ((Collider col, Vector3 _) in ExplosionTargets)
+            {
+                Debug.Log($"I can see: {col.transform.name}");
+            }
 
             if (ExplosionTargets.Count < 1)
                 return;
@@ -53,7 +58,7 @@ namespace U3.Weapon.Explosive
 
         private void Start()
         {
-            ExplosionTargets = new List<Collider>(dmgSettings.ExplosiveSetting.TargetCapacity);
+            ExplosionTargets = new List<(Collider, Vector3)>(dmgSettings.ExplosiveSetting.TargetCapacity);
         }
     }
 }

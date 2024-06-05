@@ -1,4 +1,5 @@
 ﻿using U3.Core;
+using U3.Core.Helper;
 using U3.Item;
 using UnityEngine;
 
@@ -6,31 +7,34 @@ namespace U3.Weapon.Explosive
 {
     public class ExplosiveTargetFetcher : Vassal<ExplosiveMaster>
     {
+        protected (bool, bool) visibilityCheckPrecision;
+        protected float radius;
+        protected Transform m_Transform;
+        protected TransformVisibilityCheckData visibilityCheckData;
+
         public override void OnMasterEnabled(ExplosiveMaster master)
         {
             base.OnMasterEnabled(master);
 
-            Master.EventFetchTargets += OnFetchEvent;
+            Master.EventFetchTargets += FetchExplosionTargets;
         }
 
         private void OnDisable()
         {
-            Master.EventFetchTargets -= OnFetchEvent;
+            Master.EventFetchTargets -= FetchExplosionTargets;
         }
 
-        protected virtual Collider[] FetchExplosionTargets(LayerMask layersToHit)
+        protected virtual void FetchExplosionTargets(FireInputOrigin origin)
         {
-            return new Collider[0];
+            
         }
 
-        private void OnFetchEvent(FireInputOrigin origin)
+        protected virtual void Start()
         {
-            Collider[] targets = FetchExplosionTargets(origin.LayersToHit);
-
-            for (int i = 0; i < targets.Length; i++)
-            {
-                Master.ExplosionTargets.Add(targets[i]);
-            }
+            visibilityCheckPrecision = (Master.DmgSettings.ExplosiveSetting.CheckClosestPoint, Master.DmgSettings.ExplosiveSetting.CheckCorners);
+            radius = Master.DmgSettings.ExplosiveSetting.Radius;
+            m_Transform = transform;
+            visibilityCheckData = new TransformVisibilityCheckData() { range = radius, checkPrecision = visibilityCheckPrecision };
         }
     }
 }

@@ -11,7 +11,7 @@ namespace U3.Core.Helper
         public float range;
         public LayerMask checkLayers;
         public Vector3 origin;
-        public (bool checkClosest, bool checkCorners) checkPrecision;
+        public (bool checkPos, bool checkCorners) checkPrecision;
     }
 
     [System.Serializable]
@@ -83,11 +83,67 @@ namespace U3.Core.Helper
 
         public static T[] JSONToArray<T>(string json) => JsonUtility.FromJson<JSONWrapper<T>>(json).Items;
 
-        public static (bool, Vector3) IsTransformVisibleFromPoint(Transform target, TransformVisibilityCheckData checkData)
+        public static (bool, Vector3) IsTransformVisibleFromPoint(Collider targetCol, TransformVisibilityCheckData checkData)
         {
+            Transform target = targetCol.transform;
             RaycastHit hit;
-            Debug.DrawRay(checkData.origin, (target.position - checkData.origin).normalized * checkData.range, Color.red, 10);
-            if (Physics.Raycast(checkData.origin, (target.position - checkData.origin).normalized, out hit, checkData.range, checkData.checkLayers))
+            // Debug.DrawRay(checkData.origin, (targetCol.ClosestPoint(checkData.origin) - checkData.origin).normalized * checkData.range, Color.green, 10);
+
+            if (Physics.Raycast(checkData.origin, (targetCol.ClosestPoint(checkData.origin) - checkData.origin).normalized, out hit, checkData.range, checkData.checkLayers))
+            {
+                if (hit.transform == target)
+                    return (true, hit.point);
+            }
+
+            // Debug.DrawRay(checkData.origin, (target.position - checkData.origin).normalized * checkData.range, Color.red, 10);
+            if (checkData.checkPrecision.checkPos &&
+               Physics.Raycast(checkData.origin, (target.position - checkData.origin).normalized, out hit, checkData.range, checkData.checkLayers))
+            {
+                if (hit.transform == target)
+                    return (true, hit.point);
+            }
+
+            if (!checkData.checkPrecision.checkCorners)
+                return (false, Vector3.zero);
+
+            LayerMask checkLayers = checkData.checkLayers;
+            float range = checkData.range;
+            Vector3 oPos = checkData.origin;
+            Vector3 targetCenter = target.position;
+            Vector3 cornerPos = targetCenter;
+            Vector3 targetBounds = targetCol.bounds.extents * .99f; // to move ray a bit to the center
+
+            cornerPos.y += targetBounds.y;
+            cornerPos += target.forward * targetBounds.z;
+            // Debug.DrawRay(oPos, (cornerPos - oPos).normalized * range, Color.blue, 10);
+            if (Physics.Raycast(oPos, (cornerPos - oPos).normalized, out hit, range, checkLayers))
+            {
+                if (hit.transform == target)
+                    return (true, hit.point);
+            }
+
+            // centre rear
+            cornerPos = targetCenter - (target.forward * targetBounds.z);
+            // Debug.DrawRay(oPos, (cornerPos - oPos).normalized * range, Color.blue, 10);
+            if (Physics.Raycast(oPos, (cornerPos - oPos).normalized, out hit, range, checkLayers))
+            {
+                if (hit.transform == target)
+                    return (true, hit.point);
+            }
+
+            // center +x
+            cornerPos = targetCenter + (target.right * targetBounds.x);
+            // Debug.DrawRay(oPos, (cornerPos - oPos).normalized * range, Color.blue, 10);
+            if (Physics.Raycast(oPos, (cornerPos - oPos).normalized, out hit, range, checkLayers))
+            {
+                if (hit.transform == target)
+                    return (true, hit.point);
+            }
+
+            // center -x
+            cornerPos = targetCenter - (target.right * targetBounds.x);
+            // Debug.DrawRay(oPos, (cornerPos - oPos).normalized * range, Color.blue, 10);
+            if (Physics.Raycast(oPos, (cornerPos - oPos).normalized, out hit, range, checkLayers))
             {
                 if (hit.transform == target)
                     return (true, hit.point);

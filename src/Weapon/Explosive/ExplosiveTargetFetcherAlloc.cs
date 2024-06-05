@@ -15,7 +15,7 @@ namespace U3.Weapon.Explosive
 
             for (int i = 0; i < potentialTargets.Length; i++)
             {
-                (bool isVisible, Vector3 atPoint) target = Helper.IsTransformVisibleFromPoint(potentialTargets[i].transform, visibilityCheckData);
+                (bool isVisible, Vector3 atPoint) target = Helper.IsTransformVisibleFromPoint(potentialTargets[i], visibilityCheckData);
                 if (target.isVisible)
                     Master.ExplosionTargets.Add((potentialTargets[i], target.atPoint));
             }

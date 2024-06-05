@@ -5,7 +5,7 @@ namespace U3.Destructible
     [System.Serializable]
     public struct ExplosiveInflictorSetting
     {
-        public bool CheckClosestPoint;
+        public bool CheckPos;
         public bool CheckCorners;
         public int TargetCapacity;
         public int SplinterNum;

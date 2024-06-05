@@ -31,7 +31,7 @@ namespace U3.Weapon.Explosive
 
         protected virtual void Start()
         {
-            visibilityCheckPrecision = (Master.DmgSettings.ExplosiveSetting.CheckClosestPoint, Master.DmgSettings.ExplosiveSetting.CheckCorners);
+            visibilityCheckPrecision = (Master.DmgSettings.ExplosiveSetting.CheckPos, Master.DmgSettings.ExplosiveSetting.CheckCorners);
             radius = Master.DmgSettings.ExplosiveSetting.Radius;
             m_Transform = transform;
             visibilityCheckData = new TransformVisibilityCheckData() { range = radius, checkPrecision = visibilityCheckPrecision };

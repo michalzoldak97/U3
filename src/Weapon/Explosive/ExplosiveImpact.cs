@@ -65,6 +65,8 @@ namespace U3.Weapon.Explosive
             {
                 ApplyImpact(Master.ExplosionTargets[i], origin.ID, origin.LayersToDamage);
             }
+
+            Master.CallEventExploded(origin);
         }
 
         private void Start()

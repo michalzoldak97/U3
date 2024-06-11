@@ -12,7 +12,7 @@ namespace U3.Destructible
         public float Radius;
         public float MinDamage;
         public Vector3 HEATDirection; // forward by default
-        public string ExplosionEffectCode; // search on object if empty
+        public string ExplosionEffectCode;
     }
 
     [System.Serializable]
@@ -32,6 +32,7 @@ namespace U3.Destructible
         public float ImpactForce;
         public Vector2 DamageEquation; // projectile: {coeff, inter}, HEAT/splinter: {val, var}
         public Vector2 PenetrationEquation; // projectile: {%, var}, explosive: {base, var} HEAT/splinter: {val, var}
+        public Vector3 EffectScale;
         public ProjectileInfilictorSetting ProjectileSetting;
         public ExplosiveInflictorSetting ExplosiveSetting;
     }

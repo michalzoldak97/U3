@@ -11,8 +11,8 @@ namespace U3.Destructible
         public int SplinterNum;
         public float Radius;
         public float MinDamage;
-        public Vector3 HEATDirection; // forward by default
         public string ExplosionEffectCode;
+        public Vector3 HEATDirection; // forward by default
     }
 
     [System.Serializable]
@@ -20,7 +20,6 @@ namespace U3.Destructible
     {
         public int RicochetLimit;
         public float BaseVelocity;
-        public string HitEffectSettingCode;
     }
 
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DamageInflictorSettings", order = 6)]
@@ -30,6 +29,8 @@ namespace U3.Destructible
         public DamageElementType ElementType;
         public float Damage;
         public float ImpactForce;
+        public float FireRange;
+        public string HitEffectSettingCode;
         public Vector2 DamageEquation; // projectile: {coeff, inter}, HEAT/splinter: {val, var}
         public Vector2 PenetrationEquation; // projectile: {%, var}, explosive: {base, var} HEAT/splinter: {val, var}
         public Vector3 EffectScale;

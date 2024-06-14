@@ -91,13 +91,13 @@ namespace U3.Weapon
         protected override void Start()
         {
             base.Start();
-            range = Master.WeaponSettings.FireRange;
+            range = Master.WeaponSettings.HitDamageSettings.FireRange;
             hitForce = Master.WeaponSettings.HitDamageSettings.ImpactForce;
             penEquation = Master.WeaponSettings.HitDamageSettings.PenetrationEquation;
             dmgEquation = Master.WeaponSettings.HitDamageSettings.DamageEquation;
             impactType = Master.WeaponSettings.HitDamageSettings.ImpactType;
             elementType = Master.WeaponSettings.HitDamageSettings.ElementType;
-            hitEffectSettingCode = Master.WeaponSettings.HitDamageSettings.ProjectileSetting.HitEffectSettingCode;
+            hitEffectSettingCode = Master.WeaponSettings.HitDamageSettings.HitEffectSettingCode;
             effectScale = Master.WeaponSettings.HitDamageSettings.EffectScale;
         }
     }

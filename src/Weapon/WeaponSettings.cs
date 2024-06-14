@@ -30,7 +30,6 @@ namespace U3.Weapon
     {
         public int ShootgunShootsCount;
         public float ReloadDurationSeconds = 3.0f;
-        public float FireRange;
         public AmmoSetting AmmoSettings;
         public Vector2 Recoil;
         public Vector3 WeaponAimPosition;

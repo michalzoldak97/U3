@@ -33,7 +33,7 @@ namespace U3.Destructible
 
         protected void SpawnHitEffect(int hitLayer, Vector3 hitPoint, Vector3 hitNormal)
         {
-            DestructibleEffectManager.Instance.FireHitEffect(hitLayer, hitPoint, hitNormal, dmgSettings.ProjectileSetting.HitEffectSettingCode, dmgSettings.EffectScale);
+            DestructibleEffectManager.Instance.FireHitEffect(hitLayer, hitPoint, hitNormal, dmgSettings.HitEffectSettingCode, dmgSettings.EffectScale);
         }
 
         private void Awake()

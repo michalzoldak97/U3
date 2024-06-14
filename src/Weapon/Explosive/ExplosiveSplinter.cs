@@ -8,14 +8,6 @@ namespace U3
 {
     public class ExplosiveSplinter : Vassal<ExplosiveMaster>
     {
-        private int splinterNum;
-        private DamageImpactType impactType;
-        private DamageElementType elementType;
-        private float radius;
-        private Vector2 dmgEquation;
-        private Vector2 penEquation;
-        private Transform m_Transform;
-
         public override void OnMasterEnabled(ExplosiveMaster master)
         {
             base.OnMasterEnabled(master);
@@ -30,6 +22,14 @@ namespace U3
 
         private void ShootSplinters(FireInputOrigin origin)
         {
+            int splinterNum = Master.DmgSettings.ExplosiveSetting.SplinterNum;
+            DamageImpactType impactType = Master.DmgSettings.ImpactType;
+            DamageElementType elementType = Master.DmgSettings.ElementType;
+            float radius = Master.DmgSettings.ExplosiveSetting.Radius;
+            Vector2 dmgEquation = Master.DmgSettings.DamageEquation;
+            Vector2 penEquation = Master.DmgSettings.PenetrationEquation;
+            Transform m_Transform = transform;
+
             for (int i = 0; i < splinterNum; i++)
             {
                 // Vector3 dir = Random.insideUnitSphere.normalized; Debug.DrawRay(m_Transform.position, dir * radius, Color.red, 20f);
@@ -52,17 +52,6 @@ namespace U3
                     });
                 }
             }
-        }
-
-        private void Start()
-        {
-            splinterNum = Master.DmgSettings.ExplosiveSetting.SplinterNum;
-            impactType = Master.DmgSettings.ImpactType;
-            elementType = Master.DmgSettings.ElementType;
-            radius = Master.DmgSettings.ExplosiveSetting.Radius;
-            dmgEquation = Master.DmgSettings.DamageEquation;
-            penEquation = Master.DmgSettings.PenetrationEquation;
-            m_Transform = transform;
         }
     }
 }

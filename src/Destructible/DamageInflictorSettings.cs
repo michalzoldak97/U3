@@ -13,6 +13,7 @@ namespace U3.Destructible
         public float MinDamage;
         public string ExplosionEffectCode;
         public Vector3 HEATDirection; // forward by default
+        public DamageInflictorSettings HEATDamageSettings;
     }
 
     [System.Serializable]

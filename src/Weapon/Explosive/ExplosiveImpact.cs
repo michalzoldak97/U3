@@ -51,7 +51,6 @@ namespace U3.Weapon.Explosive
                     RealDamage = dmg,
                     RealPenetration = GetPenetration(dmg)
                 };
-
                 ObjectDamageManager.InflictDamage(target.targetCol.transform, dmgData);
             }
 

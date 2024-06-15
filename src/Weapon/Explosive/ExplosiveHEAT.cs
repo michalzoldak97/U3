@@ -25,13 +25,13 @@ namespace U3
         private void ShootHEAT(FireInputOrigin origin)
         {
             Transform m_Transform = transform;
-            Vector3 dir = heatDir == Vector3.zero ? m_Transform.forward : heatDir * m_Transform.rotation; // shoot ray forward if no setting, otherwise shoot setting dir relative to warhead
-            Debug.DrawRay(m_Transform.position, dir * range, Color.black, 20f);
+            Vector3 dir = heatDir == Vector3.zero ? m_Transform.forward : m_Transform.rotation * heatDir; // shoot ray forward if no setting, otherwise shoot setting dir relative to warhead
+            // Debug.DrawRay(m_Transform.position, dir * Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.FireRange, Color.black, 20f);
             if (Physics.Raycast(
                     m_Transform.position,
                     dir,
                     out RaycastHit hit,
-                    Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.FireRange;,
+                    Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.FireRange,
                     origin.LayersToDamage
             ))
             {
@@ -41,8 +41,8 @@ namespace U3
                 ObjectDamageManager.InflictDamage(hit.transform, new DamageData()
                 {
                     InflictorID = origin.ID,
-                    ImpactType = Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.ImpactType;,
-                    ElementType = Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.ElementType;,
+                    ImpactType = Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.ImpactType,
+                    ElementType = Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.ElementType,
                     RealDamage = Random.Range(dmgEquation.x - dmgEquation.x * dmgEquation.y, dmgEquation.x + dmgEquation.x * dmgEquation.y),
                     RealPenetration = Random.Range(penEquation.x - penEquation.x * penEquation.y, penEquation.x + penEquation.x * penEquation.y)
                 });

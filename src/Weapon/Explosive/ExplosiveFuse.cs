@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using U3.Item;
 using System.Collections;
+using U3.Destructible;
 
 namespace U3.Weapon.Explosive
 {
-    public class ExplosiveFuse : MonoBehaviour
+    public class ExplosiveFuse : DamageInflictor
     {
-        [SerializeField] private LayerMask layersToHit;
         private ExplosiveMaster m_Explosive;
 
         private IEnumerator Ignite()
         {
-            yield return new WaitForSeconds(2f);
-            m_Explosive.Explode(new FireInputOrigin(gameObject.GetInstanceID(), layersToHit, layersToHit));
+            yield return new WaitForSeconds(m_Explosive.DmgSettings.ExplosiveSetting.FuseDelaySeconds);
+            m_Explosive.Explode(new FireInputOrigin(m_DmgData.InflictorID, m_DmgData.LayersToHit, m_DmgData.LayersToDamage));
         }
 
         private void Start ()

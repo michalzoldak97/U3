@@ -28,7 +28,10 @@ namespace U3.Weapon.Explosive
         {
             CallEventFetchTargets(origin);
             if (ExplosionTargets.Count < 1)
+            {
+                CallEventExploded(origin);
                 return;
+            }
 
             CallEventIgniteExplosion(origin);
             ExplosionTargets.Clear();

@@ -13,7 +13,10 @@ namespace U3.ObjectPool
         private readonly Dictionary<string, IObjectPool<DamageInflictor>> dmgInflictorPools = new();
         private readonly Dictionary<string, IObjectPool<Effect>> effectPools = new();
 
-        public PooledObject<DamageInflictor> GetDamageInflictor(string code) => dmgInflictorPools[code].GetObject();
+        public PooledObject<DamageInflictor> GetDamageInflictor(string code) 
+        {
+            return dmgInflictorPools[code].GetObject(); 
+        }
         public PooledObject<Effect> GetEffect(string code) => effectPools[code].GetObject();
 
         public bool AddDamageInflictor(string code, PooledObject<DamageInflictor> obj) => dmgInflictorPools[code].AddObject(obj);

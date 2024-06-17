@@ -11,6 +11,7 @@ namespace U3.Destructible
         public int SplinterNum;
         public float Radius;
         public float MinDamage;
+        public float FuseDelaySeconds;
         public string ExplosionEffectCode;
         public Vector3 HEATDirection; // forward by default
         public DamageInflictorSettings HEATDamageSettings;

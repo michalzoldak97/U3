@@ -4,6 +4,14 @@ using UnityEngine;
 namespace U3.Weapon
 {
     [System.Serializable]
+    public struct ThrowableSetting
+    { 
+        public int NumberOfIncreaseSteps;
+        public float IncreaseMaxDuration;
+        public float ThrowForce;
+    }
+
+    [System.Serializable]
     public struct AmmoSetting
     {
         public int MagazineSize;
@@ -36,5 +44,6 @@ namespace U3.Weapon
         public Vector3 ShootStartPosition;
         public GunSetting GunSettings;
         public DamageInflictorSettings HitDamageSettings;
+        public ThrowableSetting ThrowableSetting;
     }
 }

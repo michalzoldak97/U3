@@ -49,6 +49,16 @@ namespace U3.Front.Components.ProgressBar
             }
         }
 
+        public void SetFull()
+        {
+            completion = 100;
+            foreach (Image progressBtn in progressButtonBackgrounds)
+            {
+                if (progressBtn.color != completedColor)
+                    progressBtn.color = completedColor;
+            }
+        }
+
         private void Start()
         {
             ResetProgeress();

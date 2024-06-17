@@ -5,5 +5,7 @@ namespace U3.Front.Components
         public bool AddProgress(int percent);
 
         public void ResetProgeress();
+
+        public void SetFull();
     }
 }

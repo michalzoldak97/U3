@@ -49,29 +49,21 @@ namespace U3.Destructible
             }
         }
 
-        private int GetMaxDamage()
+        private void ApplyFrameDamage()
         {
-            int maxDmgID = 0;
-            float maxDmg = 0;
-            foreach (KeyValuePair<int, DamageData> dmgData in frameExplosionDamages)
+            foreach (DamageData dmgData in frameExplosionDamages.Values)
             {
-                if (dmgData.Value.RealDamage > maxDmg)
-                {
-                    maxDmgID = dmgData.Value.InflictorID;
-                    maxDmg = dmgData.Value.RealDamage;
-                }
+                DamageData dmgToApply = dmgData;
+                dmgToApply.RealDamage = dmgData.RealDamage < Master.Health ? dmgData.RealDamage : Master.Health;
+                Master.CallEventChangeHealth(dmgToApply);
             }
-
-            return maxDmgID;
         }
 
         private IEnumerator ApplyExplosionDamage()
         {
             yield return waitForEndOfFrame;
 
-            DamageData dmgToApply = frameExplosionDamages[GetMaxDamage()];
-            dmgToApply.RealDamage = dmgToApply.RealDamage < Master.Health ? dmgToApply.RealDamage : Master.Health;
-            Master.CallEventChangeHealth(dmgToApply);
+            ApplyFrameDamage();
 
             frameExplosionDamages.Clear();
             isExplosionDmgRegisteredInFrame = false;

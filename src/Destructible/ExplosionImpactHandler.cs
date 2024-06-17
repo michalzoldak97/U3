@@ -23,6 +23,32 @@ namespace U3.Destructible
             Master.EventReceiveDamage -= RegisterExplosionDamage;
         }
 
+        private float GetRealDamage(float pen, float initDmg)
+        {
+            float armor = Master.DamagableSettings.HealthSetting.Armor;
+            if (pen >= armor)
+                return initDmg;
+
+            return (pen / armor) * (1f / armor); // quadratic damage decrease
+        }
+
+        private void AddDamage(DamageData dmgData)
+        {
+            if (frameExplosionDamages.ContainsKey(dmgData.InflictorID))
+            {
+                DamageData currDmgData = frameExplosionDamages[dmgData.InflictorID];
+                float realDmg = GetRealDamage(dmgData.RealPenetration, dmgData.RealDamage);
+                if (realDmg > currDmgData.RealDamage)
+                    currDmgData.RealDamage = realDmg;
+                frameExplosionDamages[dmgData.InflictorID] = currDmgData;
+            }
+            else
+            {
+                dmgData.RealDamage = GetRealDamage(dmgData.RealPenetration, dmgData.RealDamage);
+                frameExplosionDamages[dmgData.InflictorID] = dmgData;
+            }
+        }
+
         private int GetMaxDamage()
         {
             int maxDmgID = 0;
@@ -51,22 +77,9 @@ namespace U3.Destructible
             isExplosionDmgRegisteredInFrame = false;
         }
 
-        private void AddDamage(DamageData dmgData)
-        {
-            if (frameExplosionDamages.ContainsKey(dmgData.InflictorID))
-            {
-                DamageData currDmgData = frameExplosionDamages[dmgData.InflictorID];
-                currDmgData.RealDamage += dmgData.RealDamage;
-                frameExplosionDamages[dmgData.InflictorID] = currDmgData;
-            }
-            else
-                frameExplosionDamages[dmgData.InflictorID] = dmgData;
-        }
-
         private void RegisterExplosionDamage(DamageData dmgData)
         {
-            if (dmgData.ImpactType != DamageImpactType.ExplosionImpact ||
-                dmgData.RealPenetration < Master.DamagableSettings.HealthSetting.Armor)
+            if (dmgData.ImpactType != DamageImpactType.ExplosionImpact)
                 return;
 
             if (!isExplosionDmgRegisteredInFrame)

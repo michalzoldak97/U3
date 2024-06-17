@@ -27,12 +27,6 @@ namespace U3.Weapon.Explosive
         public void Explode(FireInputOrigin origin)
         {
             CallEventFetchTargets(origin);
-
-            foreach ((Collider col, Vector3 _) in ExplosionTargets)
-            {
-                Debug.Log($"I can see: {col.transform.name}");
-            }
-
             if (ExplosionTargets.Count < 1)
                 return;
 

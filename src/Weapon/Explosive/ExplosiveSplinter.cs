@@ -1,10 +1,9 @@
-using U3.Weapon.Explosive;
 using U3.Core;
 using U3.Item;
 using U3.Destructible;
 using UnityEngine;
 
-namespace U3
+namespace U3.Weapon.Explosive
 {
     public class ExplosiveSplinter : Vassal<ExplosiveMaster>
     {
@@ -32,11 +31,11 @@ namespace U3
 
             for (int i = 0; i < splinterNum; i++)
             {
-                // Vector3 dir = Random.insideUnitSphere.normalized; Debug.DrawRay(m_Transform.position, dir * radius, Color.red, 20f);
+                Vector3 dir = Random.insideUnitSphere.normalized; Debug.DrawRay(m_Transform.position, dir * radius, Color.red, 20f);
 
                 if (Physics.Raycast(
                         m_Transform.position,
-                        Random.insideUnitSphere.normalized,
+                        dir,//Random.insideUnitSphere.normalized,
                         out RaycastHit hit,
                         radius,
                         origin.LayersToDamage

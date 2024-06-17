@@ -1,10 +1,9 @@
-using U3.Weapon.Explosive;
 using U3.Core;
 using U3.Item;
 using U3.Destructible;
 using UnityEngine;
 
-namespace U3
+namespace U3.Weapon.Explosive
 {
     public class ExplosiveHEAT : Vassal<ExplosiveMaster>
     {
@@ -26,7 +25,7 @@ namespace U3
         {
             Transform m_Transform = transform;
             Vector3 dir = heatDir == Vector3.zero ? m_Transform.forward : m_Transform.rotation * heatDir; // shoot ray forward if no setting, otherwise shoot setting dir relative to warhead
-            // Debug.DrawRay(m_Transform.position, dir * Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.FireRange, Color.black, 20f);
+            Debug.DrawRay(m_Transform.position, dir * Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.FireRange, Color.black, 20f);
             if (Physics.Raycast(
                     m_Transform.position,
                     dir,

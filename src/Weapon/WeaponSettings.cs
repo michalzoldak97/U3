@@ -45,5 +45,7 @@ namespace U3.Weapon
         public GunSetting GunSettings;
         public DamageInflictorSettings HitDamageSettings;
         public ThrowableSetting ThrowableSetting;
+        public AudioClip ShootSound;
+        public AudioClip ReloadSound;
     }
 }

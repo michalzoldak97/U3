@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace U3.Destructible
 {
-    public class EffectVFX : Effect
+    public class EffectLockable : Effect
     {
         [SerializeField] private float lockTime;
         [SerializeField] private GameObject effectObj;

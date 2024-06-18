@@ -3,6 +3,16 @@
 namespace U3.Destructible
 {
     [System.Serializable]
+    public struct HEATDamageSettings
+    {
+        public DamageImpactType ImpactType;
+        public DamageElementType ElementType;
+        public float FireRange;
+        public Vector2 DamageEquation;
+        public Vector2 PenetrationEquation;
+    }
+
+    [System.Serializable]
     public struct ExplosiveInflictorSetting
     {
         public bool CheckPos;
@@ -14,7 +24,7 @@ namespace U3.Destructible
         public float FuseDelaySeconds;
         public string ExplosionEffectCode;
         public Vector3 HEATDirection; // forward by default
-        public DamageInflictorSettings HEATDamageSettings;
+        public HEATDamageSettings HEATDamageSettings;
     }
 
     [System.Serializable]
@@ -38,5 +48,6 @@ namespace U3.Destructible
         public Vector3 EffectScale;
         public ProjectileInfilictorSetting ProjectileSetting;
         public ExplosiveInflictorSetting ExplosiveSetting;
+        public AudioClip ExplosionSound;
     }
 }

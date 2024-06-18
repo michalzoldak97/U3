@@ -1,12 +1,12 @@
 using U3.Core;
 using U3.Item;
-using U3.Log;
 using UnityEngine;
 
 namespace U3.Weapon
 {
     public class WeaponSound : Vassal<WeaponMaster>
     {
+        private bool hasAudioSource;
         private AudioClip shootSound;
         private AudioSource audioSource;
 
@@ -14,14 +14,11 @@ namespace U3.Weapon
         {
             base.OnMasterEnabled(master);
 
-            if (audioSource == null)
+            if (audioSource == null && TryGetComponent(out AudioSource audioS))
             {
-                if (TryGetComponent(out AudioSource audioS))
-                    audioSource = audioS;
-                else
-                    GameLogger.Log(new GameLog(Log.LogType.Error, $"Required AudioSource not found on object {gameObject.name}"));
+                audioSource = audioS;
+                hasAudioSource = true;
             }
-
             Master.EventWeaponFired += PlayShootSound;
             Master.EventReloadStarted += PlayReloadSound;
         }
@@ -34,7 +31,10 @@ namespace U3.Weapon
 
         private void PlayShootSound(FireInputOrigin _)
         {
-            audioSource.PlayOneShot(shootSound);
+            if (hasAudioSource)
+                audioSource.PlayOneShot(shootSound);
+            else
+                AudioSource.PlayClipAtPoint(shootSound, transform.position);
         }
 
         private void PlayReloadSound()

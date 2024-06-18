@@ -59,7 +59,7 @@ namespace U3.Weapon
         public void CallEventFireDownCalled(FireInputOrigin inputOrigin) => EventFireDownCalled?.Invoke(inputOrigin);
         public void CallEventFireUpCalled(FireInputOrigin inputOrigin) => EventFireUpCalled?.Invoke(inputOrigin);
         public void CallEventFire(FireInputOrigin inputOrigin) => EventFire?.Invoke(inputOrigin);
-        public void CallEventWeaponFired(FireInputOrigin inputOrigin) => EventWeaponFired?.Invoke(inputOrigin);
+        public void CallEventWeaponFired(FireInputOrigin inputOrigin)  =>  EventWeaponFired?.Invoke(inputOrigin);
 
         public void CallEventAimDownCalled() => EventAimDownCalled?.Invoke();
         public void CallEventAimUpCalled() => EventAimUpCalled?.Invoke();

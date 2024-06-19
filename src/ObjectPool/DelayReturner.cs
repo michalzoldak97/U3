@@ -43,7 +43,7 @@ namespace U3.ObjectPool
             {
                 GameLogger.Log(new GameLog(
                         Log.LogType.Error,
-                        $"Missing PooledObjectReturner  on {gameObject.name} object"));
+                        $"Missing PooledObjectReturner on {gameObject.name} object"));
             }
         }
     }

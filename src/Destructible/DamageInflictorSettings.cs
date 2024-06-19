@@ -22,6 +22,7 @@ namespace U3.Destructible
         public float Radius;
         public float MinDamage;
         public float FuseDelaySeconds;
+        public float FuseActivationDelaySeconds;
         public string ExplosionEffectCode;
         public Vector3 HEATDirection; // forward by default
         public HEATDamageSettings HEATDamageSettings;

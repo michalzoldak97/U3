@@ -5,7 +5,7 @@ using U3.Destructible;
 
 namespace U3.Weapon.Explosive
 {
-    public class ExplosiveFuse : DamageInflictor
+    public class ExplosiveFuseDelay : DamageInflictor
     {
         private ExplosiveMaster m_Explosive;
 

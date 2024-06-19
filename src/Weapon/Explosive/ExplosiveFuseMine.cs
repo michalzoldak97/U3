@@ -18,12 +18,10 @@ namespace U3.Weapon.Explosive
 
         private void OnCollisionEnter(Collision col)
         {
-            if ((m_DmgData.LayersToHit.value & (1 << col.gameObject.layer)) == 0 ||
-                col.rigidbody == null || 
-                col.rigidbody.mass < dmgSettings.MineSetting.FusePreassureKG)
-                return;
-
-            StartCoroutine(Ignite());
+           if ((m_DmgData.LayersToHit.value & (1 << col.gameObject.layer)) != 0 &&
+                col.transform.root.TryGetComponent(out Rigidbody rb) &&
+                rb.mass < dmgSettings.MineSetting.FusePreassureKG)
+                    StartCoroutine(Ignite());
         }
 
         private void SetDamageData()

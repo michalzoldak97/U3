@@ -20,6 +20,8 @@ namespace U3.Weapon
             Master.EventFireModeChanged += SetFireModeText;
             Master.EventWeaponFired += OnWeaponFireEvent;
             Master.EventReloadFinnished += TriggerChangeAmmoText;
+
+            StartCoroutine(ChangeAmmoText());
         }
 
         protected override void OnDisable()
@@ -39,6 +41,8 @@ namespace U3.Weapon
         private IEnumerator ChangeAmmoText()
         {
             yield return waitForEndOfFrame;
+            if (Master.AmmoStore == null)
+                yield break;
 
             WeaponAmmoData ammoData = Master.AmmoStore.GetAmmo(Master.AmmoCode);
 

@@ -25,6 +25,9 @@ namespace U3.Weapon
 
             if (effect == null)
                 GameLogger.Log(new GameLog(Log.LogType.Error, $"Required VisualEffect not found on object {gameObject.name}"));
+
+            shouldEffectBeEnabled = false;
+            effect.gameObject.SetActive(false);
         }
 
         private void OnDisable()
@@ -73,11 +76,6 @@ namespace U3.Weapon
             }
 
             effect.Play();
-        }
-
-        private void Start()
-        {
-            effect.gameObject.SetActive(false);
         }
     }
 }

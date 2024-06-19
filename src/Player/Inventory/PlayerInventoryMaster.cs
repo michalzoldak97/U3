@@ -12,6 +12,7 @@ namespace U3.Player.Inventory
         [SerializeField] private GameObject detailsParent;
         [SerializeField] private Canvas mainCanvas;
 
+        public bool IsBackpackInitialized { get; set; }
         public Transform FocusedItem { get; set; }
         public GameObject DetailsParent => detailsParent;
         public Canvas MainCanvas => mainCanvas;

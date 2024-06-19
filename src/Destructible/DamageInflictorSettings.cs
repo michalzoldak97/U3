@@ -1,7 +1,16 @@
 ﻿using UnityEngine;
+using U3.AI.Team;
 
 namespace U3.Destructible
 {
+    [System.Serializable]
+    public struct MineSetting
+    {
+        public int FusePreassureKG;
+        public TeamType InflictorTeam; // fetch correcponding team from static
+        public LayerMask LayersToIgniteOn;
+    }
+
     [System.Serializable]
     public struct HEATDamageSettings
     {

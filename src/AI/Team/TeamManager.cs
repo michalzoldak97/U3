@@ -8,6 +8,11 @@ namespace U3.AI.Team
     {
         private readonly static Dictionary<TeamType, int> teamInstanceIDs = new();
 
+        public static int GetTeamInstanceID(TeamType teamType)
+        {
+            return teamInstanceIDs[teamType];
+        }
+
         private static void SetTeamInstanceIDs()
         {
             foreach (TeamType teamType in Enum.GetValues(typeof(TeamType)))

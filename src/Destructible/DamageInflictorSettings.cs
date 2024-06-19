@@ -9,6 +9,7 @@ namespace U3.Destructible
         public int FusePreassureKG;
         public TeamType InflictorTeam; // fetch correcponding team from static
         public LayerMask LayersToIgniteOn;
+        public LayerMask LayersToDamage;
     }
 
     [System.Serializable]
@@ -58,6 +59,7 @@ namespace U3.Destructible
         public Vector3 EffectScale;
         public ProjectileInfilictorSetting ProjectileSetting;
         public ExplosiveInflictorSetting ExplosiveSetting;
+        public MineSetting MineSetting;
         public AudioClip ExplosionSound;
     }
 }

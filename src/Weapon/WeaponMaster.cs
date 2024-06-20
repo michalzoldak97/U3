@@ -49,6 +49,7 @@ namespace U3.Weapon
         public event WeaponGeneralEventHandler EventInputInterrupted;
         public event WeaponGeneralEventHandler EventReloadStarted;
         public event WeaponGeneralEventHandler EventReloadFinnished;
+        public event WeaponGeneralEventHandler EventAmmoStoreSet;
 
         public delegate void WeaponFireModeEventHandler(FireMode fireMode);
         public event WeaponFireModeEventHandler EventFireModeChanged;
@@ -70,6 +71,7 @@ namespace U3.Weapon
         public void CallEventInputInterrupted() => EventInputInterrupted?.Invoke();
         public void CallEventReloadStarted() => EventReloadStarted?.Invoke();
         public void CallEventReloadFinnished() => EventReloadFinnished?.Invoke();
+        public void CallEventAmmoStoreSet() => EventAmmoStoreSet?.Invoke();
 
         public void CallEventFireModeChanged(FireMode toFireMode) => EventFireModeChanged?.Invoke(toFireMode);
 
@@ -100,6 +102,10 @@ namespace U3.Weapon
             }
         }
 
-        public void SetAmmoStore(IAmmoStore ammoStore) => AmmoStore = ammoStore;
+        public void SetAmmoStore(IAmmoStore ammoStore) 
+        {
+            AmmoStore = ammoStore;
+            CallEventAmmoStoreSet();
+        }
     }
 }

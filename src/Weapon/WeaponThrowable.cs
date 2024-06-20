@@ -96,15 +96,6 @@ namespace U3.Weapon
             forceStep = Master.WeaponSettings.ThrowableSetting.ThrowForce / Master.WeaponSettings.ThrowableSetting.NumberOfIncreaseSteps;
             stepDelay = Master.WeaponSettings.ThrowableSetting.IncreaseMaxDuration / Master.WeaponSettings.ThrowableSetting.NumberOfIncreaseSteps;
             waitStepDelay = new WaitForSeconds(stepDelay);
-
-            /*if (TryGetComponent(out IProgressBar progressBar))
-            {
-                forceProgressBar = progressBar;
-            }
-            else
-            {
-                GameLogger.Log(new GameLog(Log.LogType.Error, $"Required progress bar not found on object {gameObject.name}"));
-            }*/
         }
     }
 }

@@ -20,8 +20,7 @@ namespace U3.Weapon
             Master.EventFireModeChanged += SetFireModeText;
             Master.EventWeaponFired += OnWeaponFireEvent;
             Master.EventReloadFinnished += TriggerChangeAmmoText;
-
-            StartCoroutine(ChangeAmmoText());
+            Master.EventAmmoStoreSet += TriggerChangeAmmoText;
         }
 
         protected override void OnDisable()
@@ -31,6 +30,7 @@ namespace U3.Weapon
             Master.EventFireModeChanged -= SetFireModeText;
             Master.EventWeaponFired -= OnWeaponFireEvent;
             Master.EventReloadFinnished -= TriggerChangeAmmoText;
+            Master.EventAmmoStoreSet -= TriggerChangeAmmoText;
         }
 
         private void SetFireModeText(FireMode fireMode)

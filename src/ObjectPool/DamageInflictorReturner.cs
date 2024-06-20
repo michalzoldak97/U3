@@ -1,4 +1,4 @@
-﻿using U3.Destructible;
+﻿using U3.Damageable;
 
 namespace U3.ObjectPool
 {

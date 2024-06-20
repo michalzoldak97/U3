@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using U3.Core;
-using U3.Destructible;
+using U3.Damageable;
 using U3.Item;
 using UnityEngine;
 

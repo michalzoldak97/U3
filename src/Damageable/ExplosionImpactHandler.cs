@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using U3.Core;
 using UnityEngine;
 
-namespace U3.Destructible
+namespace U3.Damageable
 {
-    public class ExplosionImpactHandler : Vassal<DamagableMaster>
+    public class ExplosionImpactHandler : Vassal<DamageableMaster>
     {
         private bool isExplosionDmgRegisteredInFrame;
         private readonly WaitForEndOfFrame waitForEndOfFrame = new();
         private readonly Dictionary<int, DamageData> frameExplosionDamages = new();
 
-        public override void OnMasterEnabled(DamagableMaster master)
+        public override void OnMasterEnabled(DamageableMaster master)
         {
             base.OnMasterEnabled(master);
             Master.EventReceiveDamage += RegisterExplosionDamage;

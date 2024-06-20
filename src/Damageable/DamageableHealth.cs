@@ -1,10 +1,11 @@
 ﻿using U3.Core;
+using U3.Destructible;
 
-namespace U3.Destructible
+namespace U3.Damageable
 {
-    public class DamagableHealth : Vassal<DamagableMaster>
+    public class DamageableHealth : Vassal<DamageableMaster>
     {
-        public override void OnMasterEnabled(DamagableMaster master)
+        public override void OnMasterEnabled(DamageableMaster master)
         {
             base.OnMasterEnabled(master);
             Master.EventChangeHealth += ChangeHealth;

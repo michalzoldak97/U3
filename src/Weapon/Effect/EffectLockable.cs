@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace U3.Destructible
+namespace U3.Weapon.Effect
 {
     public class EffectLockable : Effect
     {

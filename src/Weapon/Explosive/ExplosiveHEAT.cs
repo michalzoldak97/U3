@@ -1,6 +1,6 @@
 using U3.Core;
 using U3.Item;
-using U3.Destructible;
+using U3.Damageable;
 using UnityEngine;
 
 namespace U3.Weapon.Explosive

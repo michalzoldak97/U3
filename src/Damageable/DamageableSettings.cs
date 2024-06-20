@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace U3.Destructible
+namespace U3.Damageable
 {
     [System.Serializable]
     public struct HealthSetting
@@ -10,8 +10,8 @@ namespace U3.Destructible
         public float DamageMultiplayer;
     }
 
-    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DamagableSettings", order = 5)]
-    public class DamagableSettings : ScriptableObject
+    [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/DamageableSettings", order = 5)]
+    public class DamageableSettings : ScriptableObject
     {
         public HealthSetting HealthSetting;
     }

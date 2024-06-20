@@ -2,9 +2,8 @@
 using U3.Log;
 using UnityEngine;
 
-namespace U3.Destructible
+namespace U3.Damageable
 {
-
     public static class ObjectDamageManager
     {
         private static readonly Dictionary<Transform, IDamageReciever> damagableObjects = new();
@@ -37,7 +36,7 @@ namespace U3.Destructible
                 return;
             }
 
-            // Debug.Log($"object {objTransform} is damaged with dmg {dmgData.RealDamage} and penetration {dmgData.RealPenetration}");
+            Debug.Log($"object {objTransform} is damaged with dmg {dmgData.RealDamage} and penetration {dmgData.RealPenetration}");
             damagableObjects[objTransform].CallEventReceiveDamage(dmgData);
         }
 

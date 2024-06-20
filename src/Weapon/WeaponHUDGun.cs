@@ -41,8 +41,6 @@ namespace U3.Weapon
         private IEnumerator ChangeAmmoText()
         {
             yield return waitForEndOfFrame;
-            if (Master.AmmoStore == null)
-                yield break;
 
             WeaponAmmoData ammoData = Master.AmmoStore.GetAmmo(Master.AmmoCode);
 

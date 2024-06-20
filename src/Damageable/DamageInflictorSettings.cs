@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using U3.AI.Team;
 
-namespace U3.Destructible
+namespace U3.Damageable
 {
     [System.Serializable]
     public struct MineSetting

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
-using U3.Destructible;
+using U3.Damageable;
 using U3.Log;
+using U3.Weapon.Effect;
 using UnityEngine;
 
 namespace U3.ObjectPool

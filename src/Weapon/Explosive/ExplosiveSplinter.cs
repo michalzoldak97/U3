@@ -1,6 +1,6 @@
 using U3.Core;
 using U3.Item;
-using U3.Destructible;
+using U3.Damageable;
 using UnityEngine;
 
 namespace U3.Weapon.Explosive
@@ -22,7 +22,6 @@ namespace U3.Weapon.Explosive
         private void ShootSplinters(FireInputOrigin origin)
         {
             int splinterNum = Master.DmgSettings.ExplosiveSetting.SplinterNum;
-            DamageImpactType impactType = Master.DmgSettings.ImpactType;
             DamageElementType elementType = Master.DmgSettings.ElementType;
             float radius = Master.DmgSettings.ExplosiveSetting.Radius;
             Vector2 dmgEquation = Master.DmgSettings.DamageEquation;
@@ -44,7 +43,7 @@ namespace U3.Weapon.Explosive
                     ObjectDamageManager.InflictDamage(hit.transform, new DamageData()
                     {
                         InflictorID = origin.ID,
-                        ImpactType = impactType,
+                        ImpactType = DamageImpactType.ProjectileImpact,
                         ElementType = elementType,
                         RealDamage = Random.Range(dmgEquation.x - dmgEquation.x * dmgEquation.y, dmgEquation.x + dmgEquation.x * dmgEquation.y),
                         RealPenetration = Random.Range(penEquation.x - penEquation.x * penEquation.y, penEquation.x + penEquation.x * penEquation.y)

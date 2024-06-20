@@ -1,14 +1,14 @@
 ﻿using U3.Core;
 using UnityEngine;
 
-namespace U3.Destructible
+namespace U3.Damageable
 {
-    public class DamagableMaster : MonoBehaviour, IDamageReciever
+    public class DamageableMaster : MonoBehaviour, IDamageReciever
     {
-        [SerializeField] private DamagableSettings damagableSettings;
+        [SerializeField] private DamageableSettings damagableSettings;
 
         public float Health { get; set; }
-        public DamagableSettings DamagableSettings => damagableSettings;
+        public DamageableSettings DamagableSettings => damagableSettings;
 
         public delegate void DamageEventsHandler(DamageData dmgData);
 
@@ -27,7 +27,7 @@ namespace U3.Destructible
 
         private void OnEnable()
         {
-            foreach (Vassal<DamagableMaster> vassal in GetComponents<Vassal<DamagableMaster>>())
+            foreach (Vassal<DamageableMaster> vassal in GetComponents<Vassal<DamageableMaster>>())
             {
                 vassal.OnMasterEnabled(this);
             }
@@ -35,7 +35,7 @@ namespace U3.Destructible
 
         private void OnDisable()
         {
-            foreach (Vassal<DamagableMaster> vassal in GetComponents<Vassal<DamagableMaster>>())
+            foreach (Vassal<DamageableMaster> vassal in GetComponents<Vassal<DamageableMaster>>())
             {
                 vassal.OnMasterDisabled();
             }

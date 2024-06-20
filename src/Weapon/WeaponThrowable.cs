@@ -1,5 +1,6 @@
 using System.Collections;
 using U3.Core;
+using U3.Damageable;
 using U3.Destructible;
 using U3.Front.Components;
 using U3.Inventory;

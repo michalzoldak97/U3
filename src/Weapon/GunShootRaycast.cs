@@ -1,5 +1,6 @@
-﻿using U3.Destructible;
+﻿using U3.Damageable;
 using U3.Item;
+using U3.Weapon.Effect;
 using UnityEngine;
 
 namespace U3.Weapon
@@ -73,12 +74,12 @@ namespace U3.Weapon
                 {
                     ApplyDamage(inputOrigin, hitTransform);
                     ApplyHitForce(hit.rigidbody);
-                    DestructibleEffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode, effectScale);
+                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode, effectScale);
                 }
                 else if ((inputOrigin.LayersToHit.value & (1 << hitLayer)) != 0)
                 {
                     ApplyHitForce(hit.rigidbody);
-                    DestructibleEffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode, effectScale);
+                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode, effectScale);
                 }
             }
         }

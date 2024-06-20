@@ -1,5 +1,5 @@
 ﻿using U3.Core;
-using U3.Destructible;
+using U3.Weapon.Effect;
 using U3.Item;
 
 namespace U3.Weapon.Explosive
@@ -20,7 +20,7 @@ namespace U3.Weapon.Explosive
 
         private void PlayExplosionEffect(FireInputOrigin _)
         {
-            DestructibleEffectManager.Instance.PlayEffect(transform.position, Master.DmgSettings.ExplosiveSetting.ExplosionEffectCode, Master.DmgSettings.EffectScale);
+            EffectManager.Instance.PlayEffect(transform.position, Master.DmgSettings.ExplosiveSetting.ExplosionEffectCode, Master.DmgSettings.EffectScale);
         }
     }
 }

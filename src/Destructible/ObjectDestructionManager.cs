@@ -1,4 +1,5 @@
 using U3.Global.Config;
+using U3.Damageable;
 using UnityEngine;
 
 namespace U3.Destructible

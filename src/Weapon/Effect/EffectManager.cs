@@ -2,16 +2,16 @@
 using U3.ObjectPool;
 using UnityEngine;
 
-namespace U3.Destructible
+namespace U3.Weapon.Effect
 {
-    public class DestructibleEffectManager : MonoBehaviour
+    public class EffectManager : MonoBehaviour
     {
         [SerializeField] private HitEffectSettings hitEffectSetttings;
 
         private readonly Dictionary<string, HitEffectSetting> hitEffectConfig = new();
         private ObjectPoolsManager effectPool;
 
-        public static DestructibleEffectManager Instance;
+        public static EffectManager Instance;
         
         private Vector3 GetScale(Vector3 scale)
         {

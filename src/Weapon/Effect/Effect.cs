@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace U3.Destructible
+namespace U3.Weapon.Effect
 {
     public class Effect : MonoBehaviour
     {

@@ -19,13 +19,13 @@ namespace U3.Player.Inventory
         protected override void OnEnable()
         {
             base.OnEnable();
-            PlayerInputManager.HumanoidInputActions.EventItemThrow += OnItemThrow;
+            PlayerInputManager.UIInputActions.EventItemThrow += OnItemThrow;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            PlayerInputManager.HumanoidInputActions.EventItemThrow -= OnItemThrow;
+            PlayerInputManager.UIInputActions.EventItemThrow -= OnItemThrow;
         }
 
         private void OnItemThrow()
@@ -42,8 +42,8 @@ namespace U3.Player.Inventory
 
         private void Start()
         {
-            InventorySlotsInitializer.Initialize(playerInventoryMaster, SlotParents);
             BackpackInitializer.Initialize(playerInventoryMaster);
+            InventorySlotsInitializer.Initialize(playerInventoryMaster, SlotParents);
         }
     }
 }

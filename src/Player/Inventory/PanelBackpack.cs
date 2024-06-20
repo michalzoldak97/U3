@@ -66,20 +66,15 @@ namespace U3.Player.Inventory
             SetInit();
 
             inventoryMaster.EventInventoryCleared += OnEventToUpdateBackpack;
-
             inventoryMaster.EventItemRemoved += OnEventToUpdateBackpack;
-
             inventoryMaster.EventReloadBackpack += OnEventToUpdateBackpack;
         }
 
         private void OnDisable()
         {
             inventoryMaster.EventInventoryCleared -= OnEventToUpdateBackpack;
-
             inventoryMaster.EventItemRemoved -= OnEventToUpdateBackpack;
-
             inventoryMaster.EventReloadBackpack -= OnEventToUpdateBackpack;
-
             inventoryMaster.PlayerMaster.UpdateInventorySettings();
         }
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using U3.Global.Helper;
+using U3.Core.Helper;
 using UnityEngine;
 
 namespace U3.Input
@@ -14,11 +14,12 @@ namespace U3.Input
         [SerializeField] public bool RunFinish;
         [SerializeField] public bool Jump;
         [SerializeField] public bool ItemInteract;
-        [SerializeField] public bool ItemThrow;
         [SerializeField] public bool ToggleInventory;
         [SerializeField] public bool ToggleMiniMap;
-        [SerializeField] public bool Aim;
-        [SerializeField] public bool Shoot;
+        [SerializeField] public bool AimDown;
+        [SerializeField] public bool AimUp;
+        [SerializeField] public bool FireDown;
+        [SerializeField] public bool FireUp;
         [SerializeField] public bool Reload;
         [SerializeField] public bool ChangeWeaponMode;
         [SerializeField] public bool ChangeActiveInventorySlot1;
@@ -58,11 +59,12 @@ namespace U3.Input
         public void SetRunFinish(bool toSet) => keyboardInput.RunFinish = toSet;
         public void SetJump(bool toSet) => keyboardInput.Jump = toSet;
         public void SetItemInteract(bool toSet) => keyboardInput.ItemInteract = toSet;
-        public void SetItemThrow(bool toSet) => keyboardInput.ItemThrow = toSet;
         public void SetToggleInventory(bool toSet) => keyboardInput.ToggleInventory = toSet;
         public void SetToggleMiniMap(bool toSet) => keyboardInput.ToggleMiniMap = toSet;
-        public void SetAim(bool toSet) => keyboardInput.Aim = toSet;
-        public void SetShoot(bool toSet) => keyboardInput.Shoot = toSet;
+        public void SetAimDown(bool toSet) => keyboardInput.AimDown = toSet;
+        public void SetAimUp(bool toSet) => keyboardInput.AimUp = toSet;
+        public void SetFireDown(bool toSet) => keyboardInput.FireDown = toSet;
+        public void SetFireUp(bool toSet) => keyboardInput.FireUp = toSet;
         public void SetReload(bool toSet) => keyboardInput.Reload = toSet;
         public void SetChangeWeaponMode(bool toSet) => keyboardInput.ChangeWeaponMode = toSet;
         public void SetChangeActiveInventorySlot1(bool toSet) => keyboardInput.ChangeActiveInventorySlot1 = toSet;
@@ -79,11 +81,12 @@ namespace U3.Input
             PlayerInputManager.HumanoidInputActions.EventRunFinish += () => SetRunFinish(true);
             PlayerInputManager.HumanoidInputActions.EventJump += () => SetJump(true);
             PlayerInputManager.HumanoidInputActions.EventItemInteract += () => SetItemInteract(true);
-            PlayerInputManager.HumanoidInputActions.EventItemThrow += () => SetItemThrow(true);
             PlayerInputManager.HumanoidInputActions.EventToggleInventory += () => SetToggleInventory(true);
             PlayerInputManager.HumanoidInputActions.EventToggleMiniMap += () => SetToggleMiniMap(true);
-            PlayerInputManager.HumanoidInputActions.EventAim += () => SetAim(true);
-            PlayerInputManager.HumanoidInputActions.EventShoot += () => SetShoot(true);
+            PlayerInputManager.HumanoidInputActions.EventAimDown += () => SetAimDown(true);
+            PlayerInputManager.HumanoidInputActions.EventAimUp += () => SetAimUp(true);
+            PlayerInputManager.HumanoidInputActions.EventFireDown += () => SetFireDown(true);
+            PlayerInputManager.HumanoidInputActions.EventFireUp += () => SetFireUp(true);
             PlayerInputManager.HumanoidInputActions.EventReload += () => SetReload(true);
             PlayerInputManager.HumanoidInputActions.EventChangeWeaponMode += () => SetChangeWeaponMode(true);
             PlayerInputManager.HumanoidInputActions.EventChangeActiveInventorySlot1 += () => SetChangeActiveInventorySlot1(true);
@@ -107,11 +110,12 @@ namespace U3.Input
             SetRunFinish(false);
             SetJump(false);
             SetItemInteract(false);
-            SetItemThrow(false);
             SetToggleInventory(false);
             SetToggleMiniMap(false);
-            SetAim(false);
-            SetShoot(false);
+            SetAimDown(false);
+            SetAimUp(false);
+            SetFireDown(false);
+            SetFireUp(false);
             SetReload(false);
             SetChangeWeaponMode(false);
             SetChangeActiveInventorySlot1(false);

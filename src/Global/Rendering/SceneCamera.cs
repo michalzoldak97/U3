@@ -1,5 +1,5 @@
 using UnityEngine;
-using U3.Global.Helper;
+using U3.Global.GameScene;
 
 namespace U3.Global.Rendering
 {

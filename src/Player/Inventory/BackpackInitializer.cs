@@ -14,6 +14,8 @@ namespace U3.Player.Inventory
 
                 InventoryItemFactory.CreateInventoryItem(itemPrefab, inventoryMaster);
             }
+
+            inventoryMaster.IsBackpackInitialized = true;
         }
     }
 }

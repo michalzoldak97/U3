@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using U3.Global.Rendering;
-using U3.Input;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using PlayerInputManager = U3.Input.PlayerInputManager;
 
 namespace U3.Player.UI
 {
@@ -19,11 +20,17 @@ namespace U3.Player.UI
 
             PlayerInputManager.HumanoidInputActions.EventToggleInventory += ToggleInventory;
             PlayerInputManager.HumanoidInputActions.EventToggleMiniMap += ToggleMiniMap;
+
+            PlayerInputManager.UIInputActions.EventToggleInventory += ToggleInventory;
+            PlayerInputManager.UIInputActions.EventToggleMiniMap += ToggleMiniMap;
         }
         private void OnDisable()
         {
             PlayerInputManager.HumanoidInputActions.EventToggleInventory -= ToggleInventory;
             PlayerInputManager.HumanoidInputActions.EventToggleMiniMap -= ToggleMiniMap;
+
+            PlayerInputManager.UIInputActions.EventToggleInventory -= ToggleInventory;
+            PlayerInputManager.UIInputActions.EventToggleMiniMap -= ToggleMiniMap;
         }
 
         private void InformScreenDisabled(GameObject uiScreenObject)
@@ -68,19 +75,29 @@ namespace U3.Player.UI
 
                 playerMaster.CallEventTogglePlayerControl(true, Controller.PlayerControlType.Look);
 
+                PlayerInputManager.ToggleActionMap(PlayerInputManager.PlayerInputActions.Humanoid);
+
                 return;
             }
 
             playerMaster.CallEventTogglePlayerControl(false, Controller.PlayerControlType.Look);
 
             EnableScreen(UIScreenType.Inventory);
+
+            PlayerInputManager.ToggleActionMap(PlayerInputManager.PlayerInputActions.UI);
         }
 
         private void ToggleMiniMap()
         {
             string camCode = isMiniMapOn ? "FPSPlayer" : "3rdCamera";
-            SceneCameraManager.instance.EnableSceneCamera(camCode);
+            InputActionMap inputActionsToSet = isMiniMapOn ? PlayerInputManager.PlayerInputActions.Humanoid : PlayerInputManager.PlayerInputActions.UI;
+
+            SceneCameraManager.Instance.EnableSceneCamera(camCode);
+            PlayerInputManager.ToggleActionMap(inputActionsToSet);
             isMiniMapOn = !isMiniMapOn;
+
+            /*ApplicationState.IsSceneSwitching = true; TODO: remove dev code
+            SceneManager.LoadSceneAsync(1);*/
         }
 
         private void FetchScreens()

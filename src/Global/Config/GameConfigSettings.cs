@@ -6,6 +6,7 @@ namespace U3.Global.Config
     public class GameConfigSettings : ScriptableObject
     {
         public bool EnableLogs;
+        public float DefaultDestructionDelay;
         public string InputActionCode;
     }
 }

@@ -1,7 +1,13 @@
+using U3.Weapon;
 using UnityEngine;
 
 namespace U3.Player
 {
+    [System.Serializable]
+    public class PlayerWeaponAmmoSetting
+    {
+        public WeaponAmmoData[] PlayerWeaponAmmo;
+    }
     [System.Serializable]
     public class InventorySlotSetting
     {
@@ -47,11 +53,13 @@ namespace U3.Player
         public float GravityMultiplayer;
         public float InertiaCoefficient;
         public float LookClamp;
+        public float FPSCameraFOV;
         public Vector2 LookSensitivity;
         public Vector2 StepSpeed;
         public Vector2 HeadBobSpeed;
         public Vector2 HeadBobMagnitude;
         public Vector2 HeadBobMultiplayer;
+        public Vector2 FPSCameraPos;
     }
     [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PlayerSettings", order = 1)]
     public class PlayerSettings : ScriptableObject
@@ -59,5 +67,6 @@ namespace U3.Player
         public ControllerSettings Controller;
         public SoundSettings Sound;
         public InventorySettings Inventory;
+        public PlayerWeaponAmmoSetting Ammo;
     }
 }

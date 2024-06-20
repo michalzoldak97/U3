@@ -5,6 +5,7 @@ namespace U3.Input
 {
     public class HumanoidInputActions
     {
+        private PlayerInputActions playerInputActions;
         public virtual void SetMouseX(float toSet) { }
         public virtual float MouseX { 
             get 
@@ -39,11 +40,12 @@ namespace U3.Input
         public event HumanoidInputActionsEventHandler EventRunFinish;
         public event HumanoidInputActionsEventHandler EventJump;
         public event HumanoidInputActionsEventHandler EventItemInteract;
-        public event HumanoidInputActionsEventHandler EventItemThrow;
         public event HumanoidInputActionsEventHandler EventToggleInventory;
         public event HumanoidInputActionsEventHandler EventToggleMiniMap;
-        public event HumanoidInputActionsEventHandler EventAim;
-        public event HumanoidInputActionsEventHandler EventShoot;
+        public event HumanoidInputActionsEventHandler EventAimDown;
+        public event HumanoidInputActionsEventHandler EventAimUp;
+        public event HumanoidInputActionsEventHandler EventFireDown;
+        public event HumanoidInputActionsEventHandler EventFireUp;
         public event HumanoidInputActionsEventHandler EventReload;
         public event HumanoidInputActionsEventHandler EventChangeWeaponMode;
         public event HumanoidInputActionsEventHandler EventChangeActiveInventorySlot1;
@@ -58,11 +60,12 @@ namespace U3.Input
         public void CallEventRunFinish(InputAction.CallbackContext ctx) => EventRunFinish?.Invoke();
         public void CallEventJump(InputAction.CallbackContext ctx) => EventJump?.Invoke();
         public void CallEventItemInteract(InputAction.CallbackContext ctx) => EventItemInteract?.Invoke();
-        public void CallEventItemThrow(InputAction.CallbackContext ctx) => EventItemThrow?.Invoke();
         public void CallEventToggleInventory(InputAction.CallbackContext ctx) => EventToggleInventory?.Invoke();
         public void CallEventToggleMiniMap(InputAction.CallbackContext ctx) => EventToggleMiniMap?.Invoke();
-        public void CallEventAim(InputAction.CallbackContext ctx) => EventAim?.Invoke();
-        public void CallEventShoot(InputAction.CallbackContext ctx) => EventShoot?.Invoke();
+        public void CallEventAimDown(InputAction.CallbackContext ctx) => EventAimDown?.Invoke();
+        public void CallEventAimUp(InputAction.CallbackContext ctx) => EventAimUp?.Invoke();
+        public void CallEventFireDown(InputAction.CallbackContext ctx) => EventFireDown?.Invoke();
+        public void CallEventFireUp(InputAction.CallbackContext ctx) => EventFireUp?.Invoke();
         public void CallEventReload(InputAction.CallbackContext ctx) => EventReload?.Invoke();
         public void CallEventChangeWeaponMode(InputAction.CallbackContext ctx) => EventChangeWeaponMode?.Invoke();
         public void CallEventChangeActiveInventorySlot1(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot1?.Invoke();
@@ -73,8 +76,6 @@ namespace U3.Input
         public void CallEventChangeActiveInventorySlot6(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot6?.Invoke();
         public void CallEventChangeActiveInventorySlot7(InputAction.CallbackContext ctx) => EventChangeActiveInventorySlot7?.Invoke();
 
-        private PlayerInputActions playerInputActions;
-
         private void EnableActions()
         {
             playerInputActions.Humanoid.MouseX.Enable();
@@ -84,11 +85,12 @@ namespace U3.Input
             playerInputActions.Humanoid.RunFinish.Enable();
             playerInputActions.Humanoid.Jump.Enable();
             playerInputActions.Humanoid.ItemInteract.Enable();
-            playerInputActions.Humanoid.ItemThrow.Enable();
             playerInputActions.Humanoid.ToggleInventory.Enable();
             playerInputActions.Humanoid.ToggleMiniMap.Enable();
-            playerInputActions.Humanoid.Aim.Enable();
-            playerInputActions.Humanoid.Shoot.Enable();
+            playerInputActions.Humanoid.AimDown.Enable();
+            playerInputActions.Humanoid.AimUp.Enable();
+            playerInputActions.Humanoid.FireDown.Enable();
+            playerInputActions.Humanoid.FireUp.Enable();
             playerInputActions.Humanoid.Reload.Enable();
             playerInputActions.Humanoid.ChangeWeaponMode.Enable();
             playerInputActions.Humanoid.ChangeActiveInventorySlot1.Enable();
@@ -106,11 +108,12 @@ namespace U3.Input
             playerInputActions.Humanoid.RunFinish.performed += CallEventRunFinish;
             playerInputActions.Humanoid.Jump.performed += CallEventJump;
             playerInputActions.Humanoid.ItemInteract.performed += CallEventItemInteract;
-            playerInputActions.Humanoid.ItemThrow.performed += CallEventItemThrow;
             playerInputActions.Humanoid.ToggleInventory.performed += CallEventToggleInventory;
             playerInputActions.Humanoid.ToggleMiniMap.performed += CallEventToggleMiniMap;
-            playerInputActions.Humanoid.Aim.performed += CallEventAim;
-            playerInputActions.Humanoid.Shoot.performed += CallEventShoot;
+            playerInputActions.Humanoid.AimDown.performed += CallEventAimDown;
+            playerInputActions.Humanoid.AimUp.performed += CallEventAimUp;
+            playerInputActions.Humanoid.FireDown.performed += CallEventFireDown;
+            playerInputActions.Humanoid.FireUp.performed += CallEventFireUp;
             playerInputActions.Humanoid.Reload.performed += CallEventReload;
             playerInputActions.Humanoid.ChangeWeaponMode.performed += CallEventChangeWeaponMode;
             playerInputActions.Humanoid.ChangeActiveInventorySlot1.performed += CallEventChangeActiveInventorySlot1;

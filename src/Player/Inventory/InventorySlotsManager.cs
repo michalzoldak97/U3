@@ -57,9 +57,7 @@ namespace U3.Player.Inventory
 
         private void OnSlotSelected(int slotIndex)
         {
-            bool isSlotSelected = inventoryMaster.SelectableItemSlots[slotIndex].IsSelected;
-
-            if (isSlotSelected)
+            if (inventoryMaster.SelectableItemSlots[slotIndex].IsSelected)
                 return;
 
             foreach (IItemSlot slot in inventoryMaster.SelectableItemSlots.Values)
@@ -115,7 +113,7 @@ namespace U3.Player.Inventory
         /// <param name="item"></param>
         private void AssignItemToFreeSlot(Transform item)
         {
-            if (!AreSlotsSetUp())
+            if (!inventoryMaster.IsBackpackInitialized || !AreSlotsSetUp())
                 return;
 
             (IItemSlot slot, bool isAvailable) = GetAvailableSlot(item);

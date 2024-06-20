@@ -18,6 +18,17 @@ namespace U3.Benchmark
             return res;
         }
 
+        protected Vector3 DoSthElse()
+        {
+            Vector3 res = new(.678f, 1245f, 5464768.4f);
+
+            res.x = Mathf.Sqrt(res.x);
+            res.y = Mathf.Sqrt(res.y);
+            res.z = Mathf.Sqrt(res.z);
+
+            return res;
+        }
+
         /// <summary>
         /// Benchmark name to show in the results
         /// </summary>

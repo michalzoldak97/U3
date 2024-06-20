@@ -5,11 +5,14 @@ namespace U3.Global.Rendering
 {
     public class SceneCameraManager : MonoBehaviour
     {
-        public static SceneCameraManager instance;
+        public static SceneCameraManager Instance;
+        public Camera MainCamera => mainCamera;
 
         [SerializeField] private ToggleableRenderrerFeature[] toggleableRenderrerFeatures;
 
         [SerializeField] private SceneCamera[] sceneCameras;
+
+        private Camera mainCamera;
 
         private void ChangeCameraFeatures(SceneCamera sceneCamera, bool toState)
         {
@@ -42,6 +45,7 @@ namespace U3.Global.Rendering
             DisableSceneCameras();
             ChangeCameraFeatures(sceneCamera, true);
             sceneCamera.ChangeObjectState(true);
+            mainCamera = Camera.main;
         }
 
         public void EnableSceneCamera(string cameraCode)
@@ -60,8 +64,10 @@ namespace U3.Global.Rendering
 
         private void Awake()
         {
-            if (instance == null)
-                instance = this;
+            if (Instance == null)
+                Instance = this;
+
+            mainCamera = Camera.main;
         }
     }
 }

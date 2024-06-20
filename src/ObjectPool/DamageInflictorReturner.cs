@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using U3.Destructible;
+﻿using U3.Destructible;
 
 namespace U3.ObjectPool
 {
@@ -10,14 +9,12 @@ namespace U3.ObjectPool
         public override void SetPooledOject<T>(PooledObject<T> obj)
         {
             if (obj is PooledObject<DamageInflictor> someClassObj)
-            {
                 m_PooledObject = someClassObj;
-            }
         }
 
         protected override bool TryReturnToPool()
         {
-            return ObjectPoolsManager.Instance.AddDamageInflictor(PoolCode, m_PooledObject);
+            return IsFromPool && ObjectPoolsManager.Instance.AddDamageInflictor(PoolCode, m_PooledObject);
         }
     }
 }

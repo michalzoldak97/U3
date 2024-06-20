@@ -20,6 +20,15 @@ namespace U3.Weapon
         {
             base.OnMasterEnabled(master);
 
+            if (TryGetComponent(out IProgressBar progressBar))
+            {
+                forceProgressBar = progressBar;
+            }
+            else
+            {
+                GameLogger.Log(new GameLog(Log.LogType.Error, $"Required progress bar not found on object {gameObject.name}"));
+            }
+
             Master.EventAimDownCalled += OnForceIncrease;
             Master.EventAimUpCalled += ResetForce;
             Master.EventFireDownCalled += OnThrow;
@@ -88,14 +97,14 @@ namespace U3.Weapon
             stepDelay = Master.WeaponSettings.ThrowableSetting.IncreaseMaxDuration / Master.WeaponSettings.ThrowableSetting.NumberOfIncreaseSteps;
             waitStepDelay = new WaitForSeconds(stepDelay);
 
-            if (TryGetComponent(out IProgressBar progressBar))
+            /*if (TryGetComponent(out IProgressBar progressBar))
             {
                 forceProgressBar = progressBar;
             }
             else
             {
                 GameLogger.Log(new GameLog(Log.LogType.Error, $"Required progress bar not found on object {gameObject.name}"));
-            }
+            }*/
         }
     }
 }

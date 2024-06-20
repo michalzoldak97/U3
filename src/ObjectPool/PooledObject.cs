@@ -29,7 +29,7 @@ namespace U3.ObjectPool
 
             if (obj.TryGetComponent(out PooledObjectReturner returnToPool))
             {
-                returnToPool.PoolCode = poolCode;
+                returnToPool.SetPoolCode(poolCode);
                 returnToPool.SetPooledOject(this);
             }
             /*else

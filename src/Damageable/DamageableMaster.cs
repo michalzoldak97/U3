@@ -15,6 +15,8 @@ namespace U3.Damageable
         public event DamageEventsHandler EventReceiveDamage;
         public event DamageEventsHandler EventObjectDestruction;
         public event DamageEventsHandler EventChangeHealth;
+        public event DamageEventsHandler EventReceiveProjectileDamage;
+        public event DamageEventsHandler EventReceiveExplosionDamage;
 
         public void CallEventReceiveDamage(DamageData dmgData) => EventReceiveDamage?.Invoke(dmgData);
         public void CallEventObjectDestruction(DamageData dmgData) => EventObjectDestruction?.Invoke(dmgData);

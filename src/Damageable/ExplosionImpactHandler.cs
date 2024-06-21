@@ -14,13 +14,13 @@ namespace U3.Damageable
         public override void OnMasterEnabled(DamageableMaster master)
         {
             base.OnMasterEnabled(master);
-            Master.EventReceiveDamage += RegisterExplosionDamage;
+            Master.EventReceiveExplosionDamage += RegisterExplosionDamage;
         }
 
         private void OnDisable()
         {
             StopAllCoroutines();
-            Master.EventReceiveDamage -= RegisterExplosionDamage;
+            Master.EventReceiveExplosionDamage -= RegisterExplosionDamage;
         }
 
         private float GetRealDamage(float pen, float initDmg)

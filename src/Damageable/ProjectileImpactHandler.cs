@@ -8,12 +8,12 @@ namespace U3.Damageable
         public override void OnMasterEnabled(DamageableMaster master)
         {
             base.OnMasterEnabled(master);
-            Master.EventReceiveDamage += HandleDamage;
+            Master.EventReceiveProjectileDamage += HandleDamage;
         }
 
         private void OnDisable()
         {
-            Master.EventReceiveDamage -= HandleDamage;
+            Master.EventReceiveProjectileDamage -= HandleDamage;
         }
 
         private void HandleDamage(DamageData dmgData)
@@ -21,8 +21,6 @@ namespace U3.Damageable
             if (dmgData.ImpactType != DamageImpactType.ProjectileImpact ||
                 dmgData.RealPenetration < Master.DamagableSettings.HealthSetting.Armor)
                 return;
-
-            Debug.Log($"Applying projectile damage");
 
             dmgData.RealDamage = dmgData.RealDamage < Master.Health ? dmgData.RealDamage : Master.Health;
             Master.CallEventChangeHealth(dmgData);

@@ -7,9 +7,6 @@ namespace U3.Weapon
 {
     public class WeaponFire : Vassal<WeaponMaster>
     {
-        // if not loaded do click and wait
-        // on disable reset states -> weapon mamager
-
         private WaitForSeconds waitForNextAutoShoot;
         private WaitForSeconds waitForNextBurstShoot;
 

@@ -45,7 +45,8 @@ namespace U3.Weapon.Explosive
                 float dmg = GetDamage(target.hitPoint);
                 DamageData dmgData = new()
                 {
-                    InflictorID = inflictorID,
+                    InflictorOriginID = inflictorID,
+                    InflictorInstanceID = ObjectDamageManager.GetNextInflictorInstanceID(),
                     ImpactType = Master.DmgSettings.ImpactType,
                     ElementType = Master.DmgSettings.ElementType,
                     RealDamage = dmg,

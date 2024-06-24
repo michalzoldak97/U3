@@ -1,5 +1,4 @@
-﻿using U3.Damageable;
-using U3.Item;
+﻿using U3.Item;
 using U3.Weapon.Effect;
 using UnityEngine;
 
@@ -7,50 +6,13 @@ namespace U3.Weapon
 {
     public class GunShootRaycast : GunShoot
     {
-        private DamageImpactType impactType;
-        private DamageElementType elementType;
         private float range;
         private float hitForce;
-        private Vector2 penEquation;
-        private Vector2 dmgEquation;
-        private Vector3 effectScale;
-        private string hitEffectSettingCode;
 
         private void ApplyHitForce(Rigidbody rb)
         {
             if (hitForce != 0 && rb != null)
                 rb.AddForce(m_Transform.forward * hitForce, ForceMode.Impulse);
-        }
-
-        private float CalcPenetration(float dmg)
-        {
-            if (penEquation.x == 0)
-                return 1f;
-            
-            float pen = dmg * penEquation.x;
-            return Random.Range(pen - penEquation.y, pen + penEquation.y);
-        }
-
-        private float CalcDamage(Transform hitTransform)
-        {
-            float dist = (m_Transform.position - hitTransform.position).magnitude;
-            if (dist < 1)
-                dist = 1;
-
-            return dist * dmgEquation.x + dmgEquation.y;
-        }
-
-        private void ApplyDamage(FireInputOrigin inputOrigin, Transform hitTransform)
-        {
-            float dmg = CalcDamage(hitTransform);
-            ObjectDamageManager.InflictDamage(hitTransform, new DamageData()
-                {
-                    InflictorID = inputOrigin.ID,
-                    ImpactType = impactType,
-                    ElementType = elementType,
-                    RealDamage = dmg,
-                    RealPenetration = CalcPenetration(dmg)
-                });
         }
 
         protected void ShootRaycast(FireInputOrigin inputOrigin)
@@ -72,14 +34,14 @@ namespace U3.Weapon
 
                 if ((inputOrigin.LayersToDamage.value & (1 << hitLayer)) != 0)
                 {
-                    ApplyDamage(inputOrigin, hitTransform);
+                    Master.CallEventObjectHit(inputOrigin, hitTransform);
                     ApplyHitForce(hit.rigidbody);
-                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode, effectScale);
+                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, Master.WeaponSettings.HitEffectSettingCode, Master.WeaponSettings.HitEffectScale);
                 }
                 else if ((inputOrigin.LayersToHit.value & (1 << hitLayer)) != 0)
                 {
                     ApplyHitForce(hit.rigidbody);
-                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, hitEffectSettingCode, effectScale);
+                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, Master.WeaponSettings.HitEffectSettingCode, Master.WeaponSettings.HitEffectScale);
                 }
             }
         }
@@ -92,14 +54,8 @@ namespace U3.Weapon
         protected override void Start()
         {
             base.Start();
-            range = Master.WeaponSettings.HitDamageSettings.FireRange;
-            hitForce = Master.WeaponSettings.HitDamageSettings.ImpactForce;
-            penEquation = Master.WeaponSettings.HitDamageSettings.PenetrationEquation;
-            dmgEquation = Master.WeaponSettings.HitDamageSettings.DamageEquation;
-            impactType = Master.WeaponSettings.HitDamageSettings.ImpactType;
-            elementType = Master.WeaponSettings.HitDamageSettings.ElementType;
-            hitEffectSettingCode = Master.WeaponSettings.HitDamageSettings.HitEffectSettingCode;
-            effectScale = Master.WeaponSettings.HitDamageSettings.EffectScale;
+            range = Master.WeaponSettings.FireRange;
+            hitForce = Master.WeaponSettings.ImpactForce;
         }
     }
 }

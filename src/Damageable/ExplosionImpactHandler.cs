@@ -34,18 +34,18 @@ namespace U3.Damageable
 
         private void AddDamage(DamageData dmgData)
         {
-            if (frameExplosionDamages.ContainsKey(dmgData.InflictorID))
+            if (frameExplosionDamages.ContainsKey(dmgData.InflictorOriginID))
             {
-                DamageData currDmgData = frameExplosionDamages[dmgData.InflictorID];
+                DamageData currDmgData = frameExplosionDamages[dmgData.InflictorOriginID];
                 float realDmg = GetRealDamage(dmgData.RealPenetration, dmgData.RealDamage);
                 if (realDmg > currDmgData.RealDamage)
                     currDmgData.RealDamage = realDmg;
-                frameExplosionDamages[dmgData.InflictorID] = currDmgData;
+                frameExplosionDamages[dmgData.InflictorOriginID] = currDmgData;
             }
             else
             {
                 dmgData.RealDamage = GetRealDamage(dmgData.RealPenetration, dmgData.RealDamage);
-                frameExplosionDamages[dmgData.InflictorID] = dmgData;
+                frameExplosionDamages[dmgData.InflictorOriginID] = dmgData;
             }
         }
 
@@ -71,9 +71,6 @@ namespace U3.Damageable
 
         private void RegisterExplosionDamage(DamageData dmgData)
         {
-            if (dmgData.ImpactType != DamageImpactType.ExplosionImpact)
-                return;
-
             if (!isExplosionDmgRegisteredInFrame)
             {
                 StartCoroutine(ApplyExplosionDamage());

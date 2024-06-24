@@ -1,5 +1,4 @@
 using U3.Core;
-using UnityEngine;
 
 namespace U3.Damageable
 {
@@ -21,10 +20,10 @@ namespace U3.Damageable
             switch (dmgData.ImpactType)
             {
                 case DamageImpactType.ProjectileImpact:
-                    Master.EventReceiveProjectileDamage(dmgData);
+                    Master.CallEventReceiveProjectileDamage(dmgData);
                     break;
                 case DamageImpactType.ExplosionImpact:
-                    Master.EventReceiveExplosionDamage(dmgData);
+                    Master.CallEventReceiveExplosionDamage(dmgData);
                     break;
                 default:
                     break;

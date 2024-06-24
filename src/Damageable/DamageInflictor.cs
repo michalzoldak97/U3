@@ -6,10 +6,12 @@ namespace U3.Damageable
     public class DamageInflictor : MonoBehaviour
     {
         [SerializeField] protected DamageInflictorSettings dmgSettings;
+
         protected DamageData m_DmgData;
+
         public void SetInflictorData(int inflictorID, LayerMask layersToHit, LayerMask layersToDamage)
         {
-            m_DmgData.InflictorID = inflictorID;
+            m_DmgData.InflictorOriginID = inflictorID;
             m_DmgData.LayersToHit = layersToHit;
             m_DmgData.LayersToDamage = layersToDamage;
         }
@@ -26,6 +28,7 @@ namespace U3.Damageable
         {
             return new DamageData()
             {
+                InflictorInstanceID = ObjectDamageManager.GetNextInflictorInstanceID(),
                 ImpactType = dmgSettings.ImpactType,
                 ElementType = dmgSettings.ElementType,
                 RealDamage = dmgSettings.Damage

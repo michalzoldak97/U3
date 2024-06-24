@@ -1,5 +1,4 @@
 ﻿using U3.Core;
-using UnityEngine;
 
 namespace U3.Damageable
 {
@@ -18,8 +17,7 @@ namespace U3.Damageable
 
         private void HandleDamage(DamageData dmgData)
         {
-            if (dmgData.ImpactType != DamageImpactType.ProjectileImpact ||
-                dmgData.RealPenetration < Master.DamagableSettings.HealthSetting.Armor)
+            if (dmgData.RealPenetration < Master.DamagableSettings.HealthSetting.Armor)
                 return;
 
             dmgData.RealDamage = dmgData.RealDamage < Master.Health ? dmgData.RealDamage : Master.Health;

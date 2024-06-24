@@ -75,7 +75,7 @@ namespace U3.Weapon
 
         public void CallEventFireModeChanged(FireMode toFireMode) => EventFireModeChanged?.Invoke(toFireMode);
 
-        public void CallEventObjectHit(FireInputOrigin inputOrigin, Transform hitTransform) => EventObjectHit?.Invoke(hitPoint, hitNormal);
+        public void CallEventObjectHit(FireInputOrigin inputOrigin, Transform hitTransform) => EventObjectHit?.Invoke(inputOrigin, hitTransform);
 
         private void Awake()
         {

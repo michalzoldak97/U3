@@ -13,7 +13,7 @@ namespace U3.Weapon.Explosive
         private IEnumerator Ignite()
         {
             yield return new WaitForSeconds(m_Explosive.DmgSettings.ExplosiveSetting.FuseDelaySeconds);
-            m_Explosive.Explode(new FireInputOrigin(m_DmgData.InflictorID, m_DmgData.LayersToHit, m_DmgData.LayersToDamage));
+            m_Explosive.Explode(new FireInputOrigin(m_DmgData.InflictorOriginID, m_DmgData.LayersToHit, m_DmgData.LayersToDamage));
         }
 
         private void OnCollisionEnter(Collision col)

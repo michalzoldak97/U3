@@ -39,7 +39,7 @@ namespace U3.Weapon.Explosive
 
                 ObjectDamageManager.InflictDamage(hit.transform, new DamageData()
                 {
-                    InflictorID = origin.ID,
+                    InflictorOriginID = origin.ID,
                     ImpactType = Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.ImpactType,
                     ElementType = Master.DmgSettings.ExplosiveSetting.HEATDamageSettings.ElementType,
                     RealDamage = Random.Range(dmgEquation.x - dmgEquation.x * dmgEquation.y, dmgEquation.x + dmgEquation.x * dmgEquation.y),

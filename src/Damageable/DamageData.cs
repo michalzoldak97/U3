@@ -4,7 +4,8 @@ namespace U3.Damageable
 {
     public struct DamageData
     {
-        public int InflictorID;
+        public int InflictorOriginID;
+        public int InflictorInstanceID;
         public LayerMask LayersToDamage;
         public LayerMask LayersToHit;
         public DamageImpactType ImpactType;

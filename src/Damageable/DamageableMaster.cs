@@ -21,6 +21,8 @@ namespace U3.Damageable
         public void CallEventReceiveDamage(DamageData dmgData) => EventReceiveDamage?.Invoke(dmgData);
         public void CallEventObjectDestruction(DamageData dmgData) => EventObjectDestruction?.Invoke(dmgData);
         public void CallEventChangeHealth(DamageData dmgData) => EventChangeHealth?.Invoke(dmgData);
+        public void CallEventReceiveProjectileDamage(DamageData dmgData) => EventReceiveProjectileDamage?.Invoke(dmgData);
+        public void CallEventReceiveExplosionDamage(DamageData dmgData) => EventReceiveExplosionDamage?.Invoke(dmgData);
 
         private void Awake()
         {

@@ -38,12 +38,15 @@ namespace U3.Weapon
     {
         public int ShootgunShootsCount;
         public float ReloadDurationSeconds = 3.0f;
+        public float FireRange;
+        public float ImpactForce;
+        public string HitEffectSettingCode;
         public AmmoSetting AmmoSettings;
         public Vector2 Recoil;
         public Vector3 WeaponAimPosition;
         public Vector3 ShootStartPosition;
+        public Vector3 HitEffectScale;
         public GunSetting GunSettings;
-        public DamageInflictorSettings HitDamageSettings;
         public ThrowableSetting ThrowableSetting;
         public AudioClip ShootSound;
         public AudioClip ReloadSound;

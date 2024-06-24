@@ -23,6 +23,7 @@ namespace U3.Weapon.Explosive
         {
             int splinterNum = Master.DmgSettings.ExplosiveSetting.SplinterNum;
             DamageElementType elementType = Master.DmgSettings.ElementType;
+            DamageImpactType impactType = Master.DmgSettings.ImpactType;
             float radius = Master.DmgSettings.ExplosiveSetting.Radius;
             Vector2 dmgEquation = Master.DmgSettings.DamageEquation;
             Vector2 penEquation = Master.DmgSettings.PenetrationEquation;
@@ -42,8 +43,9 @@ namespace U3.Weapon.Explosive
                 {
                     ObjectDamageManager.InflictDamage(hit.transform, new DamageData()
                     {
-                        InflictorID = origin.ID,
-                        ImpactType = DamageImpactType.ProjectileImpact,
+                        InflictorOriginID = origin.ID,
+                        InflictorInstanceID = 1, // sould not be unique
+                        ImpactType = impactType,
                         ElementType = elementType,
                         RealDamage = Random.Range(dmgEquation.x - dmgEquation.x * dmgEquation.y, dmgEquation.x + dmgEquation.x * dmgEquation.y),
                         RealPenetration = Random.Range(penEquation.x - penEquation.x * penEquation.y, penEquation.x + penEquation.x * penEquation.y)

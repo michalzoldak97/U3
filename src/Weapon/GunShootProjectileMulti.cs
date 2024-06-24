@@ -1,5 +1,4 @@
 ﻿using U3.Item;
-using UnityEngine;
 
 namespace U3.Weapon
 {

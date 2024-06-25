@@ -32,20 +32,28 @@ namespace U3.Damageable
             return (pen / armor) * (1f / armor); // quadratic damage decrease
         }
 
-        private void AddDamage(DamageData dmgData)
+        private void AddDamage(DamageData dmgData) // replace with max dmg for unique inflictor, increase for non-unique inflictor
         {
-            if (frameExplosionDamages.ContainsKey(dmgData.InflictorOriginID))
+            float realDmg = GetRealDamage(dmgData.RealPenetration, dmgData.RealDamage);
+            if (frameExplosionDamages.ContainsKey(dmgData.InflictorInstanceID))
             {
-                DamageData currDmgData = frameExplosionDamages[dmgData.InflictorOriginID];
-                float realDmg = GetRealDamage(dmgData.RealPenetration, dmgData.RealDamage);
-                if (realDmg > currDmgData.RealDamage)
+                DamageData currDmgData = frameExplosionDamages[dmgData.InflictorInstanceID];
+
+                if (dmgData.InflictorInstanceID > 1 && realDmg > currDmgData.RealDamage)
+                {
                     currDmgData.RealDamage = realDmg;
-                frameExplosionDamages[dmgData.InflictorOriginID] = currDmgData;
+                    frameExplosionDamages[dmgData.InflictorInstanceID] = currDmgData;
+                }
+                else if (dmgData.InflictorInstanceID <= 1)
+                {
+                    currDmgData.RealDamage += realDmg;
+                    frameExplosionDamages[dmgData.InflictorInstanceID] = currDmgData;
+                }
             }
             else
             {
-                dmgData.RealDamage = GetRealDamage(dmgData.RealPenetration, dmgData.RealDamage);
-                frameExplosionDamages[dmgData.InflictorOriginID] = dmgData;
+                dmgData.RealDamage = realDmg;
+                frameExplosionDamages[dmgData.InflictorInstanceID] = dmgData;
             }
         }
 

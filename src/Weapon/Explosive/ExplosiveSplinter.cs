@@ -21,12 +21,12 @@ namespace U3.Weapon.Explosive
 
         private void ShootSplinters(FireInputOrigin origin)
         {
-            int splinterNum = Master.DmgSettings.ExplosiveSetting.SplinterNum;
+            int splinterNum = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterNum;
             DamageElementType elementType = Master.DmgSettings.ElementType;
             DamageImpactType impactType = Master.DmgSettings.ImpactType;
             float radius = Master.DmgSettings.ExplosiveSetting.Radius;
-            Vector2 dmgEquation = Master.DmgSettings.DamageEquation;
-            Vector2 penEquation = Master.DmgSettings.PenetrationEquation;
+            Vector2 dmgEquation = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterDamageEquation;
+            Vector2 penEquation = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterPenetrationEquation;
             Transform m_Transform = transform;
 
             for (int i = 0; i < splinterNum; i++)
@@ -44,7 +44,7 @@ namespace U3.Weapon.Explosive
                     ObjectDamageManager.InflictDamage(hit.transform, new DamageData()
                     {
                         InflictorOriginID = origin.ID,
-                        InflictorInstanceID = 1, // sould not be unique
+                        InflictorInstanceID = 1, // should not be unique
                         ImpactType = impactType,
                         ElementType = elementType,
                         RealDamage = Random.Range(dmgEquation.x - dmgEquation.x * dmgEquation.y, dmgEquation.x + dmgEquation.x * dmgEquation.y),

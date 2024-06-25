@@ -13,7 +13,7 @@ namespace U3.Damageable
     }
 
     [System.Serializable]
-    public struct HEATDamageSettings
+    public struct HEATDamageSetting
     {
         public DamageImpactType ImpactType;
         public DamageElementType ElementType;
@@ -23,19 +23,27 @@ namespace U3.Damageable
     }
 
     [System.Serializable]
+    public struct SplinterSetting
+    {
+        public int SplinterNum;
+        public Vector2 SplinterDamageEquation;
+        public Vector2 SplinterPenetrationEquation;
+    }
+
+    [System.Serializable]
     public struct ExplosiveInflictorSetting
     {
         public bool CheckPos;
         public bool CheckCorners;
         public int TargetCapacity;
-        public int SplinterNum;
         public float Radius;
         public float MinDamage;
         public float FuseDelaySeconds;
         public float FuseActivationDelaySeconds;
         public string ExplosionEffectCode;
         public Vector3 HEATDirection; // forward by default
-        public HEATDamageSettings HEATDamageSettings;
+        public SplinterSetting SplinterSetting;
+        public HEATDamageSetting HEATDamageSetting;
     }
 
     [System.Serializable]
@@ -54,8 +62,8 @@ namespace U3.Damageable
         public float ImpactForce;
         public float FireRange;
         public string HitEffectSettingCode;
-        public Vector2 DamageEquation; // projectile: {coeff, inter}, HEAT/splinter: {val, var}
-        public Vector2 PenetrationEquation; // projectile: {%, var}, explosive: {base, var} HEAT/splinter: {val, var}
+        public Vector2 DamageEquation; // projectile: {coeff, inter}
+        public Vector2 PenetrationEquation; // projectile: {%, var}, explosive: {base, var}
         public Vector3 EffectScale;
         public ProjectileInfilictorSetting ProjectileSetting;
         public ExplosiveInflictorSetting ExplosiveSetting;

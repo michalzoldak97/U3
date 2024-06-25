@@ -54,7 +54,7 @@ namespace U3.Damageable
                 damageInflicted[instanceID] = dmgData;
         }
 
-        public static int GetNextInflictorInstanceID() // ids < 1 should not be validated by explosion impact handlers
+        public static int GetNextInflictorInstanceID() // ids <= 1 should not be validated by explosion impact handlers
         {
             int maxIter = GameConfig.GameConfigSettings.MaxInflictorInstanceID;
             int iterCount = 0;

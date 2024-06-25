@@ -18,11 +18,19 @@ namespace U3.Damageable
         public event DamageEventsHandler EventReceiveProjectileDamage;
         public event DamageEventsHandler EventReceiveExplosionDamage;
 
+        public delegate void HitBoxEventHandler(DamageData dmgData, string eventCode);
+
+        public event HitBoxEventHandler EventHitBoxDamaged;
+        public event HitBoxEventHandler EventHitBoxDestroyed;
+
         public void CallEventReceiveDamage(DamageData dmgData) => EventReceiveDamage?.Invoke(dmgData);
         public void CallEventObjectDestruction(DamageData dmgData) => EventObjectDestruction?.Invoke(dmgData);
         public void CallEventChangeHealth(DamageData dmgData) => EventChangeHealth?.Invoke(dmgData);
         public void CallEventReceiveProjectileDamage(DamageData dmgData) => EventReceiveProjectileDamage?.Invoke(dmgData);
         public void CallEventReceiveExplosionDamage(DamageData dmgData) => EventReceiveExplosionDamage?.Invoke(dmgData);
+
+        public void CallEventHitBoxDamaged(DamageData dmgData, string eventCode) => EventHitBoxDamaged?.Invoke(dmgData, eventCode);
+        public void CallEventHitBoxDestroyed(DamageData dmgData, string eventCode) => EventHitBoxDestroyed?.Invoke(dmgData, eventCode);
 
         private void Awake()
         {

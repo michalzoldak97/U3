@@ -29,7 +29,7 @@ namespace U3.Damageable
             if (pen >= armor)
                 return initDmg;
 
-            return (pen / armor) * (1f / armor); // quadratic damage decrease
+            return (pen / armor) * (1f / armor) * initDmg; // quadratic damage decrease
         }
 
         private void AddDamage(DamageData dmgData) // replace with max dmg for unique inflictor, increase for non-unique inflictor
@@ -63,6 +63,7 @@ namespace U3.Damageable
             {
                 DamageData dmgToApply = dmgData;
                 dmgToApply.RealDamage = dmgData.RealDamage < Master.Health ? dmgData.RealDamage : Master.Health;
+                // Debug.Log($"Applying explosion damage: inflictor id {dmgData.InflictorOriginID}, inflicotr instance {dmgData.InflictorInstanceID}, init dmg {dmgData.RealDamage} init pen {dmgData.RealPenetration}");
                 Master.CallEventChangeHealth(dmgToApply);
             }
         }
@@ -84,7 +85,7 @@ namespace U3.Damageable
                 StartCoroutine(ApplyExplosionDamage());
                 isExplosionDmgRegisteredInFrame = true;
             }
-
+            // Debug.Log($"Registering explosion damage: inflictor id {dmgData.InflictorOriginID}, inflicotr instance {dmgData.InflictorInstanceID}, init dmg {dmgData.RealDamage} init pen {dmgData.RealPenetration}");
             AddDamage(dmgData);
         }
     }

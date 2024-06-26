@@ -22,9 +22,9 @@ namespace U3.Weapon.Explosive
         private void ShootSplinters(FireInputOrigin origin)
         {
             int splinterNum = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterNum;
-            DamageElementType elementType = Master.DmgSettings.ElementType;
-            DamageImpactType impactType = Master.DmgSettings.ImpactType;
-            float radius = Master.DmgSettings.ExplosiveSetting.Radius;
+            DamageElementType elementType = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterElementType;
+            DamageImpactType impactType = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterImpactType;
+            float radius = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterRadius;
             Vector2 dmgEquation = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterDamageEquation;
             Vector2 penEquation = Master.DmgSettings.ExplosiveSetting.SplinterSetting.SplinterPenetrationEquation;
             Transform m_Transform = transform;

@@ -26,6 +26,9 @@ namespace U3.Damageable
     public struct SplinterSetting
     {
         public int SplinterNum;
+        public float SplinterRadius;
+        public DamageImpactType SplinterImpactType;
+        public DamageElementType SplinterElementType;
         public Vector2 SplinterDamageEquation;
         public Vector2 SplinterPenetrationEquation;
     }

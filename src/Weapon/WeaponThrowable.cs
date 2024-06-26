@@ -87,6 +87,7 @@ namespace U3.Weapon
         private void OnThrow(FireInputOrigin origin)
         {
             ThrowEffector(origin);
+            // ThrowEffector(origin);
             ResetForce();
             transform.root.GetComponent<InventoryMaster>().CallEventRemoveItem(transform);
             ObjectDestructionManager.DestroyObject(gameObject);

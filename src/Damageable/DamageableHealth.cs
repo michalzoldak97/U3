@@ -19,7 +19,10 @@ namespace U3.Damageable
         private void ChangeHealth(DamageData dmgData)
         {
             if (dmgData.RealDamage > 0f)
+            {
+                dmgData.RealDamage = dmgData.RealDamage < Master.Health ? dmgData.RealDamage : Master.Health;
                 ObjectDamageManager.RegisterDamage(dmgData.InflictorOriginID, dmgData);
+            }
 
             if (Master.Health > dmgData.RealDamage)
             {

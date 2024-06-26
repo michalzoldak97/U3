@@ -38,15 +38,15 @@ namespace U3.Weapon.Explosive
             return radius * Mathf.Pow(dist, 2) + coeff * dist + baseDmg;
         }
 
-        private void ApplyImpact((Collider targetCol, Vector3 hitPoint) target, int inflictorID, LayerMask layersToDamage)
+        private void ApplyImpact((Collider targetCol, Vector3 hitPoint) target, int inflictorInstanceID, FireInputOrigin origin)
         {
-            if ((layersToDamage.value & (1 << target.targetCol.gameObject.layer)) != 0)
+            if ((origin.LayersToDamage.value & (1 << target.targetCol.gameObject.layer)) != 0)
             {
                 float dmg = GetDamage(target.hitPoint);
                 DamageData dmgData = new()
                 {
-                    InflictorOriginID = inflictorID,
-                    InflictorInstanceID = ObjectDamageManager.GetNextInflictorInstanceID(),
+                    InflictorOriginID = origin.ID,
+                    InflictorInstanceID = inflictorInstanceID,
                     ImpactType = Master.DmgSettings.ImpactType,
                     ElementType = Master.DmgSettings.ElementType,
                     RealDamage = dmg,
@@ -61,9 +61,10 @@ namespace U3.Weapon.Explosive
 
         private void OnIgniteExplosion(FireInputOrigin origin)
         {
+            int inflictorInstanceID = ObjectDamageManager.GetNextInflictorInstanceID();
             for (int i = 0; i < Master.ExplosionTargets.Count; i++)
             {
-                ApplyImpact(Master.ExplosionTargets[i], origin.ID, origin.LayersToDamage);
+                ApplyImpact(Master.ExplosionTargets[i], inflictorInstanceID, origin);
             }
 
             Master.CallEventExploded(origin);

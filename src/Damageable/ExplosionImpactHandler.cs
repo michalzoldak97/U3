@@ -59,11 +59,12 @@ namespace U3.Damageable
 
         private void ApplyFrameDamage()
         {
+            float dmgMultiplayer = Master.DamagableSettings.HealthSetting.ExplosionDamageMultiplayer;
             foreach (DamageData dmgData in frameExplosionDamages.Values)
             {
                 DamageData dmgToApply = dmgData;
-                dmgToApply.RealDamage = dmgData.RealDamage < Master.Health ? dmgData.RealDamage : Master.Health;
-                // Debug.Log($"Applying explosion damage: inflictor id {dmgData.InflictorOriginID}, inflicotr instance {dmgData.InflictorInstanceID}, init dmg {dmgData.RealDamage} init pen {dmgData.RealPenetration}");
+                dmgToApply.RealDamage = dmgData.RealDamage * dmgMultiplayer;
+                Debug.Log($"{gameObject.name} Applying explosion damage: inflictor id {dmgData.InflictorOriginID}, inflicotr instance {dmgData.InflictorInstanceID}, init dmg {dmgData.RealDamage} init pen {dmgData.RealPenetration}");
                 Master.CallEventChangeHealth(dmgToApply);
             }
         }
@@ -85,7 +86,7 @@ namespace U3.Damageable
                 StartCoroutine(ApplyExplosionDamage());
                 isExplosionDmgRegisteredInFrame = true;
             }
-            // Debug.Log($"Registering explosion damage: inflictor id {dmgData.InflictorOriginID}, inflicotr instance {dmgData.InflictorInstanceID}, init dmg {dmgData.RealDamage} init pen {dmgData.RealPenetration}");
+            Debug.Log($"{gameObject.name} Registering explosion damage: inflictor id {dmgData.InflictorOriginID}, inflicotr instance {dmgData.InflictorInstanceID}, init dmg {dmgData.RealDamage} init pen {dmgData.RealPenetration}");
             AddDamage(dmgData);
         }
     }

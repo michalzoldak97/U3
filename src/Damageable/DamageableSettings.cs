@@ -7,6 +7,7 @@ namespace U3.Damageable
     {
         public float DamageMultiplayer;
         public float PenetrationReduction;
+        public string[] HitEventCodes;
     }
 
     [System.Serializable]

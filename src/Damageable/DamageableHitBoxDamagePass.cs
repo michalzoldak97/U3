@@ -3,25 +3,8 @@ using U3.Log;
 
 namespace U3.Damageable
 {
-    public class DamageableHitBoxDamagePass : Vassal<DamageableMaster>
+    public class DamageableHitBoxDamagePass : DamageableHitBox
     {
-        private IDamageReciever damageTarget;
-
-        private void FetchDamageTarget()
-        {
-            if (damageTarget != null)
-                return;
-
-            if (transform.root.TryGetComponent(out IDamageReciever dmgTarget))
-            {
-                damageTarget = dmgTarget;
-            }
-            else
-            {
-                GameLogger.Log(new GameLog(LogType.Error, $"Required IDamageReciever not found on object {transform.root.gameObject.name}"));
-            }
-        }
-
         public override void OnMasterEnabled(DamageableMaster master)
         {
             base.OnMasterEnabled(master);

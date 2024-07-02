@@ -19,9 +19,9 @@ namespace U3.Benchmark.Utility
             {
                 yield return waitSec;
                 Debug.Log($"Frame rate = {frameCountSec}");
-               /* Debug.Log($"Played in a second {EffectManager.Instance.dbgEffectsPlayed} active in a second {EffectManager.Instance.dbgEffectsActive / frameCountSec}");
-                EffectManager.Instance.dbgEffectsPlayed = 0;
-                EffectManager.Instance.dbgEffectsActive = 0;*/
+               /* Debug.Log($"Played in a second {HitEffectManager.Instance.dbgEffectsPlayed} active in a second {HitEffectManager.Instance.dbgEffectsActive / frameCountSec}");
+                HitEffectManager.Instance.dbgEffectsPlayed = 0;
+                HitEffectManager.Instance.dbgEffectsActive = 0;*/
                 frameCountSec = 0;
                 secElapsed++;
             }

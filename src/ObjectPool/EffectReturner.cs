@@ -4,11 +4,11 @@ namespace U3.ObjectPool
 {
     public class EffectReturner : PooledObjectReturner
     {
-        private PooledObject<Effect> m_PooledObject;
+        private PooledObject<HitEffect> m_PooledObject;
 
         public override void SetPooledOject<T>(PooledObject<T> obj)
         {
-            if (obj is PooledObject<Effect> someClassObj)
+            if (obj is PooledObject<HitEffect> someClassObj)
             {
                 m_PooledObject = someClassObj;
             }

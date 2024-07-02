@@ -14,6 +14,9 @@ namespace U3.Global.Rendering
 
         private Camera mainCamera;
 
+        public delegate void SceneCameraEventHandler(Camera cam);
+        public event SceneCameraEventHandler EventMainCameraChanged;
+
         private void ChangeCameraFeatures(SceneCamera sceneCamera, bool toState)
         {
             string[] featureCodes = toState ? sceneCamera.RendererFeaturesToActivateCodes : sceneCamera.RendererFeaturesToDeactivateCodes;
@@ -46,6 +49,7 @@ namespace U3.Global.Rendering
             ChangeCameraFeatures(sceneCamera, true);
             sceneCamera.ChangeObjectState(true);
             mainCamera = Camera.main;
+            EventMainCameraChanged?.Invoke(mainCamera);
         }
 
         public void EnableSceneCamera(string cameraCode)

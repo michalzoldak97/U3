@@ -24,7 +24,10 @@ namespace U3.ObjectPool
                     objectReturner.ReturnToPool<DamageInflictor>();
                     break;
                 case ObjectPoolType.Effect:
-                    objectReturner.ReturnToPool<Effect>();
+                    objectReturner.ReturnToPool<HitEffect>();
+                    break;
+                case ObjectPoolType.DamageText:
+                    objectReturner.ReturnToPool<DamageText>();
                     break;
                 default:
                     break;

@@ -10,18 +10,22 @@ namespace U3.Damageable
         public float Health { get; set; }
         public DamageableSettings DamagableSettings => damagableSettings;
 
-        public delegate void DamageEventsHandler(DamageData dmgData);
+        public delegate void DamageEventHandler(DamageData dmgData);
 
-        public event DamageEventsHandler EventReceiveDamage;
-        public event DamageEventsHandler EventObjectDestruction;
-        public event DamageEventsHandler EventChangeHealth;
-        public event DamageEventsHandler EventReceiveProjectileDamage;
-        public event DamageEventsHandler EventReceiveExplosionDamage;
+        public event DamageEventHandler EventReceiveDamage;
+        public event DamageEventHandler EventObjectDestruction;
+        public event DamageEventHandler EventChangeHealth;
+        public event DamageEventHandler EventReceiveProjectileDamage;
+        public event DamageEventHandler EventReceiveExplosionDamage;
 
         public delegate void HitBoxEventHandler(DamageData dmgData, string eventCode);
 
         public event HitBoxEventHandler EventHitBoxDamaged;
         public event HitBoxEventHandler EventHitBoxDestroyed;
+
+        public delegate void HealthChangeEventHandler(float change);
+
+        public event HealthChangeEventHandler EventHealthChanged;
 
         public void CallEventReceiveDamage(DamageData dmgData) => EventReceiveDamage?.Invoke(dmgData);
         public void CallEventObjectDestruction(DamageData dmgData) => EventObjectDestruction?.Invoke(dmgData);
@@ -31,6 +35,8 @@ namespace U3.Damageable
 
         public void CallEventHitBoxDamaged(DamageData dmgData, string eventCode) => EventHitBoxDamaged?.Invoke(dmgData, eventCode);
         public void CallEventHitBoxDestroyed(DamageData dmgData, string eventCode) => EventHitBoxDestroyed?.Invoke(dmgData, eventCode);
+
+        public void CallEventHealthChanged(float change) => EventHealthChanged?.Invoke(change);
 
         private void Awake()
         {

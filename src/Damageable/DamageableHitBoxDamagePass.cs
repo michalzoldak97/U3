@@ -1,7 +1,4 @@
-﻿using U3.Core;
-using U3.Log;
-
-namespace U3.Damageable
+﻿namespace U3.Damageable
 {
     public class DamageableHitBoxDamagePass : DamageableHitBox
     {

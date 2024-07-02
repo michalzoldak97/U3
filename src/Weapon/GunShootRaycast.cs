@@ -36,12 +36,12 @@ namespace U3.Weapon
                 {
                     Master.CallEventObjectHit(inputOrigin, hitTransform);
                     ApplyHitForce(hit.rigidbody);
-                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, Master.WeaponSettings.HitEffectSettingCode, Master.WeaponSettings.HitEffectScale);
+                    HitEffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, Master.WeaponSettings.HitEffectSettingCode, Master.WeaponSettings.HitEffectScale);
                 }
                 else if ((inputOrigin.LayersToHit.value & (1 << hitLayer)) != 0)
                 {
                     ApplyHitForce(hit.rigidbody);
-                    EffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, Master.WeaponSettings.HitEffectSettingCode, Master.WeaponSettings.HitEffectScale);
+                    HitEffectManager.Instance.FireHitEffect(hitLayer, hit.point, hit.normal, Master.WeaponSettings.HitEffectSettingCode, Master.WeaponSettings.HitEffectScale);
                 }
             }
         }

@@ -3,6 +3,7 @@
     public enum ObjectPoolType
     {
         DamageInflictor,
-        Effect
+        Effect,
+        DamageText
     }
 }

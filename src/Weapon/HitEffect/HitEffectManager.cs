@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace U3.Weapon.Effect
 {
-    public class EffectManager : MonoBehaviour
+    public class HitEffectManager : MonoBehaviour
     {
         [SerializeField] private HitEffectSettings hitEffectSetttings;
 
         private readonly Dictionary<string, HitEffectSetting> hitEffectConfig = new();
         private ObjectPoolsManager effectPool;
 
-        public static EffectManager Instance;
+        public static HitEffectManager Instance { get; private set; }
         
         private Vector3 GetScale(Vector3 scale)
         {
@@ -20,7 +20,7 @@ namespace U3.Weapon.Effect
 
         public void PlayEffect(Vector3 effectPos, string effectCode, Vector3 effectScale = new Vector3())
         {
-            PooledObject<Effect> effect = effectPool.GetEffect(effectCode);
+            PooledObject<HitEffect> effect = effectPool.GetEffect(effectCode);
             effect.Obj.SetActive(true);
             effect.Obj.transform.position = effectPos;
             effect.ObjTransform.localScale = GetScale(effectScale);
@@ -29,7 +29,7 @@ namespace U3.Weapon.Effect
 
         private void PlayEffect(Vector3 hitPoint, Vector3 hitNormal, string effectCode, Vector3 effectScale)
         {
-            PooledObject<Effect> effect = effectPool.GetEffect(effectCode);
+            PooledObject<HitEffect> effect = effectPool.GetEffect(effectCode);
             effect.Obj.SetActive(true);
             if (effect.ObjInterface.IsLocked)
                 return;

@@ -1,6 +1,3 @@
-using U3.Core;
-
-
 namespace U3.Damageable
 {
     public class DamageableHitBoxEvent : DamageableHitBox
@@ -10,18 +7,18 @@ namespace U3.Damageable
             base.OnMasterEnabled(master);
 
             FetchDamageTarget();
-            Master.EventChangeHealth += SendHitBoxEvent;
+            Master.EventChangeHealth += SendHitBoxDamagedEvent;
         }
 
         private void OnDisable()
         {
             StopAllCoroutines();
-            Master.EventChangeHealth -= SendHitBoxEvent;
+            Master.EventChangeHealth -= SendHitBoxDamagedEvent;
         }
 
         private void SendHitBoxDamagedEvent(DamageData dmgData)
         {
-            foreach (string code in Master.DamagableSettings.HitEventCodes)
+            foreach (string code in Master.DamagableSettings.HitBoxSetting.HitEventCodes)
             {
                 damageTarget.CallEventHitBoxDamaged(dmgData, code);
             }

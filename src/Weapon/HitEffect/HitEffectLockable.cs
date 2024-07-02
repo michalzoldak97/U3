@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace U3.Weapon.Effect
 {
-    public class EffectLockable : Effect
+    public class HitEffectLockable : HitEffect
     {
         [SerializeField] private float lockTime;
         [SerializeField] private GameObject effectObj;

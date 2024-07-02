@@ -20,7 +20,7 @@ namespace U3.Weapon.Explosive
 
         private void PlayExplosionEffect(FireInputOrigin _)
         {
-            EffectManager.Instance.PlayEffect(transform.position, Master.DmgSettings.ExplosiveSetting.ExplosionEffectCode, Master.DmgSettings.EffectScale);
+            HitEffectManager.Instance.PlayEffect(transform.position, Master.DmgSettings.ExplosiveSetting.ExplosionEffectCode, Master.DmgSettings.EffectScale);
         }
     }
 }

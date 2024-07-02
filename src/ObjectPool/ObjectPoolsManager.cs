@@ -12,16 +12,17 @@ namespace U3.ObjectPool
         public static ObjectPoolsManager Instance;
 
         private readonly Dictionary<string, IObjectPool<DamageInflictor>> dmgInflictorPools = new();
-        private readonly Dictionary<string, IObjectPool<Effect>> effectPools = new();
+        private readonly Dictionary<string, IObjectPool<HitEffect>> effectPools = new();
+        private readonly Dictionary<string, IObjectPool<DamageText>> damageTextPools = new();
 
-        public PooledObject<DamageInflictor> GetDamageInflictor(string code) 
-        {
-            return dmgInflictorPools[code].GetObject(); 
-        }
-        public PooledObject<Effect> GetEffect(string code) => effectPools[code].GetObject();
+
+        public PooledObject<DamageInflictor> GetDamageInflictor(string code) => dmgInflictorPools[code].GetObject();
+        public PooledObject<HitEffect> GetEffect(string code) => effectPools[code].GetObject();
+        public PooledObject<DamageText> GetDamageText(string code) => damageTextPools[code].GetObject();
 
         public bool AddDamageInflictor(string code, PooledObject<DamageInflictor> obj) => dmgInflictorPools[code].AddObject(obj);
-        public bool AddEffect(string code, PooledObject<Effect> obj) => effectPools[code].AddObject(obj);
+        public bool AddEffect(string code, PooledObject<HitEffect> obj) => effectPools[code].AddObject(obj);
+        public bool AddDamageText(string code, PooledObject<DamageText> obj) => damageTextPools[code].AddObject(obj);
 
         private void InitializePools()
         {
@@ -33,7 +34,10 @@ namespace U3.ObjectPool
                         dmgInflictorPools[poolSetting.Code] = ObjectPoolFactory.New<DamageInflictor>(poolSetting);
                         break;
                     case ObjectPoolType.Effect:
-                        effectPools[poolSetting.Code] = ObjectPoolFactory.New<Effect>(poolSetting);
+                        effectPools[poolSetting.Code] = ObjectPoolFactory.New<HitEffect>(poolSetting);
+                        break;
+                    case ObjectPoolType.DamageText:
+                        damageTextPools[poolSetting.Code] = ObjectPoolFactory.New<DamageText>(poolSetting);
                         break;
                     default:
                         break;
